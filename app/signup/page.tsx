@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { BookOpen, AlertCircle, CheckCircle2 } from "lucide-react";
+import { BookOpen, AlertCircle, CheckCircle2, Eye, EyeOff } from "lucide-react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -18,11 +18,17 @@ export default function SignupPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMsg("");
     setSuccessMsg("");
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanName = fullName.trim();
 
     if (password !== confirmPassword) {
       setErrorMsg("Passwords do not match.");
@@ -38,11 +44,11 @@ export default function SignupPage() {
 
     try {
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email: cleanEmail,
         password,
         options: {
           data: {
-            full_name: fullName,
+            full_name: cleanName,
             role: "student",
           },
         },
@@ -50,27 +56,47 @@ export default function SignupPage() {
 
       if (error) {
         if (error.message.includes("already registered") || error.message.includes("already in use")) {
-          setErrorMsg("An account with this email address already exists. Please log in.");
+          setErrorMsg("An account with this email address already exists. Please log in or use 'Sign In with Google'.");
+        } else if (error.message.includes("rate limit")) {
+          setErrorMsg("Too many signup attempts. Please wait a few minutes, or use 'Sign In with Google' for instant access.");
         } else {
           setErrorMsg(error.message);
         }
         setIsLoading(false);
-      } else if (data.user) {
-        // Create matching profile record in profiles table
-        await supabase.from("profiles").upsert({
-          id: data.user.id,
-          full_name: fullName,
-          email: email,
-          role: "student",
-          created_at: new Date().toISOString(),
-        });
+        return;
+      }
 
-        setSuccessMsg("Account created successfully! Redirecting to dashboard...");
-        
-        setTimeout(() => {
-          router.push("/dashboard");
-          router.refresh();
-        }, 600);
+      // Check if user already exists (Supabase security returns empty identities when email is already registered)
+      if (data.user && (!data.user.identities || data.user.identities.length === 0)) {
+        setErrorMsg("An account with this email already exists. If you previously registered using Google, please click 'Sign Up with Google'. Otherwise, please log in with your existing password.");
+        setIsLoading(false);
+        return;
+      }
+
+      if (data.user) {
+        try {
+          await supabase.from("profiles").upsert({
+            id: data.user.id,
+            full_name: cleanName,
+            email: cleanEmail,
+            role: "student",
+            created_at: new Date().toISOString(),
+          });
+        } catch {
+          // Ignore profile sync errors if RLS blocks anon
+        }
+
+        if (data.session) {
+          setSuccessMsg("Account created successfully! Redirecting to dashboard...");
+          setTimeout(() => {
+            window.location.href = "/dashboard";
+          }, 500);
+        } else {
+          setSuccessMsg(
+            "Account registered! Please check your email inbox (and spam folder) for the verification link to activate your account. You can also sign in with Google for instant access."
+          );
+          setIsLoading(false);
+        }
       }
     } catch (err: any) {
       setErrorMsg(err.message || "An unexpected error occurred during signup.");
@@ -194,28 +220,48 @@ export default function SignupPage() {
             <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1">
               Password
             </label>
-            <input
-              type="password"
-              required
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-3.5 py-2.5 pr-10 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                title={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
 
           <div>
             <label className="block text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-1">
               Confirm Password
             </label>
-            <input
-              type="password"
-              required
-              placeholder="••••••••"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                required
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-3.5 py-2.5 pr-10 text-xs sm:text-sm font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                title={showConfirmPassword ? "Hide password" : "Show password"}
+              >
+                {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
 
           <button
