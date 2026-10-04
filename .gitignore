@@ -39,3 +39,6 @@ next-env.d.ts
 # local tools
 /tools/
 /scratch/
+
+.vercel
+.env*
