@@ -34,6 +34,14 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
 
+  const createRedirectResponse = (targetUrl: URL) => {
+    const redirectRes = NextResponse.redirect(targetUrl);
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirectRes.cookies.set(cookie.name, cookie.value, cookie);
+    });
+    return redirectRes;
+  };
+
   // Protected routes for authenticated users
   const protectedRoutes = ['/dashboard', '/completed', '/learn', '/payment'];
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
@@ -41,7 +49,7 @@ export async function middleware(request: NextRequest) {
   if (isProtectedRoute && !user) {
     url.pathname = '/login';
     url.searchParams.set('redirectTo', pathname);
-    return NextResponse.redirect(url);
+    return createRedirectResponse(url);
   }
 
   // Admin route protection
@@ -49,7 +57,7 @@ export async function middleware(request: NextRequest) {
     if (!user) {
       url.pathname = '/login';
       url.searchParams.set('redirectTo', '/admin');
-      return NextResponse.redirect(url);
+      return createRedirectResponse(url);
     }
 
     // Verify admin role from profiles table
@@ -61,7 +69,7 @@ export async function middleware(request: NextRequest) {
 
     if (!profile || profile.role !== 'admin') {
       url.pathname = '/dashboard';
-      return NextResponse.redirect(url);
+      return createRedirectResponse(url);
     }
   }
 
@@ -78,7 +86,7 @@ export async function middleware(request: NextRequest) {
     } else {
       url.pathname = '/dashboard';
     }
-    return NextResponse.redirect(url);
+    return createRedirectResponse(url);
   }
 
   return supabaseResponse;

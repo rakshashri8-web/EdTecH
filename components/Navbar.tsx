@@ -7,14 +7,52 @@ import { BookOpen, Menu, X, User, LogOut, LayoutDashboard, CheckCircle2, ShieldC
 import { createClient } from "@/lib/supabase/client";
 import { Profile } from "@/lib/types";
 
-export default function Navbar() {
+interface NavbarProps {
+  initialUser?: {
+    id: string;
+    email: string;
+    full_name: string;
+    role: "student" | "admin";
+    avatar_url?: string | null;
+  } | null;
+}
+
+export default function Navbar({ initialUser }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userProfile, setUserProfile] = useState<Profile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [userProfile, setUserProfile] = useState<Profile | null>(() => {
+    if (initialUser) {
+      return {
+        id: initialUser.id,
+        email: initialUser.email,
+        full_name: initialUser.full_name,
+        role: initialUser.role,
+        avatar_url: initialUser.avatar_url || null,
+        phone: null,
+        created_at: new Date().toISOString(),
+      };
+    }
+    return null;
+  });
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
+
+  useEffect(() => {
+    if (initialUser) {
+      setUserProfile({
+        id: initialUser.id,
+        email: initialUser.email,
+        full_name: initialUser.full_name,
+        role: initialUser.role,
+        avatar_url: initialUser.avatar_url || null,
+        phone: null,
+        created_at: new Date().toISOString(),
+      });
+    }
+  }, [initialUser]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,28 +64,34 @@ export default function Navbar() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .single();
-        if (profile) {
-          setUserProfile(profile);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", user.id)
+            .single();
+          if (profile) {
+            setUserProfile(profile);
+          } else {
+            setUserProfile({
+              id: user.id,
+              email: user.email || "",
+              full_name: user.user_metadata?.full_name || "Student",
+              phone: null,
+              avatar_url: user.user_metadata?.avatar_url || null,
+              role: "student",
+              created_at: new Date().toISOString()
+            });
+          }
         } else {
-          setUserProfile({
-            id: user.id,
-            email: user.email || "",
-            full_name: user.user_metadata?.full_name || "Student",
-            phone: null,
-            avatar_url: user.user_metadata?.avatar_url || null,
-            role: "student",
-            created_at: new Date().toISOString()
-          });
+          setUserProfile(null);
         }
-      } else {
+      } catch {
         setUserProfile(null);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -58,19 +102,18 @@ export default function Navbar() {
         fetchUser();
       } else {
         setUserProfile(null);
+        setIsLoading(false);
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase]);
+  }, [supabase, initialUser]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    document.cookie = "edtech_demo_session=; path=/; max-age=0";
     setUserProfile(null);
     setUserDropdownOpen(false);
-    router.push("/");
-    router.refresh();
+    window.location.href = "/";
   };
 
   const navLinks = [
@@ -197,6 +240,8 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
+            ) : isLoading ? (
+              <div className="w-28 h-9 bg-slate-100 animate-pulse rounded-xl" />
             ) : (
               <>
                 <Link
@@ -261,7 +306,9 @@ export default function Navbar() {
           )}
 
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
-            {userProfile ? (
+            {isLoading ? (
+              <div className="w-full h-10 bg-slate-100 animate-pulse rounded-xl" />
+            ) : userProfile ? (
               <button
                 onClick={handleLogout}
                 className="w-full py-2.5 text-center text-xs font-bold text-red-600 bg-red-50 rounded-xl"

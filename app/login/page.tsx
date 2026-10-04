@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -18,6 +18,13 @@ function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        window.location.href = redirectTo;
+      }
+    });
+  }, [supabase, redirectTo]);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,9 +59,8 @@ function LoginForm() {
         setSuccessMsg("Signed in successfully! Redirecting...");
         
         setTimeout(() => {
-          router.push(dest);
-          router.refresh();
-        }, 500);
+          window.location.href = dest;
+        }, 400);
       }
     } catch (err: any) {
       setErrorMsg(err.message || "An unexpected error occurred during login.");
