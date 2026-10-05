@@ -3,6 +3,7 @@ import LearningJourney from "@/components/LearningJourney";
 import CourseGrid from "@/components/CourseGrid";
 import ProjectsShowcase from "@/components/ProjectsShowcase";
 import WhatsIncluded from "@/components/WhatsIncluded";
+import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 import FAQ from "@/components/FAQ";
 import { INITIAL_COURSES } from "@/lib/data";
 import Link from "next/link";
@@ -126,7 +127,12 @@ export default async function HomePage() {
       {/* 6. What's Included */}
       <WhatsIncluded />
 
-      {/* 7. Student Testimonials */}
+      {/* 7. How Enrollment Works */}
+      <section className="bg-slate-50 border-t border-slate-200/60">
+        <HowEnrollmentWorks showCardWrapper={true} />
+      </section>
+
+      {/* 8. Student Testimonials */}
       <section className="py-20 bg-slate-50 border-t border-slate-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { INITIAL_COURSES } from "@/lib/data";
 import { ArrowRight, CheckCircle2, ShieldCheck, HelpCircle, BookOpen } from "lucide-react";
 import FAQ from "@/components/FAQ";
+import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 
 export const metadata = {
   title: "Pricing Programs — EdTech LMS",
@@ -106,6 +107,11 @@ export default async function PricingPage() {
             );
           })}
         </div>
+      </div>
+
+      {/* How Enrollment Works Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <HowEnrollmentWorks showCardWrapper={false} />
       </div>
 
       {/* Feature Comparison Guarantee Banner */}

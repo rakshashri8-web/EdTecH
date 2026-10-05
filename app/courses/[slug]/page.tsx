@@ -5,6 +5,7 @@ import CourseCard from "@/components/CourseCard";
 import { INITIAL_COURSES, INSTRUCTOR_INFO, PROJECTS_LIST } from "@/lib/data";
 import { Course, CourseModule, ProjectItem } from "@/lib/types";
 import { CheckCircle2, Clock, Award, Star, ArrowRight, User, Code2, Target, Sparkles, BookOpen, Rocket, Wrench, FileCode } from "lucide-react";
+import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 
 interface CourseDetailPageProps {
   params: {
@@ -439,6 +440,11 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
 
           </div>
 
+        </div>
+
+        {/* How Enrollment Works Section */}
+        <div className="pt-12 border-t border-slate-200">
+          <HowEnrollmentWorks showCardWrapper={false} />
         </div>
 
         {/* You May Also Like Section */}

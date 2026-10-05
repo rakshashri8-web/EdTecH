@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import PaymentForm from "@/components/PaymentForm";
+import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 import { INITIAL_COURSES } from "@/lib/data";
 import { Course, Enrollment } from "@/lib/types";
 
@@ -70,13 +71,16 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
 
   return (
     <div className="py-12 sm:py-16 bg-slate-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         <PaymentForm
           course={course}
           userEmail={userEmail}
           userName={userName}
           existingEnrollment={existingEnrollment}
         />
+        <div className="border-t border-slate-200/80 pt-12">
+          <HowEnrollmentWorks showCardWrapper={false} />
+        </div>
       </div>
     </div>
   );

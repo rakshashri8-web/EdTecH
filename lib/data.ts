@@ -738,8 +738,8 @@ export const FAQ_ITEMS = [
     a: "No! Stage 1 starts from total scratch with Python Fundamentals, basic programming logic, math essentials, and database concepts before moving into advanced topics."
   },
   {
-    q: "How does the manual UPI payment verification work?",
-    a: "When you enroll, scan the provided UPI QR code, complete the exact payment on your UPI app (Google Pay, PhonePe, Paytm, BHIM), enter your UTR transaction reference, and upload your payment screenshot. Our team verifies your transaction and unlocks your course within 1-2 hours."
+    q: "How does enrollment, payment verification, and course access work?",
+    a: "The enrollment process is simple and straightforward 😊: 1. Complete your course payment via UPI. 2. Submit your payment details/UTR and screenshot for manual verification. 3. Once verified, your enrollment is confirmed. 4. You receive access to the private course portal and/or private YouTube content. 5. Class links and recordings will be shared regularly for viewing during your access period. Please keep your course access details private and do not share them with others."
   },
   {
     q: "Are the courses self-paced or scheduled?",

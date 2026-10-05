@@ -194,7 +194,7 @@ export default function PaymentForm({
             Payment Verification in Progress
           </h3>
           <p className="text-sm text-amber-800 max-w-lg mx-auto">
-            Your UTR reference <span className="font-mono font-bold">{currentEnrollment.utr}</span> has been submitted. Our team is verifying your payment. Your course will unlock automatically upon admin approval.
+            Your UTR reference <span className="font-mono font-bold">{currentEnrollment.utr}</span> has been submitted. Our team is verifying your payment manually. Once your payment is verified and enrollment is confirmed, your course access will be unlocked.
           </p>
           <div className="pt-2 flex justify-center gap-4">
             <a
