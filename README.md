@@ -1,4 +1,4 @@
-# 🎓 EdTecH - Modern LMS & Educational Platform
+# 🎓 AIMP - Modern LMS & Educational Platform
 
 A production-grade, enterprise Learning Management System (LMS) built with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**, and **Supabase (PostgreSQL + RLS + Storage + Auth)**.
 

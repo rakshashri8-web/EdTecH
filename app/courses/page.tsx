@@ -3,7 +3,7 @@ import { INITIAL_COURSES } from "@/lib/data";
 import { BookOpen } from "lucide-react";
 
 export const metadata = {
-  title: "All Courses — EdTech LMS",
+  title: "All Courses — AIMP",
   description: "Browse industry-focused courses in Data Analytics, Data Science, AI/ML, GenAI, and Agentic AI.",
 };
 

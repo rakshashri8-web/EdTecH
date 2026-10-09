@@ -91,7 +91,7 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
             await supabase.from("certificates").upsert({
               user_id: user.id,
               course_id: course.id,
-              certificate_number: `EDTECH-${course.slug.toUpperCase()}-${Math.floor(100000 + Math.random() * 900000)}`,
+              certificate_number: `AIMP-${course.slug.toUpperCase()}-${Math.floor(100000 + Math.random() * 900000)}`,
               issued_at: new Date().toISOString(),
             });
           } catch (certErr) {

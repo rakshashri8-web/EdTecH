@@ -119,7 +119,7 @@ export default function Hero({ stats }: HeroProps) {
               <div className="absolute inset-4 rounded-full bg-gradient-to-br from-white/10 to-white/5 border border-white/20 shadow-2xl overflow-hidden flex items-center justify-center">
                 <img
                   src="/hero-student.png"
-                  alt="EdTech Student Learning"
+                  alt="AIMP Student Learning"
                   className="w-full h-full object-cover object-center filter drop-shadow-xl"
                 />
               </div>

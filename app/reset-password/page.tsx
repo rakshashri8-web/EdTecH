@@ -65,7 +65,7 @@ export default function ResetPasswordPage() {
               <BookOpen className="w-5 h-5 text-white" />
             </div>
             <span className="text-2xl font-black tracking-tight text-slate-900">
-              EdTech
+              AIMP
             </span>
           </Link>
           <h1 className="text-xl font-black text-slate-900">Set New Password</h1>

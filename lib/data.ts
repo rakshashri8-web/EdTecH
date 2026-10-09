@@ -747,7 +747,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "Will I receive a verified certificate upon completion?",
-    a: "Yes! Once you complete 100% of your course lessons, submit your project, and pass the project knowledge assessment, a shareable digital EdTech Certificate with a unique verification ID is issued."
+    a: "Yes! Once you complete 100% of your course lessons, submit your project, and pass the project knowledge assessment, a shareable digital AIMP Certificate with a unique verification ID is issued."
   },
   {
     q: "What if I get stuck on a coding assignment?",

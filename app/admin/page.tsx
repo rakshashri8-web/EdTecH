@@ -8,7 +8,7 @@ import { ShieldCheck } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Admin Panel — EdTech LMS",
+  title: "Admin Panel — AIMP",
   description: "Manage enrollments, approve UPI payments, and configure courses.",
 };
 

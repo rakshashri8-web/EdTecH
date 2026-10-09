@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ShieldCheck, Lock, Eye, Database, FileText, CheckCircle2, Mail, Phone, ArrowRight, UserCheck } from "lucide-react";
 
 export const metadata = {
-  title: "Privacy Policy — EdTech LMS",
-  description: "Learn how EdTech collects, uses, and safeguards your personal data, payment information, and course progress.",
+  title: "Privacy Policy — AIMP",
+  description: "Learn how AIMP collects, uses, and safeguards your personal data, payment information, and course progress.",
 };
 
 export default function PrivacyPage() {
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
       content: (
         <>
           <p>
-            Welcome to EdTech (&quot;we,&quot; &quot;our,&quot; or &quot;the Platform&quot;), an industry-focused online learning management platform dedicated to practical engineering education in Data Analytics, Data Science, Machine Learning, Generative AI, and Agentic AI systems.
+            Welcome to AIMP (&quot;we,&quot; &quot;our,&quot; or &quot;the Platform&quot;), an industry-focused online learning management platform dedicated to practical engineering education in Data Analytics, Data Science, Machine Learning, Generative AI, and Agentic AI systems.
           </p>
           <p className="mt-2">
             This Privacy Policy describes our practices regarding the collection, use, processing, and disclosure of your personal data when you visit our website, register for an account, enroll in courses, submit project assignments, or interact with our learning management services. By accessing or using the Platform, you acknowledge that you have read and understood this Privacy Policy.
@@ -89,7 +89,7 @@ export default function PrivacyPage() {
       content: (
         <>
           <p>
-            User authentication on EdTech is powered by Supabase Auth with enterprise-level security standards. We support email/password sign-in and OAuth 2.0 social login (Google Sign-In).
+            User authentication on AIMP is powered by Supabase Auth with enterprise-level security standards. We support email/password sign-in and OAuth 2.0 social login (Google Sign-In).
           </p>
           <p className="mt-2">
             Passwords are never stored in plain text; they are cryptographically salted and hashed using industry-standard algorithms. Session cookies and JWT authentication tokens are encrypted and transmitted exclusively over secure HTTPS channels.
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
       content: (
         <>
           <p>
-            When you complete a course, the Platform generates a unique digital Certificate ID (e.g., <code className="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono text-slate-800">EDTECH-DATA-ANALYST-XXXXXX</code>).
+            When you complete a course, the Platform generates a unique digital Certificate ID (e.g., <code className="bg-slate-100 px-1.5 py-0.5 rounded text-xs font-mono text-slate-800">AIMP-DATA-ANALYST-XXXXXX</code>).
           </p>
           <p className="mt-2">
             To enable legitimate credential verification by prospective employers, public certificate verification lookups expose only minimal academic confirmation data: the student&apos;s name, course title, certificate number, and issue date. Private contact details, payment records, and account credentials are never exposed via certificate verification endpoints.
@@ -209,7 +209,7 @@ export default function PrivacyPage() {
             <p><strong className="text-slate-900">Program Director & Data Officer:</strong> Shaik Anwar</p>
             <p><strong className="text-slate-900">Email:</strong> <a href="mailto:anwarshaik7288@gmail.com" className="text-brand-blue font-semibold hover:underline">anwarshaik7288@gmail.com</a></p>
             <p><strong className="text-slate-900">Phone Support:</strong> +91 939066xxxx</p>
-            <p><strong className="text-slate-900">Platform:</strong> Analytics with Annu / EdTech LMS</p>
+            <p><strong className="text-slate-900">Platform:</strong> Analytics with Annu / AIMP</p>
           </div>
         </>
       ),

@@ -1,7 +1,7 @@
 import FAQ from "@/components/FAQ";
 
 export const metadata = {
-  title: "Frequently Asked Questions — EdTech LMS",
+  title: "Frequently Asked Questions — AIMP",
   description: "Find answers to common questions regarding course enrollments, payments, curriculum, and certificates.",
 };
 

@@ -303,7 +303,7 @@ export default function AdminTable({ initialEnrollments }: AdminTableProps) {
                         </td>
 
                         <td className="py-4 px-6 font-extrabold text-slate-900">
-                          {item.course?.title || "EdTech Course"}
+                          {item.course?.title || "AIMP Course"}
                         </td>
 
                         <td className="py-4 px-6 font-bold text-emerald-700">

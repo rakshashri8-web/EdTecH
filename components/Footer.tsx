@@ -17,7 +17,7 @@ export default function Footer() {
                 <BookOpen className="w-5 h-5 text-white" />
               </div>
               <span className="text-2xl font-black tracking-tight text-white">
-                EdTech
+                AIMP
               </span>
             </Link>
             <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
@@ -96,7 +96,7 @@ export default function Footer() {
 
         {/* Bottom Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {currentYear} EdTech. All rights reserved.</p>
+          <p>© {currentYear} AIMP. All rights reserved.</p>
           <p>Powered by Next.js & Supabase PostgreSQL.</p>
         </div>
       </div>

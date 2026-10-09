@@ -8,8 +8,8 @@ import { Award, CheckCircle2 } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Completed Courses & Certificates — EdTech LMS",
-  description: "View your completed courses and download verified EdTech certificates.",
+  title: "Completed Courses & Certificates — AIMP",
+  description: "View your completed courses and download verified AIMP certificates.",
 };
 
 export default async function CompletedPage() {

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Compass, BookOpen, Layers, Home, Phone, ArrowRight, HelpCircle } from "lucide-react";
 
 export const metadata = {
-  title: "404 — Page Not Found | EdTech",
+  title: "404 — Page Not Found | AIMP",
   description: "The page you are looking for does not exist or has been moved.",
 };
 

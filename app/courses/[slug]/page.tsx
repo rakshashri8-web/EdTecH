@@ -82,7 +82,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
     "Apply industry-standard code design, error handling, and performance optimization.",
     "Solve 10+ real-world industry problems from finance, retail, and tech domains.",
     "Prepare resume-ready capstone portfolio projects for top tech roles.",
-    "Earn a verified certificate of completion backed by EdTech LMS."
+    "Earn a verified certificate of completion backed by AIMP."
   ];
 
   const outcomes = course.outcomes && course.outcomes.length > 0 ? course.outcomes : defaultOutcomes;
@@ -456,7 +456,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                 Complete 100% of lessons and submit required portfolio projects to receive your shareable digital certificate.
               </p>
               <div className="p-3 bg-white/10 rounded-2xl border border-white/15 text-center text-xs font-mono font-bold text-slate-200">
-                ID: EDTECH-{course.slug.toUpperCase()}-VERIFIED
+                ID: AIMP-{course.slug.toUpperCase()}-VERIFIED
               </div>
             </div>
 

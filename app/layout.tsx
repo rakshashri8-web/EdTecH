@@ -5,8 +5,8 @@ import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 export const metadata: Metadata = {
-  title: "EdTech — Learn Skills. Build Projects. Get Career Ready.",
-  description: "Industry-focused EdTech LMS platform offering hands-on projects, practical skills, and certificates in Data Analytics, Data Science, AI/ML, GenAI, and Agentic AI.",
+  title: "AIMP — Learn Skills. Build Projects. Get Career Ready.",
+  description: "Industry-focused AIMP platform offering hands-on projects, practical skills, and certificates in Data Analytics, Data Science, AI/ML, GenAI, and Agentic AI.",
 };
 
 export default function RootLayout({

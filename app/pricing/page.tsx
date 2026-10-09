@@ -5,7 +5,7 @@ import FAQ from "@/components/FAQ";
 import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 
 export const metadata = {
-  title: "Pricing Programs — EdTech LMS",
+  title: "Pricing Programs — AIMP",
   description: "Simple, transparent pricing for all 5 Data & AI engineering pathways.",
 };
 
@@ -86,7 +86,7 @@ export default async function PricingPage() {
                     </li>
                     <li className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>Verified EdTech Certificate</span>
+                      <span>Verified AIMP Certificate</span>
                     </li>
                     <li className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />

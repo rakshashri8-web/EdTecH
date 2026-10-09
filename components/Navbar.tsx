@@ -141,7 +141,7 @@ export default function Navbar({ initialUser }: NavbarProps) {
               <BookOpen className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl sm:text-2xl font-black tracking-tight text-brand-dark">
-              EdTech
+              AIMP
             </span>
           </Link>
 

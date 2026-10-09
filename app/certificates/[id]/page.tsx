@@ -21,7 +21,7 @@ export default async function CertificateDetailPage({ params }: CertificatePageP
     month: "long",
     day: "numeric",
   });
-  let certId = `EDTECH-CERT-${id.slice(0, 8).toUpperCase()}`;
+  let certId = `AIMP-CERT-${id.slice(0, 8).toUpperCase()}`;
 
   try {
     const { createClient } = await import("@/lib/supabase/server");
@@ -82,7 +82,7 @@ export default async function CertificateDetailPage({ params }: CertificatePageP
             Certificate of Completion
           </h1>
           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-            EdTech LMS Professional Development Program
+            AIMP Professional Development Program
           </p>
         </div>
 

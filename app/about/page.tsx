@@ -3,8 +3,8 @@ import { INSTRUCTOR_INFO } from "@/lib/data";
 import { BookOpen, CheckCircle2, ArrowRight, Target, Sparkles, Code2, Award, UserCheck, Layers } from "lucide-react";
 
 export const metadata = {
-  title: "About Us — EdTech LMS",
-  description: "Learn about EdTech, our mission, 5-step practical learning approach, program areas, and lead mentor Shaik Anwar.",
+  title: "About Us — AIMP",
+  description: "Learn about AIMP, our mission, 5-step practical learning approach, program areas, and lead mentor Shaik Anwar.",
 };
 
 export default function AboutPage() {
@@ -44,13 +44,13 @@ export default function AboutPage() {
         {/* HERO */}
         <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-brand-navy text-white p-8 sm:p-14 rounded-3xl shadow-2xl border border-white/10 text-center space-y-4">
           <span className="px-4 py-1.5 bg-brand-blue/20 text-brand-blue text-xs font-black rounded-full uppercase tracking-wider border border-brand-blue/30 inline-block">
-            About EdTech
+            About AIMP
           </span>
           <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
             Empowering Job-Ready AI & Data Engineers
           </h1>
           <p className="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            EdTech is an online learning platform focused on practical technology and AI education. We bridge the gap between academic theory and real-world engineering through hands-on project implementation and rigorous assessments.
+            AIMP is an online learning platform focused on practical technology and AI education. We bridge the gap between academic theory and real-world engineering through hands-on project implementation and rigorous assessments.
           </p>
         </div>
 

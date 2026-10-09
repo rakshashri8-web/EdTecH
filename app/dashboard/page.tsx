@@ -7,7 +7,7 @@ import DashboardContent from "@/components/DashboardContent";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Student Dashboard — EdTech LMS",
+  title: "Student Dashboard — AIMP",
   description: "Track your enrolled courses, 5-stage learning path, project assessment scores, verified certificates, and UPI payments.",
 };
 

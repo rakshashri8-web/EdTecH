@@ -34,7 +34,7 @@ export default function PaymentForm({
   );
 
   const upiId = process.env.NEXT_PUBLIC_UPI_ID || "edtech.learn@upi";
-  const upiName = process.env.NEXT_PUBLIC_UPI_NAME || "EdTech Learning";
+  const upiName = process.env.NEXT_PUBLIC_UPI_NAME || "AIMP Learning";
 
   // Generate UPI Payment String
   const upiString = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${course.price}&cu=INR&tn=${encodeURIComponent(`Enrollment for ${course.title}`)}`;
