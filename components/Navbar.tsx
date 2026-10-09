@@ -20,7 +20,7 @@ interface NavbarProps {
 export default function Navbar({ initialUser }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!initialUser);
   const [userProfile, setUserProfile] = useState<Profile | null>(() => {
     if (initialUser) {
       return {
@@ -51,6 +51,7 @@ export default function Navbar({ initialUser }: NavbarProps) {
         phone: null,
         created_at: new Date().toISOString(),
       });
+      setIsLoading(false);
     }
   }, [initialUser]);
 
@@ -63,45 +64,60 @@ export default function Navbar({ initialUser }: NavbarProps) {
   }, []);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const syncUserProfile = async (user: any) => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          const { data: profile } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("id", user.id)
-            .single();
-          if (profile) {
-            setUserProfile(profile);
-          } else {
-            setUserProfile({
-              id: user.id,
-              email: user.email || "",
-              full_name: user.user_metadata?.full_name || "Student",
-              phone: null,
-              avatar_url: user.user_metadata?.avatar_url || null,
-              role: "student",
-              created_at: new Date().toISOString()
-            });
-          }
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (profile) {
+          setUserProfile(profile);
         } else {
-          setUserProfile(null);
+          setUserProfile({
+            id: user.id,
+            email: user.email || "",
+            full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student",
+            phone: null,
+            avatar_url: user.user_metadata?.avatar_url || null,
+            role: (user.user_metadata?.role as any) || (user.app_metadata?.role as any) || "student",
+            created_at: new Date().toISOString(),
+          });
         }
       } catch {
-        setUserProfile(null);
+        setUserProfile({
+          id: user.id,
+          email: user.email || "",
+          full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student",
+          phone: null,
+          avatar_url: user.user_metadata?.avatar_url || null,
+          role: (user.user_metadata?.role as any) || "student",
+          created_at: new Date().toISOString(),
+        });
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchUser();
+    // If initialUser was not supplied, fetch active session
+    if (!initialUser) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user) {
+          syncUserProfile(session.user);
+        } else {
+          setIsLoading(false);
+        }
+      });
+    }
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        fetchUser();
-      } else {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_OUT") {
         setUserProfile(null);
+        setIsLoading(false);
+      } else if (session?.user) {
+        await syncUserProfile(session.user);
+      } else if (event === "INITIAL_SESSION" && !initialUser) {
         setIsLoading(false);
       }
     });
@@ -110,9 +126,14 @@ export default function Navbar({ initialUser }: NavbarProps) {
   }, [supabase, initialUser]);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch {
+      // Fallback
+    }
     setUserProfile(null);
     setUserDropdownOpen(false);
+    router.refresh();
     window.location.href = "/";
   };
 

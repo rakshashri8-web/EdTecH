@@ -17,21 +17,30 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
       return null;
     }
 
-    // Fetch profile role and metadata from Supabase profiles table
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
+    // Fetch profile role and metadata from Supabase profiles table (or fallback to user_metadata)
+    let profile: any = null;
+    try {
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
+      profile = data;
+    } catch {
+      // Profile query error fallback
+    }
 
     return {
       id: user.id,
       email: user.email || "",
-      full_name: profile?.full_name || user.user_metadata?.full_name || user.email?.split("@")[0] || "Student",
-      role: profile?.role || "student",
+      full_name: profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student",
+      role: profile?.role || (user.user_metadata?.role as any) || (user.app_metadata?.role as any) || "student",
       avatar_url: profile?.avatar_url || user.user_metadata?.avatar_url || null,
     };
-  } catch (err) {
+  } catch (err: any) {
+    if (err && typeof err === "object" && err.digest === "DYNAMIC_SERVER_USAGE") {
+      throw err;
+    }
     console.error("Error in getCurrentUser:", err);
     return null;
   }

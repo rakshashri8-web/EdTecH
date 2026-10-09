@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -20,6 +20,14 @@ export default function SignupPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        window.location.href = "/dashboard";
+      }
+    });
+  }, [supabase]);
 
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,9 +96,10 @@ export default function SignupPage() {
 
         if (data.session) {
           setSuccessMsg("Account created successfully! Redirecting to dashboard...");
+          router.refresh();
           setTimeout(() => {
             window.location.href = "/dashboard";
-          }, 500);
+          }, 400);
         } else {
           setSuccessMsg(
             "Account registered! Please check your email inbox (and spam folder) for the verification link to activate your account. You can also sign in with Google for instant access."

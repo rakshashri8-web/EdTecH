@@ -60,14 +60,24 @@ export async function middleware(request: NextRequest) {
       return createRedirectResponse(url);
     }
 
-    // Verify admin role from profiles table
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
+    let isAdmin = user.user_metadata?.role === 'admin' || user.app_metadata?.role === 'admin';
+    if (!isAdmin) {
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .maybeSingle();
 
-    if (!profile || profile.role !== 'admin') {
+        if (profile?.role === 'admin') {
+          isAdmin = true;
+        }
+      } catch {
+        // Fallback
+      }
+    }
+
+    if (!isAdmin) {
       url.pathname = '/dashboard';
       return createRedirectResponse(url);
     }
@@ -75,17 +85,24 @@ export async function middleware(request: NextRequest) {
 
   // Auth routes: redirect if already logged in
   if ((pathname === '/login' || pathname === '/signup') && user) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
+    let isAdmin = user.user_metadata?.role === 'admin' || user.app_metadata?.role === 'admin';
+    if (!isAdmin) {
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .maybeSingle();
 
-    if (profile?.role === 'admin') {
-      url.pathname = '/admin';
-    } else {
-      url.pathname = '/dashboard';
+        if (profile?.role === 'admin') {
+          isAdmin = true;
+        }
+      } catch {
+        // Fallback
+      }
     }
+
+    url.pathname = isAdmin ? '/admin' : '/dashboard';
     return createRedirectResponse(url);
   }
 
