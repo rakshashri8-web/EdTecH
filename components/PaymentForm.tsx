@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { QRCodeSVG } from "qrcode.react";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { Course, Enrollment } from "@/lib/types";
-import { QrCode, Upload, CheckCircle2, Clock, MessageSquare, ShieldCheck, AlertCircle } from "lucide-react";
+import { 
+  QrCode, 
+  Upload, 
+  CheckCircle2, 
+  Clock, 
+  MessageSquare, 
+  ShieldCheck, 
+  AlertCircle,
+  ZoomIn,
+  X,
+  Copy,
+  Check,
+  Smartphone
+} from "lucide-react";
 import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 interface PaymentFormProps {
@@ -32,12 +45,37 @@ export default function PaymentForm({
   const [currentEnrollment, setCurrentEnrollment] = useState<Enrollment | null>(
     existingEnrollment || null
   );
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [copiedUpi, setCopiedUpi] = useState(false);
 
-  const upiId = process.env.NEXT_PUBLIC_UPI_ID || "edtech.learn@upi";
-  const upiName = process.env.NEXT_PUBLIC_UPI_NAME || "AIMP Learning";
+  const upiId = process.env.NEXT_PUBLIC_UPI_ID || "9390669648@kotakbank";
+  const upiName = process.env.NEXT_PUBLIC_UPI_NAME || "SHAIK ANWAR";
 
-  // Generate UPI Payment String
+  // Generate UPI Payment String for direct mobile app intent
   const upiString = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${course.price}&cu=INR&tn=${encodeURIComponent(`Enrollment for ${course.title}`)}`;
+
+  // Close zoom modal on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsZoomed(false);
+      }
+    };
+    if (isZoomed) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isZoomed]);
+
+  const handleCopyUpi = async () => {
+    try {
+      await navigator.clipboard.writeText(upiId);
+      setCopiedUpi(true);
+      setTimeout(() => setCopiedUpi(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy UPI ID:", err);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,7 +185,7 @@ export default function PaymentForm({
           </p>
         </div>
         <div className="text-right">
-          <span className="text-xs text-slate-400 block">Total Price</span>
+          <span className="text-xs text-slate-400 block">Total Course Fee</span>
           <span className="text-3xl font-black text-emerald-400">
             ₹{course.price.toLocaleString("en-IN")}
           </span>
@@ -211,34 +249,103 @@ export default function PaymentForm({
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           
-          {/* Left Column: Dynamic UPI QR Code & Instructions */}
+          {/* Left Column: Kotak811 UPI QR Code & Instructions */}
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6 text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-brand-blue text-xs font-extrabold rounded-lg">
-              <QrCode className="w-4 h-4" /> Scan & Pay via any UPI App
+              <QrCode className="w-4 h-4" /> Kotak811 UPI QR Code
             </div>
 
-            <div className="flex justify-center p-4 bg-slate-50 border border-slate-200 rounded-2xl w-fit mx-auto shadow-inner">
-              <QRCodeSVG
-                value={upiString}
-                size={200}
-                level="H"
-                includeMargin={true}
-              />
+            {/* Kotak811 QR Code Container with Hover / Zoom Action */}
+            <div className="relative group mx-auto w-fit">
+              <button
+                type="button"
+                onClick={() => setIsZoomed(true)}
+                className="cursor-pointer relative overflow-hidden rounded-2xl border-2 border-slate-200 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-brand-blue/50 bg-white p-3 block focus:outline-none focus:ring-2 focus:ring-brand-blue/30"
+                title="Click to enlarge QR Code for easy scanning"
+              >
+                <div className="w-56 sm:w-64 max-w-full flex items-center justify-center mx-auto">
+                  <Image
+                    src="/images/kotak-upi-qr.jpg"
+                    alt="Kotak811 UPI QR Code - SHAIK ANWAR"
+                    width={460}
+                    height={1024}
+                    priority
+                    className="max-h-[340px] w-auto h-auto object-contain rounded-xl"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center gap-2 text-white font-bold text-xs backdrop-blur-[2px]">
+                  <ZoomIn className="w-5 h-5" />
+                  <span>Click to Enlarge</span>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsZoomed(true)}
+                className="mt-2.5 text-xs font-bold text-brand-blue hover:text-brand-navy flex items-center justify-center gap-1.5 mx-auto transition-colors"
+              >
+                <ZoomIn className="w-4 h-4" /> Click / Tap to enlarge for easy scanning
+              </button>
             </div>
 
-            <div className="text-xs text-slate-600 space-y-1">
-              <p><span className="font-bold text-slate-800">UPI ID:</span> {upiId}</p>
-              <p><span className="font-bold text-slate-800">Payee Name:</span> {upiName}</p>
-              <p><span className="font-bold text-slate-800">Amount:</span> ₹{course.price}</p>
+            {/* Account & Payee Details */}
+            <div className="text-xs bg-slate-50 border border-slate-200 rounded-2xl p-4 text-left space-y-2.5">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                <span className="font-medium text-slate-500">Selected Course:</span>
+                <span className="font-black text-slate-900 text-right">{course.title}</span>
+              </div>
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                <span className="font-medium text-slate-500">Course Fee:</span>
+                <span className="font-black text-emerald-600 text-sm">₹{course.price.toLocaleString("en-IN")}</span>
+              </div>
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                <span className="font-medium text-slate-500">Account Display Name:</span>
+                <span className="font-bold text-slate-900">{upiName}</span>
+              </div>
+              <div className="flex items-center justify-between gap-2">
+                <div>
+                  <span className="font-medium text-slate-500 block">UPI ID:</span>
+                  <span className="font-mono font-bold text-brand-navy text-xs sm:text-sm">{upiId}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopyUpi}
+                  className="shrink-0 px-3 py-1.5 bg-white border border-slate-300 hover:border-brand-blue text-slate-700 hover:text-brand-blue rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs"
+                >
+                  {copiedUpi ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      <span className="text-emerald-600 font-extrabold">Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy UPI</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
 
+            {/* Mobile Direct Pay Link */}
+            <div className="block sm:hidden">
+              <a
+                href={upiString}
+                className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-all"
+              >
+                <Smartphone className="w-4 h-4" />
+                Pay Directly via UPI App
+              </a>
+            </div>
+
+            {/* Payment Instructions */}
             <div className="pt-2 text-left bg-slate-50 p-4 rounded-xl text-xs space-y-2 text-slate-600 border border-slate-200/60">
-              <p className="font-bold text-slate-800">Payment Instructions:</p>
-              <ol className="list-decimal pl-4 space-y-1">
-                <li>Scan the QR code using Google Pay, PhonePe, Paytm, or BHIM.</li>
-                <li>Pay the exact amount of <span className="font-bold">₹{course.price}</span>.</li>
-                <li>Copy the 12-digit UTR / UPI Transaction Reference Number.</li>
-                <li>Upload the payment confirmation screenshot on the right.</li>
+              <p className="font-bold text-slate-800">Instructions to Pay via UPI:</p>
+              <ol className="list-decimal pl-4 space-y-1.5 leading-relaxed">
+                <li>Scan the Kotak811 QR code using any UPI app (<span className="font-semibold text-slate-700">Google Pay, PhonePe, Paytm, BHIM, or your Banking app</span>).</li>
+                <li>Verify recipient name displays <span className="font-semibold text-slate-800">{upiName}</span> and UPI ID <span className="font-mono font-semibold text-slate-800">{upiId}</span>.</li>
+                <li>Pay the exact course fee of <span className="font-bold text-slate-900">₹{course.price.toLocaleString("en-IN")}</span>.</li>
+                <li>Copy the 12-digit UTR / UPI Transaction Reference Number from your payment receipt.</li>
+                <li>Enter your phone number, UTR number, and upload your payment screenshot in the form.</li>
               </ol>
             </div>
           </div>
@@ -340,6 +447,70 @@ export default function PaymentForm({
 
           </form>
 
+        </div>
+      )}
+
+      {/* Zoom / Enlarge Modal */}
+      {isZoomed && (
+        <div 
+          role="dialog"
+          aria-modal="true"
+          aria-label="Enlarged Kotak811 UPI QR Code"
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setIsZoomed(false)}
+        >
+          <div 
+            className="bg-white rounded-3xl max-w-lg w-full p-6 text-center space-y-4 shadow-2xl relative max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3 shrink-0">
+              <div className="text-left">
+                <h4 className="font-black text-slate-900 text-base">Kotak811 UPI QR Code</h4>
+                <p className="text-[11px] text-slate-500">Scan using any UPI App (Google Pay, PhonePe, Paytm, BHIM)</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsZoomed(false)}
+                className="p-1.5 rounded-full hover:bg-slate-100 text-slate-500 hover:text-slate-800 transition-colors"
+                aria-label="Close enlarged view"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 flex justify-center overflow-auto flex-1 items-center">
+              <Image
+                src="/images/kotak-upi-qr.jpg"
+                alt="Kotak811 UPI QR Code - SHAIK ANWAR"
+                width={460}
+                height={1024}
+                className="max-h-[60vh] w-auto h-auto object-contain rounded-xl shadow-xs"
+              />
+            </div>
+
+            <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-1.5 text-left border border-slate-200 shrink-0">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Account Display Name:</span>
+                <span className="font-bold text-slate-800">{upiName}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500">UPI ID:</span>
+                <span className="font-mono font-bold text-brand-navy">{upiId}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Course Fee:</span>
+                <span className="font-black text-emerald-600">₹{course.price.toLocaleString("en-IN")}</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsZoomed(false)}
+              className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition-colors shrink-0"
+            >
+              Close
+            </button>
+          </div>
         </div>
       )}
 
