@@ -6,6 +6,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { createClient } from "@/lib/supabase/client";
 import { Course, Enrollment } from "@/lib/types";
 import { QrCode, Upload, CheckCircle2, Clock, MessageSquare, ShieldCheck, AlertCircle } from "lucide-react";
+import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 interface PaymentFormProps {
   course: Course;
@@ -34,7 +35,6 @@ export default function PaymentForm({
 
   const upiId = process.env.NEXT_PUBLIC_UPI_ID || "edtech.learn@upi";
   const upiName = process.env.NEXT_PUBLIC_UPI_NAME || "EdTech Learning";
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919876543210";
 
   // Generate UPI Payment String
   const upiString = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(upiName)}&am=${course.price}&cu=INR&tn=${encodeURIComponent(`Enrollment for ${course.title}`)}`;
@@ -198,7 +198,7 @@ export default function PaymentForm({
           </p>
           <div className="pt-2 flex justify-center gap-4">
             <a
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi, I submitted payment for ${course.title} with UTR: ${currentEnrollment.utr}`)}`}
+              href={getWhatsAppLink(`Hello! I submitted payment for ${course.title} with UTR: ${currentEnrollment.utr}. Please verify my enrollment.`)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white font-extrabold text-xs rounded-xl shadow-md hover:bg-emerald-700 transition-colors"
@@ -329,7 +329,7 @@ export default function PaymentForm({
             </button>
 
             <a
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi, I need help enrolling in ${course.title}`)}`}
+              href={getWhatsAppLink(WHATSAPP_MESSAGES.enrollment)}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-2.5 px-4 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-colors flex items-center justify-center gap-2"

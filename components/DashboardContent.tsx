@@ -12,6 +12,7 @@ import DashboardSidebar from "@/components/DashboardSidebar";
 import { AuthUser } from "@/lib/auth";
 import { Enrollment, ProjectAssessment, Certificate, Course } from "@/lib/types";
 import { INITIAL_COURSES } from "@/lib/data";
+import { getWhatsAppLink } from "@/lib/whatsapp";
 
 interface DashboardContentProps {
   user: AuthUser;
@@ -630,7 +631,7 @@ export default function DashboardContent({
                       </div>
                     </div>
                     <a
-                      href="https://wa.me/919876543210?text=Hi%20EdTech%20Team%2C%20I%20have%20submitted%20my%20UPI%20payment%20for%20course%20enrollment."
+                      href={getWhatsAppLink("Hello! I have submitted my UPI payment for course enrollment. Please verify my payment.")}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-4 py-2 bg-emerald-600 text-white font-extrabold text-xs rounded-xl shadow-sm hover:bg-emerald-700 transition-colors flex items-center gap-1.5 shrink-0"

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, Play, CheckCircle, Award, TrendingUp, Briefcase, Star, Users, BookOpen } from "lucide-react";
+import { ArrowRight, Play, CheckCircle, Award, TrendingUp, Briefcase, Star, Users, BookOpen, MessageSquare } from "lucide-react";
+import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 interface HeroProps {
   stats?: {
@@ -66,6 +66,15 @@ export default function Hero({ stats }: HeroProps) {
                 Explore Courses
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
+              <a
+                href={getWhatsAppLink(WHATSAPP_MESSAGES.general)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 text-base font-bold text-white bg-[#25D366]/20 hover:bg-[#25D366]/30 border border-[#25D366]/40 rounded-2xl backdrop-blur-md hover:-translate-y-0.5 transition-all"
+              >
+                <MessageSquare className="w-4 h-4 text-[#25D366]" />
+                WhatsApp Us
+              </a>
               <Link
                 href="#learning-path"
                 className="inline-flex items-center gap-2.5 px-6 py-3.5 text-base font-bold text-slate-200 bg-white/10 hover:bg-white/15 border border-white/15 rounded-2xl backdrop-blur-md hover:-translate-y-0.5 transition-all"

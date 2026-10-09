@@ -4,8 +4,9 @@ import CurriculumAccordion from "@/components/CurriculumAccordion";
 import CourseCard from "@/components/CourseCard";
 import { INITIAL_COURSES, INSTRUCTOR_INFO, PROJECTS_LIST } from "@/lib/data";
 import { Course, CourseModule, ProjectItem } from "@/lib/types";
-import { CheckCircle2, Clock, Award, Star, ArrowRight, User, Code2, Target, Sparkles, BookOpen, Rocket, Wrench, FileCode } from "lucide-react";
+import { CheckCircle2, Clock, Award, Star, ArrowRight, User, Code2, Target, Sparkles, BookOpen, Rocket, Wrench, FileCode, MessageSquare } from "lucide-react";
 import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
+import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 interface CourseDetailPageProps {
   params: {
@@ -187,6 +188,16 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                 Enroll in Program Now
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
+
+              <a
+                href={getWhatsAppLink(WHATSAPP_MESSAGES.course(course.title))}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 text-center text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-2xl border border-emerald-200 transition-colors flex items-center justify-center gap-2"
+              >
+                <MessageSquare className="w-4 h-4 text-[#25D366]" />
+                Enquire on WhatsApp
+              </a>
 
               <div className="text-[11px] text-slate-500 space-y-1.5 border-t border-slate-100 pt-4 text-left">
                 <div className="flex items-center gap-2">
@@ -419,6 +430,17 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
               <p className="text-xs text-slate-600 leading-relaxed">
                 {INSTRUCTOR_INFO.bio}
               </p>
+              <div className="pt-2 border-t border-slate-100">
+                <a
+                  href={getWhatsAppLink(WHATSAPP_MESSAGES.course(course.title))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold rounded-xl border border-emerald-200 transition-colors flex items-center justify-center gap-2"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-[#25D366]" />
+                  Chat with Mentor on WhatsApp
+                </a>
+              </div>
             </div>
 
             {/* Certificate Preview Card */}

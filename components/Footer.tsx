@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { BookOpen, Phone, Mail } from "lucide-react";
+import { BookOpen, Phone, Mail, MessageSquare } from "lucide-react";
+import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -62,13 +63,31 @@ export default function Footer() {
               Contact Us
             </h4>
             <ul className="space-y-3 text-xs">
-              <li className="flex items-center gap-2 text-slate-300">
-                <Phone className="w-4 h-4 text-brand-blue shrink-0" />
-                <span>939066xxxx</span>
+              <li className="pt-1">
+                <a
+                  href={getWhatsAppLink(WHATSAPP_MESSAGES.general)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-slate-300 hover:text-emerald-400 transition-colors group"
+                >
+                  <MessageSquare className="w-4 h-4 text-[#25D366] shrink-0" />
+                  <span className="font-semibold">+91 93906 69648</span>
+                </a>
               </li>
               <li className="flex items-center gap-2 text-slate-300">
                 <Mail className="w-4 h-4 text-purple-400 shrink-0" />
                 <span className="break-all">anwarshaik7288@gmail.com</span>
+              </li>
+              <li className="pt-2">
+                <a
+                  href={getWhatsAppLink(WHATSAPP_MESSAGES.general)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] text-[11px] font-extrabold rounded-xl border border-[#25D366]/30 transition-colors"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Chat on WhatsApp</span>
+                </a>
               </li>
             </ul>
           </div>

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Phone, Mail, Send, CheckCircle2, AlertCircle, MessageSquare } from "lucide-react";
+import Image from "next/image";
+import { Phone, Mail, Send, CheckCircle2, AlertCircle, MessageSquare, QrCode, ExternalLink, ArrowRight } from "lucide-react";
+import { getWhatsAppLink, WHATSAPP_MESSAGES, DEFAULT_WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 export default function ContactPage() {
   const [name, setName] = useState("");
@@ -12,6 +14,8 @@ export default function ContactPage() {
 
   const [statusState, setStatusState] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorText, setErrorText] = useState("");
+
+  const whatsappUrl = getWhatsAppLink(WHATSAPP_MESSAGES.general);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,9 +72,89 @@ export default function ContactPage() {
           </span>
           <h1 className="text-3xl sm:text-4xl font-black text-white">Contact Us</h1>
           <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Have a question about our courses, enrollment or learning programs? Get in touch with us.
+            Have a question about our courses, enrollment or learning programs? Get in touch with us directly on WhatsApp or submit a message below.
           </p>
         </div>
+
+        {/* SECTION: CONNECT WITH US ON WHATSAPP */}
+        <section aria-labelledby="whatsapp-heading" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-md">
+          <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-black uppercase tracking-wider border border-emerald-200">
+              <MessageSquare className="w-4 h-4 text-emerald-600" /> WhatsApp Direct Contact
+            </div>
+            <h2 id="whatsapp-heading" className="text-2xl sm:text-3xl font-black text-slate-900">
+              Connect with Us on WhatsApp
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Have questions about our courses or enrollment?<br className="hidden sm:inline" />
+              {" "}Scan the QR code to contact us directly on WhatsApp.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200/80">
+            {/* Left: Actual QR Code Image */}
+            <div className="md:col-span-5 flex flex-col items-center justify-center text-center">
+              <div className="relative p-3 bg-white rounded-3xl shadow-lg border border-slate-200 w-full max-w-[280px]">
+                <Image
+                  src="/images/whatsapp-qr.png"
+                  alt="Anwar - WhatsApp Contact QR Code"
+                  width={288}
+                  height={512}
+                  priority
+                  className="w-full h-auto rounded-2xl object-contain mx-auto block"
+                />
+              </div>
+              <span className="text-[11px] font-bold text-slate-500 mt-3 flex items-center gap-1.5">
+                <QrCode className="w-3.5 h-3.5 text-emerald-600" />
+                Scan using WhatsApp Camera
+              </span>
+            </div>
+
+            {/* Right: Action & Scanning Instructions */}
+            <div className="md:col-span-7 space-y-6">
+              <div className="space-y-2">
+                <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block">
+                  Direct WhatsApp Number
+                </span>
+                <p className="text-2xl font-black text-slate-900">
+                  +91 93906 69648
+                </p>
+                <p className="text-xs text-slate-500">
+                  Contact Mentor: <strong className="text-slate-700">Shaik Anwar</strong>
+                </p>
+              </div>
+
+              {/* Open WhatsApp Chat Button */}
+              <div>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-200"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Open WhatsApp Chat</span>
+                  <ExternalLink className="w-4 h-4 ml-1 opacity-80" />
+                </a>
+                <p className="text-[11px] text-slate-400 mt-2">
+                  Opens WhatsApp with a prefilled general enquiry. You can edit and send the message manually.
+                </p>
+              </div>
+
+              {/* Instructions */}
+              <div className="pt-4 border-t border-slate-200/80 space-y-2">
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-700">
+                  How to Scan the QR Code:
+                </h3>
+                <ol className="text-xs text-slate-600 space-y-1.5 list-decimal pl-4 leading-relaxed">
+                  <li>Open <strong>WhatsApp</strong> on your mobile phone.</li>
+                  <li>Tap the <strong>Camera</strong> icon or go to <strong>Settings</strong> and tap the <strong>QR code icon</strong> next to your name.</li>
+                  <li>Point your phone camera at the QR code on the left to start a direct chat.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* MAIN CONTENT: CONTACT INFO + FORM */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -81,13 +165,19 @@ export default function ContactPage() {
               <h2 className="text-lg font-black text-slate-900">Direct Contact Details</h2>
 
               <div className="space-y-4">
-                <div className="flex items-start gap-3 p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
-                  <Phone className="w-5 h-5 text-brand-blue shrink-0 mt-0.5" />
-                  <div>
-                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider block">Phone</span>
-                    <span className="text-sm font-bold text-slate-900">939066xxxx</span>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3 p-3.5 bg-emerald-50 hover:bg-emerald-100/70 rounded-2xl border border-emerald-200/80 transition-colors group"
+                >
+                  <Phone className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <span className="text-[11px] font-extrabold text-emerald-800 uppercase tracking-wider block">WhatsApp & Phone</span>
+                    <span className="text-sm font-black text-slate-900 group-hover:text-emerald-700 transition-colors">+91 93906 69648</span>
+                    <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Click to chat →</span>
                   </div>
-                </div>
+                </a>
 
                 <div className="flex items-start gap-3 p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
                   <Mail className="w-5 h-5 text-purple-600 shrink-0 mt-0.5" />
@@ -99,7 +189,7 @@ export default function ContactPage() {
               </div>
 
               <div className="pt-2 text-xs text-slate-500 leading-relaxed border-t border-slate-100">
-                Our support team typically responds to all course inquiries and enrollment questions within 24 hours.
+                Our support team typically responds to all course inquiries and enrollment questions within a few hours on WhatsApp.
               </div>
             </div>
           </div>
@@ -168,7 +258,7 @@ export default function ContactPage() {
                   </label>
                   <input
                     type="tel"
-                    placeholder="+91 9876543210"
+                    placeholder="+91 9390669648"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="w-full px-4 py-2.5 text-xs sm:text-sm font-medium bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/20 focus:border-brand-blue"

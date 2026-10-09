@@ -7,7 +7,8 @@ import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 import FAQ from "@/components/FAQ";
 import { INITIAL_COURSES } from "@/lib/data";
 import Link from "next/link";
-import { ArrowRight, Award, CheckCircle2, Laptop, ShieldCheck, Sparkles, Target, Users } from "lucide-react";
+import { ArrowRight, Award, CheckCircle2, Laptop, ShieldCheck, Sparkles, Target, Users, MessageSquare } from "lucide-react";
+import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 export default async function HomePage() {
   // Try fetching courses from Supabase or fallback to INITIAL_COURSES
@@ -203,6 +204,15 @@ export default async function HomePage() {
             >
               Get Started Now <ArrowRight className="w-5 h-5" />
             </Link>
+            <a
+              href={getWhatsAppLink(WHATSAPP_MESSAGES.general)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-base rounded-2xl shadow-xl hover:shadow-emerald-500/30 transition-all flex items-center gap-2"
+            >
+              <MessageSquare className="w-5 h-5 fill-current" />
+              Chat on WhatsApp
+            </a>
           </div>
         </div>
       </section>
