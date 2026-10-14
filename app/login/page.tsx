@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { getAuthRedirectOrigin } from "@/lib/site-url";
 import { BookOpen, AlertCircle, CheckCircle2, Eye, EyeOff, KeyRound, Mail, ArrowLeft } from "lucide-react";
 
 function LoginForm() {
@@ -163,10 +164,11 @@ function LoginForm() {
     setIsLoading(true);
     setErrorMsg("");
     
+    const origin = getAuthRedirectOrigin();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?redirectTo=${encodeURIComponent(redirectTo)}`,
+        redirectTo: `${origin}/auth/callback?redirectTo=${encodeURIComponent(redirectTo)}`,
       },
     });
 

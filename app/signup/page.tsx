@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { getAuthRedirectOrigin } from "@/lib/site-url";
 import { BookOpen, AlertCircle, CheckCircle2, Eye, EyeOff } from "lucide-react";
 
 export default function SignupPage() {
@@ -116,10 +117,11 @@ export default function SignupPage() {
   const handleGoogleSignup = async () => {
     setIsLoading(true);
     setErrorMsg("");
+    const origin = getAuthRedirectOrigin();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?redirectTo=/dashboard`,
+        redirectTo: `${origin}/auth/callback?redirectTo=/dashboard`,
       },
     });
 
