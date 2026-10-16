@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Play, CheckCircle, Award, TrendingUp, Briefcase, Star, Users, BookOpen, MessageSquare } from "lucide-react";
 import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
@@ -106,65 +107,93 @@ export default function Hero({ stats }: HeroProps) {
 
           </div>
 
-          {/* Right Hero Visual Column with Student Image & Floating Cards */}
+          {/* Right Hero Visual Column with Mentor Portrait & Floating Badges */}
           <div className="lg:col-span-5 relative flex justify-center items-center">
             
-            {/* Visual Container Frame */}
-            <div className="relative w-[320px] h-[320px] sm:w-[400px] sm:h-[400px] lg:w-[420px] lg:h-[420px]">
+            {/* Visual Container Frame (Responsive 3:4 portrait aspect ratio) */}
+            <div className="relative w-[280px] xs:w-[310px] sm:w-[350px] lg:w-[370px]">
               
-              {/* Soft Gradient Blob Behind Student */}
-              <div className="absolute inset-0 rounded-[45%_55%_50%_40%] bg-gradient-to-tr from-brand-blue/40 to-brand-purple/40 blur-xl animate-pulse" />
+              {/* Ambient Glow Backdrop */}
+              <div className="absolute -inset-2 sm:-inset-4 rounded-[2.5rem] bg-gradient-to-tr from-brand-blue/35 via-indigo-500/20 to-brand-purple/35 blur-2xl opacity-75 pointer-events-none" />
               
-              {/* Person Circle Shadow Container */}
-              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-white/10 to-white/5 border border-white/20 shadow-2xl overflow-hidden flex items-center justify-center">
-                <img
-                  src="/hero-student.png"
-                  alt="AIMP Student Learning"
-                  className="w-full h-full object-cover object-center filter drop-shadow-xl"
+              {/* Premium Portrait Card Frame */}
+              <div className="relative aspect-[3/4] w-full rounded-[2rem] overflow-hidden border-2 border-white/20 shadow-2xl bg-gradient-to-b from-slate-800 to-slate-950">
+                <Image
+                  src="/images/shaik-anwar.jpg"
+                  alt="Shaik Anwar - Senior Data Scientist and Founder at AIMP"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 370px"
+                  className="object-cover object-top"
                 />
+
+                {/* Subtle Gradient Shadow Vignette at Bottom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent pointer-events-none" />
+
+                {/* Mentor Identification Glass Badge */}
+                <div className="absolute bottom-3 inset-x-3 bg-slate-900/85 backdrop-blur-md border border-white/15 rounded-2xl p-3 text-left shadow-lg">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400 truncate">Lead Mentor & Founder</span>
+                      </div>
+                      <h3 className="text-sm sm:text-base font-black text-white leading-tight mt-0.5 truncate">Shaik Anwar</h3>
+                      <p className="text-[11px] text-slate-300 font-medium truncate">Senior Data Scientist • Analytics with Annu</p>
+                    </div>
+                    <div className="shrink-0 px-2 py-1 rounded-lg bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[10px] font-black">
+                      10+ Yrs Exp
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Floating Card 1: Hands-on Projects */}
-              <div className="absolute top-4 -left-4 sm:-left-8 bg-white text-slate-800 px-4 py-3 rounded-2xl shadow-2xl border border-slate-100 flex items-center gap-3 animate-float-1 z-20">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 text-brand-blue flex items-center justify-center font-bold">
-                  <BookOpen className="w-5 h-5" />
+              <div className="hidden sm:flex absolute -top-3 -left-6 lg:-left-8 bg-white text-slate-800 px-3.5 py-2.5 rounded-2xl shadow-2xl border border-slate-100 items-center gap-2.5 animate-float-1 z-20">
+                <div className="w-9 h-9 rounded-xl bg-blue-100 text-brand-blue flex items-center justify-center font-bold shrink-0">
+                  <BookOpen className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 font-medium">Practical Learning</p>
-                  <p className="text-sm font-black">Hands-on Projects</p>
+                  <p className="text-[10px] text-slate-500 font-medium">Practical Learning</p>
+                  <p className="text-xs font-black">Hands-on Projects</p>
                 </div>
               </div>
 
               {/* Floating Card 2: Certificates */}
-              <div className="absolute bottom-16 -left-6 sm:-left-10 bg-white text-slate-800 px-4 py-3 rounded-2xl shadow-2xl border border-slate-100 flex items-center gap-3 animate-float-2 z-20">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center font-bold">
-                  <Award className="w-5 h-5" />
+              <div className="hidden sm:flex absolute -bottom-3 -left-6 lg:-left-8 bg-white text-slate-800 px-3.5 py-2.5 rounded-2xl shadow-2xl border border-slate-100 items-center gap-2.5 animate-float-2 z-20">
+                <div className="w-9 h-9 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center font-bold shrink-0">
+                  <Award className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 font-medium">Verified Credentials</p>
-                  <p className="text-sm font-black">Certificates</p>
+                  <p className="text-[10px] text-slate-500 font-medium">Verified Credentials</p>
+                  <p className="text-xs font-black">Certificates</p>
                 </div>
               </div>
 
-              {/* Floating Card 3: Learning Progress */}
-              <div className="absolute top-1/3 -right-6 sm:-right-8 bg-white text-slate-800 px-4 py-3 rounded-2xl shadow-2xl border border-slate-100 flex items-center gap-3 animate-float-3 z-20">
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-                  <TrendingUp className="w-5 h-5" />
+              {/* Floating Card 3: 10,000+ Students Mentored */}
+              <div className="hidden sm:flex absolute top-12 -right-6 lg:-right-8 bg-white text-slate-800 px-3.5 py-2.5 rounded-2xl shadow-2xl border border-slate-100 items-center gap-2.5 animate-float-3 z-20">
+                <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold shrink-0">
+                  <Users className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 font-medium">Live LMS Tracking</p>
-                  <p className="text-sm font-black">Learning Progress</p>
+                  <p className="text-[10px] text-slate-500 font-medium">Community Impact</p>
+                  <p className="text-xs font-black">10,000+ Trained</p>
                 </div>
               </div>
 
-              {/* Floating Card 4: Career Ready */}
-              <div className="absolute -bottom-4 right-8 bg-white text-slate-800 px-4 py-3 rounded-2xl shadow-2xl border border-slate-100 flex items-center gap-3 animate-float-1 z-20">
-                <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
-                  <Briefcase className="w-5 h-5" />
+              {/* Mobile Badges Row (Clean alignment below portrait on small screens) */}
+              <div className="sm:hidden mt-3 bg-white text-slate-800 px-3.5 py-2 rounded-xl shadow-lg border border-slate-100 flex items-center justify-between gap-2 text-xs">
+                <div className="flex items-center gap-1.5">
+                  <Award className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                  <span className="font-bold text-[11px]">Certificates</span>
                 </div>
-                <div>
-                  <p className="text-xs text-slate-500 font-medium">Industry Outcome</p>
-                  <p className="text-sm font-black">Career Ready</p>
+                <div className="flex items-center gap-1.5">
+                  <BookOpen className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                  <span className="font-bold text-[11px]">Projects</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span className="font-bold text-[11px]">10K+ Trained</span>
                 </div>
               </div>
 

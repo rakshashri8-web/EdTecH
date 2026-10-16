@@ -5,7 +5,7 @@ export const INSTRUCTOR_INFO = {
   role: "Senior Data Scientist",
   program: "Analytics with Annu",
   bio: "Industry expert with 10+ years in Data Science, Machine Learning, and Generative AI. Has trained over 10,000+ students and professionals to become job-ready engineers.",
-  avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop",
+  avatar: "/images/shaik-anwar.jpg",
 };
 
 export const LEARNING_STAGES: LearningStage[] = [

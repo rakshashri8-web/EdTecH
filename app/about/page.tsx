@@ -1,6 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { INSTRUCTOR_INFO } from "@/lib/data";
-import { BookOpen, CheckCircle2, ArrowRight, Target, Sparkles, Code2, Award, UserCheck, Layers } from "lucide-react";
+import { BookOpen, CheckCircle2, ArrowRight, Target, Sparkles, Code2, Award, UserCheck, Layers, MessageSquare } from "lucide-react";
+import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 export const metadata = {
   title: "About Us — AIMP",
@@ -122,17 +124,62 @@ export default function AboutPage() {
         </div>
 
         {/* INSTRUCTOR INFORMATION */}
-        <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center gap-8">
-          <img
-            src={INSTRUCTOR_INFO.avatar}
-            alt={INSTRUCTOR_INFO.name}
-            className="w-24 h-24 rounded-3xl object-cover border-2 border-brand-blue shadow-md shrink-0"
-          />
-          <div className="space-y-2 text-center sm:text-left">
-            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-wider block">Lead Mentor</span>
-            <h2 className="text-2xl font-black text-slate-900">{INSTRUCTOR_INFO.name}</h2>
-            <p className="text-sm font-bold text-brand-blue">{INSTRUCTOR_INFO.role}</p>
-            <p className="text-xs text-slate-600 max-w-xl leading-relaxed">{INSTRUCTOR_INFO.bio}</p>
+        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-xl flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-10 relative overflow-hidden">
+          {/* Subtle Accent Glow */}
+          <div className="absolute -top-24 -right-24 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Portrait Image Frame */}
+          <div className="relative w-48 sm:w-56 md:w-60 aspect-[3/4] rounded-2xl overflow-hidden shrink-0 shadow-lg border-2 border-slate-200/80 bg-slate-100">
+            <Image
+              src="/images/shaik-anwar.jpg"
+              alt="Shaik Anwar - Senior Data Scientist and Founder at AIMP"
+              fill
+              sizes="(max-width: 768px) 224px, 240px"
+              className="object-cover object-top"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-2.5 inset-x-2.5 bg-slate-950/80 backdrop-blur-md rounded-xl p-2 text-center text-white border border-white/10">
+              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400 block">Lead Mentor</span>
+              <span className="text-xs font-black block truncate">Shaik Anwar</span>
+            </div>
+          </div>
+
+          {/* Bio & Credentials Details */}
+          <div className="space-y-4 text-center md:text-left flex-1 min-w-0">
+            <div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-brand-blue text-xs font-black uppercase tracking-wider border border-blue-200/60">
+                <UserCheck className="w-3.5 h-3.5" /> Program Director & Lead Mentor
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{INSTRUCTOR_INFO.name}</h2>
+              <p className="text-sm sm:text-base font-bold text-brand-blue mt-0.5">{INSTRUCTOR_INFO.role} • {INSTRUCTOR_INFO.program}</p>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">{INSTRUCTOR_INFO.bio}</p>
+
+            {/* Credentials Badges */}
+            <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-1">
+              <span className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-brand-blue" /> 10+ Years Industry Experience
+              </span>
+              <span className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-purple-600" /> 10,000+ Students Mentored
+              </span>
+              <span className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <Code2 className="w-3.5 h-3.5 text-emerald-600" /> Hands-on Project Mentorship
+              </span>
+            </div>
+
+            <div className="pt-2">
+              <a
+                href={getWhatsAppLink(WHATSAPP_MESSAGES.general)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#128C7E] font-bold text-xs rounded-xl border border-[#25D366]/30 transition-colors shadow-xs"
+              >
+                <MessageSquare className="w-4 h-4 text-[#25D366]" />
+                Connect with Mentor on WhatsApp
+              </a>
+            </div>
           </div>
         </div>
 

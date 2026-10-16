@@ -208,7 +208,7 @@ export default function PrivacyPage() {
           <div className="mt-4 p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-2 text-xs sm:text-sm">
             <p><strong className="text-slate-900">Program Director & Data Officer:</strong> Shaik Anwar</p>
             <p><strong className="text-slate-900">Email:</strong> <a href="mailto:anwarshaik7288@gmail.com" className="text-brand-blue font-semibold hover:underline">anwarshaik7288@gmail.com</a></p>
-            <p><strong className="text-slate-900">Phone Support:</strong> +91 939066xxxx</p>
+            <p><strong className="text-slate-900">Phone Support:</strong> +91 9390669648</p>
             <p><strong className="text-slate-900">Platform:</strong> Analytics with Annu / AIMP</p>
           </div>
         </>

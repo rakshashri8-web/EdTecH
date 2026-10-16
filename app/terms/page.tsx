@@ -29,7 +29,7 @@ export default function TermsPage() {
     { title: "17. Third-Party Services", content: "Our Platform may integrate with third-party tools such as Supabase, GitHub, and video hosting providers. Use of these services is governed by their respective terms." },
     { title: "18. Limitation of Liability", content: "AIMP provides educational content 'as is'. While we strive for accuracy, we are not liable for indirect, incidental, or consequential damages resulting from Platform use." },
     { title: "19. Changes to Terms", content: "We reserve the right to update these Terms at any time. Material changes will be posted on this page with an updated revision date." },
-    { title: "20. Contact Information", content: "If you have questions regarding these Terms & Conditions, please contact us at anwarshaik7288@gmail.com or call 939066xxxx." },
+    { title: "20. Contact Information", content: "If you have questions regarding these Terms & Conditions, please contact us at anwarshaik7288@gmail.com or call 9390669648." },
   ];
 
   return (
