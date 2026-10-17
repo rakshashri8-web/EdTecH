@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Play, CheckCircle, Award, TrendingUp, Briefcase, Star, Users, BookOpen, MessageSquare } from "lucide-react";
+import { ArrowRight, Play, MessageSquare } from "lucide-react";
 import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 interface HeroProps {
@@ -34,10 +34,10 @@ export default function Hero({ stats }: HeroProps) {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
+
           {/* Left Hero Content Column */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            
+
             {/* Eyebrow Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-blue/20 border border-brand-blue/30 text-brand-blue text-xs font-black uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
@@ -85,11 +85,11 @@ export default function Hero({ stats }: HeroProps) {
               </Link>
             </div>
 
-            {/* Live Stats Row (Preserving Prototype Values) */}
+            {/* Stats Row */}
             <div className="pt-8 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
                 <span className="block text-2xl font-black text-blue-400">{currentStats.stages}</span>
-                <span className="text-xs text-slate-400 font-medium">Learning Stages</span>
+                <span className="text-xs text-slate-400 font-medium">Learning Paths</span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
                 <span className="block text-2xl font-black text-purple-400">{currentStats.topics}+</span>
@@ -107,16 +107,15 @@ export default function Hero({ stats }: HeroProps) {
 
           </div>
 
-          {/* Right Hero Visual Column with Mentor Portrait & Floating Badges */}
+          {/* Right Hero Visual Column — Portrait with floating badges */}
           <div className="lg:col-span-5 relative flex justify-center items-center">
-            
-            {/* Visual Container Frame (Responsive 3:4 portrait aspect ratio) */}
+
             <div className="relative w-[280px] xs:w-[310px] sm:w-[350px] lg:w-[370px]">
-              
+
               {/* Ambient Glow Backdrop */}
               <div className="absolute -inset-2 sm:-inset-4 rounded-[2.5rem] bg-gradient-to-tr from-brand-blue/35 via-indigo-500/20 to-brand-purple/35 blur-2xl opacity-75 pointer-events-none" />
-              
-              {/* Premium Portrait Card Frame */}
+
+              {/* Portrait Card Frame */}
               <div className="relative aspect-[3/4] w-full rounded-[2rem] overflow-hidden border-2 border-white/20 shadow-2xl bg-gradient-to-b from-slate-800 to-slate-950">
                 <Image
                   src="/images/shaik-anwar.jpg"
@@ -127,10 +126,10 @@ export default function Hero({ stats }: HeroProps) {
                   className="object-cover object-top"
                 />
 
-                {/* Subtle Gradient Shadow Vignette at Bottom */}
+                {/* Bottom vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent pointer-events-none" />
 
-                {/* Mentor Identification Glass Badge */}
+                {/* Mentor Glass Badge */}
                 <div className="absolute bottom-3 inset-x-3 bg-slate-900/85 backdrop-blur-md border border-white/15 rounded-2xl p-3 text-left shadow-lg">
                   <div className="flex items-center justify-between gap-2">
                     <div className="min-w-0">
@@ -139,7 +138,7 @@ export default function Hero({ stats }: HeroProps) {
                         <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400 truncate">Lead Mentor & Founder</span>
                       </div>
                       <h3 className="text-sm sm:text-base font-black text-white leading-tight mt-0.5 truncate">Shaik Anwar</h3>
-                      <p className="text-[11px] text-slate-300 font-medium truncate">Senior Data Scientist • Analytics with Annu</p>
+                      <p className="text-[11px] text-slate-300 font-medium truncate">Senior Data Scientist • AIMP</p>
                     </div>
                     <div className="shrink-0 px-2 py-1 rounded-lg bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[10px] font-black">
                       10+ Yrs Exp
@@ -148,57 +147,9 @@ export default function Hero({ stats }: HeroProps) {
                 </div>
               </div>
 
-              {/* Floating Card 1: Hands-on Projects */}
-              <div className="hidden sm:flex absolute -top-3 -left-6 lg:-left-8 bg-white text-slate-800 px-3.5 py-2.5 rounded-2xl shadow-2xl border border-slate-100 items-center gap-2.5 animate-float-1 z-20">
-                <div className="w-9 h-9 rounded-xl bg-blue-100 text-brand-blue flex items-center justify-center font-bold shrink-0">
-                  <BookOpen className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-[10px] text-slate-500 font-medium">Practical Learning</p>
-                  <p className="text-xs font-black">Hands-on Projects</p>
-                </div>
-              </div>
 
-              {/* Floating Card 2: Certificates */}
-              <div className="hidden sm:flex absolute -bottom-3 -left-6 lg:-left-8 bg-white text-slate-800 px-3.5 py-2.5 rounded-2xl shadow-2xl border border-slate-100 items-center gap-2.5 animate-float-2 z-20">
-                <div className="w-9 h-9 rounded-xl bg-purple-100 text-brand-purple flex items-center justify-center font-bold shrink-0">
-                  <Award className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-[10px] text-slate-500 font-medium">Verified Credentials</p>
-                  <p className="text-xs font-black">Certificates</p>
-                </div>
-              </div>
-
-              {/* Floating Card 3: 10,000+ Students Mentored */}
-              <div className="hidden sm:flex absolute top-12 -right-6 lg:-right-8 bg-white text-slate-800 px-3.5 py-2.5 rounded-2xl shadow-2xl border border-slate-100 items-center gap-2.5 animate-float-3 z-20">
-                <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold shrink-0">
-                  <Users className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-[10px] text-slate-500 font-medium">Community Impact</p>
-                  <p className="text-xs font-black">10,000+ Trained</p>
-                </div>
-              </div>
-
-              {/* Mobile Badges Row (Clean alignment below portrait on small screens) */}
-              <div className="sm:hidden mt-3 bg-white text-slate-800 px-3.5 py-2 rounded-xl shadow-lg border border-slate-100 flex items-center justify-between gap-2 text-xs">
-                <div className="flex items-center gap-1.5">
-                  <Award className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                  <span className="font-bold text-[11px]">Certificates</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <BookOpen className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                  <span className="font-bold text-[11px]">Projects</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Users className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span className="font-bold text-[11px]">10K+ Trained</span>
-                </div>
-              </div>
 
             </div>
-
           </div>
 
         </div>
