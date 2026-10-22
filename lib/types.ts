@@ -1,4 +1,4 @@
-export type UserRole = 'student' | 'admin';
+export type UserRole = 'student' | 'admin' | 'super_admin';
 export type EnrollmentStatus = 'pending' | 'approved' | 'rejected';
 export type CourseCategory = 'Data' | 'AI & ML' | 'Generative AI' | 'Agentic AI';
 
@@ -55,6 +55,7 @@ export interface Lesson {
   duration: string;
   order: number;
   is_preview: boolean;
+  published: boolean;
   completed?: boolean;
 }
 
@@ -71,6 +72,8 @@ export interface Enrollment {
   status: EnrollmentStatus;
   created_at: string;
   approved_at: string | null;
+  approved_by?: string | null;
+  rejection_reason?: string | null;
   course?: Course;
 }
 
@@ -149,6 +152,17 @@ export interface ProjectAssessment {
   status: 'passed' | 'review_recommended';
   answers: Record<string, number | string>;
   completed_at?: string;
+}
+
+export interface AdminLog {
+  id: string;
+  admin_id: string;
+  action: string;
+  target_type: string;
+  target_id: string;
+  details: Record<string, unknown> | null;
+  created_at: string;
+  admin?: Profile;
 }
 
 export interface LearningStage {
