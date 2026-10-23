@@ -10,12 +10,6 @@ export async function middleware(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!,
     {
-      cookieOptions: {
-        maxAge: 60 * 60 * 24 * 365, // 1 year session persistence
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-      },
       cookies: {
         getAll() {
           return request.cookies.getAll();
@@ -26,19 +20,14 @@ export async function middleware(request: NextRequest) {
             request,
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, {
-              ...options,
-              maxAge: options?.maxAge ?? 60 * 60 * 24 * 365,
-              path: '/',
-              sameSite: 'lax',
-              secure: process.env.NODE_ENV === 'production',
-            })
+            supabaseResponse.cookies.set(name, value, options)
           );
         },
       },
     }
   );
 
+  // IMPORTANT: Refreshes the session if expired. DO NOT remove auth.getUser()!
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -49,19 +38,13 @@ export async function middleware(request: NextRequest) {
   const createRedirectResponse = (targetUrl: URL) => {
     const redirectRes = NextResponse.redirect(targetUrl);
     supabaseResponse.cookies.getAll().forEach((cookie) => {
-      redirectRes.cookies.set(cookie.name, cookie.value, {
-        ...cookie,
-        maxAge: cookie.maxAge ?? 60 * 60 * 24 * 365,
-        path: '/',
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-      });
+      redirectRes.cookies.set(cookie.name, cookie.value, cookie);
     });
     return redirectRes;
   };
 
   // Protected routes for authenticated users
-  const protectedRoutes = ['/dashboard', '/completed', '/learn', '/payment'];
+  const protectedRoutes = ['/dashboard', '/completed', '/learn', '/payment', '/admin'];
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
 
   if (isProtectedRoute && !user) {
@@ -70,66 +53,10 @@ export async function middleware(request: NextRequest) {
     return createRedirectResponse(url);
   }
 
-  // Admin route protection (allows both 'admin' and 'super_admin')
-  if (pathname.startsWith('/admin')) {
-    if (!user) {
-      url.pathname = '/login';
-      url.searchParams.set('redirectTo', '/admin');
-      return createRedirectResponse(url);
-    }
-
-    let isAdmin =
-      user.user_metadata?.role === 'admin' ||
-      user.user_metadata?.role === 'super_admin' ||
-      user.app_metadata?.role === 'admin' ||
-      user.app_metadata?.role === 'super_admin';
-
-    if (!isAdmin) {
-      try {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .maybeSingle();
-
-        if (profile?.role === 'admin' || profile?.role === 'super_admin') {
-          isAdmin = true;
-        }
-      } catch {
-        // Fallback
-      }
-    }
-
-    if (!isAdmin) {
-      url.pathname = '/dashboard';
-      return createRedirectResponse(url);
-    }
-  }
-
   // Auth routes: redirect if already logged in
   if ((pathname === '/login' || pathname === '/signup') && user) {
-    let isAdmin =
-      user.user_metadata?.role === 'admin' ||
-      user.user_metadata?.role === 'super_admin' ||
-      user.app_metadata?.role === 'admin' ||
-      user.app_metadata?.role === 'super_admin';
-
-    if (!isAdmin) {
-      try {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .maybeSingle();
-
-        if (profile?.role === 'admin' || profile?.role === 'super_admin') {
-          isAdmin = true;
-        }
-      } catch {
-        // Fallback
-      }
-    }
-
+    const role = (user.user_metadata?.role as string) || (user.app_metadata?.role as string);
+    const isAdmin = role === 'admin' || role === 'super_admin';
     url.pathname = isAdmin ? '/admin' : '/dashboard';
     return createRedirectResponse(url);
   }

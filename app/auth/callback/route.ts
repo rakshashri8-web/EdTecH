@@ -1,4 +1,4 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createClient } from '@/lib/supabase/server';
 import { NextResponse, type NextRequest } from 'next/server';
 import { type EmailOtpType } from '@supabase/supabase-js';
 
@@ -14,88 +14,40 @@ export async function GET(request: NextRequest) {
   const forwardedProto = request.headers.get('x-forwarded-proto') || 'https';
   const baseUrl = forwardedHost ? `${forwardedProto}://${forwardedHost}` : origin;
 
-  const targetUrl = new URL(next, baseUrl);
-  const response = NextResponse.redirect(targetUrl);
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!,
-    {
-      cookieOptions: {
-        maxAge: 60 * 60 * 24 * 365, // 1 year session persistence
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production',
-      },
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, {
-              ...options,
-              maxAge: options?.maxAge ?? 60 * 60 * 24 * 365,
-              sameSite: 'lax',
-              path: '/',
-              secure: process.env.NODE_ENV === 'production',
-            });
-          });
-        },
-      },
-    }
-  );
+  const supabase = createClient();
 
   if (token_hash && type) {
     const { error } = await supabase.auth.verifyOtp({ token_hash, type });
     if (!error) {
-      return response;
+      return NextResponse.redirect(new URL(next, baseUrl));
     }
   }
 
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      // Sync profile entry for OAuth user without overwriting existing roles
+      let destination = next;
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
-          const { data: existingProfile } = await supabase
+          const { data: profile } = await supabase
             .from('profiles')
-            .select('id, role')
+            .select('role')
             .eq('id', user.id)
             .maybeSingle();
 
-          if (!existingProfile) {
-            // New user registration via OAuth
-            await supabase.from('profiles').insert({
-              id: user.id,
-              full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Student',
-              email: user.email,
-              avatar_url: user.user_metadata?.avatar_url || null,
-              role: 'student',
-            });
-          } else {
-            // Existing user: never overwrite role. Only update avatar or name if missing.
-            await supabase.from('profiles').update({
-              full_name: user.user_metadata?.full_name || user.user_metadata?.name || undefined,
-              avatar_url: user.user_metadata?.avatar_url || undefined,
-            }).eq('id', user.id);
-          }
-
-          const userRole = existingProfile?.role || 'student';
-          // If admin or super_admin logs in without a specific deep link target, direct to /admin
-          if ((userRole === 'admin' || userRole === 'super_admin') && (next === '/dashboard' || !searchParams.get('redirectTo'))) {
-            response.headers.set('Location', new URL('/admin', baseUrl).toString());
+          const role = profile?.role || user.user_metadata?.role;
+          if ((role === 'admin' || role === 'super_admin') && (next === '/dashboard' || !searchParams.get('redirectTo'))) {
+            destination = '/admin';
           }
         }
-      } catch (profileErr) {
-        console.warn('OAuth profile sync warning:', profileErr);
+      } catch (err) {
+        console.warn('Profile role check in callback warning:', err);
       }
 
-      return response;
+      return NextResponse.redirect(new URL(destination, baseUrl));
     }
   }
 
-  return NextResponse.redirect(`${baseUrl}/login?error=auth_callback_failed`);
+  return NextResponse.redirect(new URL('/login?error=auth_callback_failed', baseUrl));
 }
