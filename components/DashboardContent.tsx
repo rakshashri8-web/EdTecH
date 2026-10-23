@@ -89,7 +89,7 @@ export default function DashboardContent({
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            {user.role === "admin" && (
+            {(user.role === "admin" || user.role === "super_admin") && (
               <Link
                 href="/admin"
                 className="px-4 py-2.5 bg-amber-600 text-white font-extrabold text-xs rounded-xl shadow-md flex items-center gap-1.5"

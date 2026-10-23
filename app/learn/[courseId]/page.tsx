@@ -46,8 +46,8 @@ export default async function LearnPage({ params }: LearnPageProps) {
       notFound();
     }
 
-    // STRICT UNLOCK CHECK: Allow if user is admin OR has approved enrollment
-    if (user.role !== "admin") {
+    // STRICT UNLOCK CHECK: Allow if user is admin/super_admin OR has approved enrollment
+    if (user.role !== "admin" && user.role !== "super_admin") {
       const { data: enrollment } = await supabase
         .from("enrollments")
         .select("status")

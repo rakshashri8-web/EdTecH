@@ -12,7 +12,7 @@ interface NavbarProps {
     id: string;
     email: string;
     full_name: string;
-    role: "student" | "admin";
+    role: "student" | "admin" | "super_admin";
     avatar_url?: string | null;
   } | null;
 }
@@ -219,9 +219,9 @@ export default function Navbar({ initialUser }: NavbarProps) {
                     <div className="px-4 py-2.5 border-b border-slate-100">
                       <p className="text-xs text-slate-400 font-medium">Signed in as</p>
                       <p className="text-sm font-bold text-slate-800 truncate">{userProfile.email}</p>
-                      {userProfile.role === "admin" && (
+                      {(userProfile.role === "admin" || userProfile.role === "super_admin") && (
                         <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-amber-100 text-amber-800">
-                          <ShieldCheck className="w-3 h-3" /> Admin
+                          <ShieldCheck className="w-3 h-3" /> {userProfile.role === "super_admin" ? "Super Admin" : "Admin"}
                         </span>
                       )}
                     </div>
@@ -241,7 +241,7 @@ export default function Navbar({ initialUser }: NavbarProps) {
                       <CheckCircle2 className="w-4 h-4 text-slate-400" />
                       My Certificates
                     </Link>
-                    {userProfile.role === "admin" && (
+                    {(userProfile.role === "admin" || userProfile.role === "super_admin") && (
                       <Link
                         href="/admin"
                         onClick={() => setUserDropdownOpen(false)}
@@ -316,7 +316,7 @@ export default function Navbar({ initialUser }: NavbarProps) {
             );
           })}
 
-          {userProfile?.role === "admin" && (
+          {(userProfile?.role === "admin" || userProfile?.role === "super_admin") && (
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}
