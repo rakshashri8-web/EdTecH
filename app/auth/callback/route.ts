@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 import { type EmailOtpType } from '@supabase/supabase-js';
 
@@ -14,38 +14,48 @@ export async function GET(request: NextRequest) {
   const forwardedProto = request.headers.get('x-forwarded-proto') || 'https';
   const baseUrl = forwardedHost ? `${forwardedProto}://${forwardedHost}` : origin;
 
-  const supabase = createClient();
+  // Pre-create redirect response so @supabase/ssr attaches cookies directly to the 307 response
+  const redirectUrl = new URL(next, baseUrl);
+  const response = NextResponse.redirect(redirectUrl);
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
+          });
+        },
+      },
+    }
+  );
 
   if (token_hash && type) {
     const { error } = await supabase.auth.verifyOtp({ token_hash, type });
     if (!error) {
-      return NextResponse.redirect(new URL(next, baseUrl));
+      return response;
     }
   }
 
   if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
-      let destination = next;
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .maybeSingle();
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error && data?.session) {
+      const user = data.session.user;
+      const isSuperAdminEmail = user?.email?.toLowerCase() === 'rakshashri8@gmail.com';
+      const metaRole = user?.user_metadata?.role || user?.app_metadata?.role;
+      const isAdminUser = isSuperAdminEmail || metaRole === 'admin' || metaRole === 'super_admin';
 
-          const role = profile?.role || user.user_metadata?.role;
-          if ((role === 'admin' || role === 'super_admin') && (next === '/dashboard' || !searchParams.get('redirectTo'))) {
-            destination = '/admin';
-          }
-        }
-      } catch (err) {
-        console.warn('Profile role check in callback warning:', err);
+      // If user is admin/super_admin and intended destination was dashboard/default, redirect to /admin
+      if (isAdminUser && (next === '/dashboard' || !searchParams.get('redirectTo'))) {
+        response.headers.set('Location', new URL('/admin', baseUrl).toString());
       }
 
-      return NextResponse.redirect(new URL(destination, baseUrl));
+      return response;
     }
   }
 

@@ -38,11 +38,16 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
       // Profile query error fallback
     }
 
+    const isSuperAdminEmail = user.email?.toLowerCase() === 'rakshashri8@gmail.com';
+    const resolvedRole = (isSuperAdminEmail
+      ? 'super_admin'
+      : (profile?.role || (user.user_metadata?.role as any) || (user.app_metadata?.role as any) || 'student')) as "student" | "admin" | "super_admin";
+
     return {
       id: user.id,
       email: user.email || "",
       full_name: profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student",
-      role: profile?.role || (user.user_metadata?.role as any) || (user.app_metadata?.role as any) || "student",
+      role: resolvedRole,
       avatar_url: profile?.avatar_url || user.user_metadata?.avatar_url || null,
     };
   } catch (err: any) {

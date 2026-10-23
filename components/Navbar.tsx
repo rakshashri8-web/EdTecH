@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { BookOpen, Menu, X, User, LogOut, LayoutDashboard, CheckCircle2, ShieldCheck, Layers, HelpCircle, Tag } from "lucide-react";
@@ -38,7 +38,7 @@ export default function Navbar({ initialUser }: NavbarProps) {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     if (initialUser) {
@@ -123,7 +123,7 @@ export default function Navbar({ initialUser }: NavbarProps) {
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase, initialUser]);
+  }, [supabase, initialUser?.id]);
 
   const handleLogout = async () => {
     try {
