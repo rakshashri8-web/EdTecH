@@ -10,6 +10,12 @@ export async function middleware(request: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!,
     {
+      cookieOptions: {
+        maxAge: 60 * 60 * 24 * 365, // 1 year session persistence
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
       cookies: {
         getAll() {
           return request.cookies.getAll();
@@ -20,7 +26,13 @@ export async function middleware(request: NextRequest) {
             request,
           });
           cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
+            supabaseResponse.cookies.set(name, value, {
+              ...options,
+              maxAge: options?.maxAge ?? 60 * 60 * 24 * 365,
+              path: '/',
+              sameSite: 'lax',
+              secure: process.env.NODE_ENV === 'production',
+            })
           );
         },
       },
@@ -37,7 +49,13 @@ export async function middleware(request: NextRequest) {
   const createRedirectResponse = (targetUrl: URL) => {
     const redirectRes = NextResponse.redirect(targetUrl);
     supabaseResponse.cookies.getAll().forEach((cookie) => {
-      redirectRes.cookies.set(cookie.name, cookie.value, cookie);
+      redirectRes.cookies.set(cookie.name, cookie.value, {
+        ...cookie,
+        maxAge: cookie.maxAge ?? 60 * 60 * 24 * 365,
+        path: '/',
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
     });
     return redirectRes;
   };
@@ -52,7 +70,7 @@ export async function middleware(request: NextRequest) {
     return createRedirectResponse(url);
   }
 
-  // Admin route protection
+  // Admin route protection (allows both 'admin' and 'super_admin')
   if (pathname.startsWith('/admin')) {
     if (!user) {
       url.pathname = '/login';
@@ -60,7 +78,12 @@ export async function middleware(request: NextRequest) {
       return createRedirectResponse(url);
     }
 
-    let isAdmin = user.user_metadata?.role === 'admin' || user.app_metadata?.role === 'admin';
+    let isAdmin =
+      user.user_metadata?.role === 'admin' ||
+      user.user_metadata?.role === 'super_admin' ||
+      user.app_metadata?.role === 'admin' ||
+      user.app_metadata?.role === 'super_admin';
+
     if (!isAdmin) {
       try {
         const { data: profile } = await supabase
@@ -69,7 +92,7 @@ export async function middleware(request: NextRequest) {
           .eq('id', user.id)
           .maybeSingle();
 
-        if (profile?.role === 'admin') {
+        if (profile?.role === 'admin' || profile?.role === 'super_admin') {
           isAdmin = true;
         }
       } catch {
@@ -85,7 +108,12 @@ export async function middleware(request: NextRequest) {
 
   // Auth routes: redirect if already logged in
   if ((pathname === '/login' || pathname === '/signup') && user) {
-    let isAdmin = user.user_metadata?.role === 'admin' || user.app_metadata?.role === 'admin';
+    let isAdmin =
+      user.user_metadata?.role === 'admin' ||
+      user.user_metadata?.role === 'super_admin' ||
+      user.app_metadata?.role === 'admin' ||
+      user.app_metadata?.role === 'super_admin';
+
     if (!isAdmin) {
       try {
         const { data: profile } = await supabase
@@ -94,7 +122,7 @@ export async function middleware(request: NextRequest) {
           .eq('id', user.id)
           .maybeSingle();
 
-        if (profile?.role === 'admin') {
+        if (profile?.role === 'admin' || profile?.role === 'super_admin') {
           isAdmin = true;
         }
       } catch {

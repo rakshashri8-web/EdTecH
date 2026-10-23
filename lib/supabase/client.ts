@@ -13,6 +13,12 @@ export function createClient() {
   if (!client) {
     client = createBrowserClient(url, key, {
       isSingleton: true,
+      cookieOptions: {
+        maxAge: 60 * 60 * 24 * 365, // 1 year session persistence
+        sameSite: 'lax',
+        path: '/',
+        secure: window.location.protocol === 'https:',
+      },
     });
   }
 

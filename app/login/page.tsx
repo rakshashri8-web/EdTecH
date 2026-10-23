@@ -88,8 +88,9 @@ function LoginForm() {
           // Fallback
         }
 
-        const dest = role === "admin" ? "/admin" : redirectTo;
-        setSuccessMsg(`Signed in successfully! Redirecting to ${role === "admin" ? "Admin Panel" : "Dashboard"}...`);
+        const isUserAdmin = role === "admin" || role === "super_admin";
+        const dest = isUserAdmin ? "/admin" : redirectTo;
+        setSuccessMsg(`Signed in successfully! Redirecting to ${isUserAdmin ? "Admin Panel" : "Dashboard"}...`);
         
         router.refresh();
         setTimeout(() => {

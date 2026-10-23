@@ -25,7 +25,7 @@ export interface Course {
   instructor_role: string;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
   duration: string;
-  published: boolean;
+  published?: boolean;
   modules_count?: number;
   projects_count?: number;
   technologies?: string[];
@@ -55,7 +55,7 @@ export interface Lesson {
   duration: string;
   order: number;
   is_preview: boolean;
-  published: boolean;
+  published?: boolean;
   completed?: boolean;
 }
 
