@@ -34,6 +34,39 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
   const isLastLesson = currentLessonIndex === totalLessons - 1;
   const isCurrentCompleted = currentLesson ? completedLessonIds.includes(currentLesson.id) : false;
 
+  const [useEmbedFallback, setUseEmbedFallback] = useState(false);
+  const [streamError, setStreamError] = useState<string | null>(null);
+
+  // Reset video player states when lesson changes
+  useEffect(() => {
+    setUseEmbedFallback(false);
+    setStreamError(null);
+  }, [currentLesson?.id]);
+
+  // Check if video is hosted on Google Drive
+  const isGoogleDriveVideo = (url?: string) => {
+    if (!url) return false;
+    const trimmed = url.trim();
+    return (
+      trimmed.startsWith("gdrive://") ||
+      trimmed.includes("drive.google.com") ||
+      /^[a-zA-Z0-9_-]{25,50}$/.test(trimmed)
+    );
+  };
+
+  // Extract Drive File ID
+  const getDriveFileId = (url?: string): string | null => {
+    if (!url) return null;
+    const trimmed = url.trim();
+    if (trimmed.startsWith("gdrive://")) return trimmed.replace("gdrive://", "").trim();
+    const match = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]{25,})/);
+    if (match) return match[1];
+    const idParam = trimmed.match(/[?&]id=([a-zA-Z0-9_-]{25,})/);
+    if (idParam) return idParam[1];
+    if (/^[a-zA-Z0-9_-]{25,50}$/.test(trimmed)) return trimmed;
+    return null;
+  };
+
   // Extract YouTube embed URL helper
   const getEmbedUrl = (url: string) => {
     if (!url) return "https://www.youtube.com/embed/dQw4w9WgXcQ";
@@ -216,16 +249,58 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
         {/* Center & Right Video Player (Col 9) */}
         <div className="lg:col-span-9 bg-slate-950 flex flex-col justify-between overflow-y-auto p-4 sm:p-6 space-y-6">
           
-          {/* YouTube Video Player Embed Container */}
+          {/* Video Player Container */}
           <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl">
             {currentLesson ? (
-              <iframe
-                src={getEmbedUrl(currentLesson.video_url)}
-                title={currentLesson.title}
-                className="w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+              isGoogleDriveVideo(currentLesson.video_url) ? (
+                useEmbedFallback || !getDriveFileId(currentLesson.video_url) ? (
+                  <iframe
+                    key={`embed-${currentLesson.id}`}
+                    src={`https://drive.google.com/file/d/${getDriveFileId(currentLesson.video_url)}/preview`}
+                    title={currentLesson.title}
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <div className="relative w-full h-full bg-black">
+                    <video
+                      key={`stream-${currentLesson.id}`}
+                      src={`/api/videos/${currentLesson.id}/stream`}
+                      controls
+                      controlsList="nodownload"
+                      playsInline
+                      className="w-full h-full object-contain"
+                      onEnded={!isCurrentCompleted ? handleToggleComplete : undefined}
+                      onError={() => {
+                        setStreamError(
+                          "Direct stream could not be loaded. Click below to switch to Google Drive Embedded Player."
+                        );
+                      }}
+                    />
+
+                    {streamError && (
+                      <div className="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center p-6 text-center space-y-3 z-10">
+                        <p className="text-sm font-bold text-amber-400 max-w-md">{streamError}</p>
+                        <button
+                          onClick={() => setUseEmbedFallback(true)}
+                          className="px-4 py-2 bg-brand-blue text-white font-bold text-xs rounded-xl shadow-lg hover:opacity-90 transition-all"
+                        >
+                          Switch to Google Drive Embed Player
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )
+              ) : (
+                <iframe
+                  src={getEmbedUrl(currentLesson.video_url)}
+                  title={currentLesson.title}
+                  className="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              )
             ) : (
               <div className="flex items-center justify-center h-full text-slate-500 text-sm font-bold">
                 Select a lesson to start playing

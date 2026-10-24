@@ -70,6 +70,16 @@ export default function LessonManager({ courses }: LessonManagerProps) {
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
+  // Google Drive connection status
+  const [driveConnected, setDriveConnected] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    fetch("/api/admin/drive/status")
+      .then((r) => r.json())
+      .then((data) => setDriveConnected(!!data.connected))
+      .catch(() => setDriveConnected(false));
+  }, []);
+
   useEffect(() => {
     if (!selectedCourseId) {
       setModules([]);
@@ -215,12 +225,34 @@ export default function LessonManager({ courses }: LessonManagerProps) {
         <input type="text" value={form.description} onChange={(e) => onChange("description", e.target.value)} className={inputCls} placeholder="Optional description..." />
       </div>
       <div className="sm:col-span-2">
-        <label className={labelCls}>Video URL / Embed Link</label>
-        <input type="text" value={form.video_url} onChange={(e) => onChange("video_url", e.target.value)} className={inputCls} placeholder="https://drive.google.com/... or YouTube embed..." />
-        <p className="text-[11px] text-amber-600 font-bold mt-1 flex items-center gap-1">
-          <Info className="w-3 h-3" />
-          Direct file upload requires a configured storage provider. Enter a video URL or Drive embed link.
-        </p>
+        <label className={labelCls}>Video URL or Google Drive File ID / Link</label>
+        <input
+          type="text"
+          value={form.video_url}
+          onChange={(e) => {
+            const val = e.target.value.trim();
+            // Automatically detect Google Drive file ID pattern
+            const match = val.match(/\/file\/d\/([a-zA-Z0-9_-]{25,})/) || val.match(/[?&]id=([a-zA-Z0-9_-]{25,})/);
+            if (match) {
+              onChange("video_url", `gdrive://${match[1]}`);
+            } else {
+              onChange("video_url", e.target.value);
+            }
+          }}
+          className={inputCls}
+          placeholder="e.g. gdrive://FILE_ID or https://drive.google.com/file/d/... or YouTube URL"
+        />
+        {form.video_url.startsWith("gdrive://") || /^[a-zA-Z0-9_-]{25,50}$/.test(form.video_url.trim()) ? (
+          <p className="text-[11px] text-emerald-600 font-bold mt-1 flex items-center gap-1">
+            <Check className="w-3.5 h-3.5" />
+            Google Drive Video detected. Will stream securely with range seeking.
+          </p>
+        ) : (
+          <p className="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
+            <Info className="w-3 h-3 text-slate-400" />
+            Paste a Google Drive link, file ID, or YouTube video URL.
+          </p>
+        )}
       </div>
       <div>
         <label className={labelCls}>Duration</label>
@@ -241,6 +273,46 @@ export default function LessonManager({ courses }: LessonManagerProps) {
 
   return (
     <div className="space-y-6">
+      {/* Google Drive Video Storage Status Banner */}
+      <div
+        className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${
+          driveConnected
+            ? "bg-emerald-50/70 border-emerald-200 text-emerald-900"
+            : "bg-amber-50 border-amber-200 text-amber-900"
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          <div
+            className={`p-2 rounded-xl ${
+              driveConnected ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
+            }`}
+          >
+            <Video className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-sm font-black">
+              {driveConnected ? "Google Drive Video Storage Connected" : "Google Drive Video Storage Disconnected"}
+            </h3>
+            <p className="text-xs text-slate-600 mt-0.5">
+              {driveConnected
+                ? "Secure streaming proxy is active. Students can watch private Drive videos directly on the website."
+                : "Authorize the Google Drive account to allow server-side video streaming."}
+            </p>
+          </div>
+        </div>
+
+        <a
+          href="/api/admin/drive/auth"
+          className={`px-4 py-2 font-bold text-xs rounded-xl shadow-md hover:opacity-90 transition-all flex items-center gap-1.5 shrink-0 ${
+            driveConnected
+              ? "bg-slate-800 text-white hover:bg-slate-700"
+              : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-600/30"
+          }`}
+        >
+          {driveConnected ? "Reconnect Google Drive" : "Connect Google Drive"} ↗
+        </a>
+      </div>
+
       {/* Selectors */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
         <h2 className="text-sm font-black text-slate-800">Select Course & Module</h2>
