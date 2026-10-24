@@ -9,10 +9,14 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get('type') as EmailOtpType | null;
   const next = searchParams.get('next') || searchParams.get('redirectTo') || '/dashboard';
 
-  // Handle forwarded host for production / reverse proxies (e.g. Vercel)
+  // Canonical base URL: always use canonical public domain in production to prevent
+  // Vercel deployment preview domains (*-my-mini-project.vercel.app) from triggering Vercel Authentication / Request Access
+  const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1');
   const forwardedHost = request.headers.get('x-forwarded-host');
   const forwardedProto = request.headers.get('x-forwarded-proto') || 'https';
-  const baseUrl = forwardedHost ? `${forwardedProto}://${forwardedHost}` : origin;
+  const baseUrl = isLocal
+    ? (forwardedHost ? `${forwardedProto}://${forwardedHost}` : origin)
+    : (process.env.NEXT_PUBLIC_SITE_URL || 'https://edtech-eight-chi.vercel.app');
 
   // Pre-create redirect response so @supabase/ssr attaches cookies directly to the 307 response
   const redirectUrl = new URL(next, baseUrl);
@@ -46,11 +50,24 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error && data?.session) {
       const user = data.session.user;
-      const isSuperAdminEmail = user?.email?.toLowerCase() === 'rakshashri8@gmail.com';
-      const metaRole = user?.user_metadata?.role || user?.app_metadata?.role;
-      const isAdminUser = isSuperAdminEmail || metaRole === 'admin' || metaRole === 'super_admin';
+      
+      // Upsert profile for new OAuth users if not already existing
+      try {
+        await supabase.from('profiles').upsert({
+          id: user.id,
+          full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Student',
+          email: user.email,
+          avatar_url: user.user_metadata?.avatar_url || null,
+          role: user.user_metadata?.role || 'student',
+        }, { onConflict: 'id', ignoreDuplicates: true });
+      } catch {
+        // Non-blocking fallback
+      }
 
-      // If user is admin/super_admin and intended destination was dashboard/default, redirect to /admin
+      const metaRole = user?.user_metadata?.role || user?.app_metadata?.role;
+      const isAdminUser = metaRole === 'admin' || metaRole === 'super_admin';
+
+      // If user is admin and intended destination was dashboard/default, redirect to /admin
       if (isAdminUser && (next === '/dashboard' || !searchParams.get('redirectTo'))) {
         response.headers.set('Location', new URL('/admin', baseUrl).toString());
       }
