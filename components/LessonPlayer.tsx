@@ -273,9 +273,8 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
                       className="w-full h-full object-contain"
                       onEnded={!isCurrentCompleted ? handleToggleComplete : undefined}
                       onError={() => {
-                        setStreamError(
-                          "Direct stream could not be loaded. Click below to switch to Google Drive Embedded Player."
-                        );
+                        // Automatically fall back to Google Drive Preview player for resilience
+                        setUseEmbedFallback(true);
                       }}
                     />
 
