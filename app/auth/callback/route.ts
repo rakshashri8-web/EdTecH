@@ -64,8 +64,9 @@ export async function GET(request: NextRequest) {
         // Non-blocking fallback
       }
 
+      const isSuperAdminEmail = user?.email?.toLowerCase() === 'rakshashri8@gmail.com';
       const metaRole = user?.user_metadata?.role || user?.app_metadata?.role;
-      const isAdminUser = metaRole === 'admin' || metaRole === 'super_admin';
+      const isAdminUser = isSuperAdminEmail || metaRole === 'admin' || metaRole === 'super_admin';
 
       // If user is admin and intended destination was dashboard/default, redirect to /admin
       if (isAdminUser && (next === '/dashboard' || !searchParams.get('redirectTo'))) {

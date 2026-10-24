@@ -72,8 +72,9 @@ export async function middleware(request: NextRequest) {
 
   // Auth routes: redirect if already logged in
   if ((pathname === '/login' || pathname === '/signup') && user) {
+    const isSuperAdminEmail = user.email?.toLowerCase() === 'rakshashri8@gmail.com';
     const role = (user.user_metadata?.role as string) || (user.app_metadata?.role as string);
-    const isAdmin = role === 'admin' || role === 'super_admin';
+    const isAdmin = isSuperAdminEmail || role === 'admin' || role === 'super_admin';
     url.pathname = isAdmin ? '/admin' : '/dashboard';
     return createRedirectResponse(url);
   }

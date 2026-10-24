@@ -5,7 +5,8 @@ import { getStoredRefreshToken, getGoogleDriveAccessToken } from "@/lib/google-d
 export async function GET() {
   try {
     const user = await getCurrentUser();
-    if (!user || !isAdmin(user)) {
+    const isSuperAdminEmail = user?.email?.toLowerCase() === "rakshashri8@gmail.com";
+    if (!user || (!isAdmin(user) && !isSuperAdminEmail)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
