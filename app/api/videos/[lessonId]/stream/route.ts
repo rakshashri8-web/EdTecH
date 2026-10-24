@@ -16,7 +16,7 @@ export async function GET(
 
     const supabase = createClient();
 
-    // 1. Fetch lesson record from Supabase or fallback to initial courses
+    // 1. Fetch lesson record from Supabase (if UUID) or fallback to initial courses
     let lesson: {
       id: string;
       course_id: string;
@@ -26,15 +26,22 @@ export async function GET(
       published?: boolean;
     } | null = null;
 
-    const { data: dbLesson } = await supabase
-      .from("lessons")
-      .select("id, course_id, title, video_url, is_preview, published")
-      .eq("id", lessonId)
-      .maybeSingle();
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(lessonId);
+    if (isUuid) {
+      try {
+        const { data: dbLesson } = await supabase
+          .from("lessons")
+          .select("id, course_id, title, video_url, is_preview, published")
+          .eq("id", lessonId)
+          .maybeSingle();
 
-    if (dbLesson) {
-      lesson = dbLesson;
-    } else {
+        if (dbLesson) {
+          lesson = dbLesson;
+        }
+      } catch {}
+    }
+
+    if (!lesson) {
       // Check INITIAL_COURSES catalog
       for (const course of INITIAL_COURSES) {
         for (const mod of course.modules || []) {
@@ -54,6 +61,19 @@ export async function GET(
         if (lesson) break;
       }
     }
+
+    // Check if there is an updated video URL override in lesson_videos table
+    try {
+      const { data: override } = await supabase
+        .from("lesson_videos")
+        .select("video_url")
+        .eq("lesson_id", lessonId)
+        .maybeSingle();
+
+      if (override?.video_url && lesson) {
+        lesson.video_url = override.video_url;
+      }
+    } catch {}
 
     if (!lesson) {
       return NextResponse.json({ error: "Lesson not found." }, { status: 404 });

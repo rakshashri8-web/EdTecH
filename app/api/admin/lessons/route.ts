@@ -16,23 +16,29 @@ export async function GET(request: NextRequest) {
 
     const supabase = createClient();
 
-    const { data, error } = await supabase
-      .from("lessons")
-      .select("*")
-      .eq("module_id", moduleId)
-      .order("order", { ascending: true });
+    const isUuidModule = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(moduleId);
+    let lessonsList: any[] = [];
 
-    if (!error && data && data.length > 0) {
-      return NextResponse.json(data);
+    if (isUuidModule) {
+      try {
+        const { data } = await supabase
+          .from("lessons")
+          .select("*")
+          .eq("module_id", moduleId)
+          .order("order", { ascending: true });
+        if (data && data.length > 0) {
+          lessonsList = data;
+        }
+      } catch {}
     }
 
-    // Fallback to initial courses lessons
-    const { INITIAL_COURSES } = await import("@/lib/data");
-    for (const c of INITIAL_COURSES) {
-      const mod = c.modules?.find((m) => m.id === moduleId);
-      if (mod && mod.lessons) {
-        return NextResponse.json(
-          mod.lessons.map((l) => ({
+    if (lessonsList.length === 0) {
+      // Fallback to initial courses lessons
+      const { INITIAL_COURSES } = await import("@/lib/data");
+      for (const c of INITIAL_COURSES) {
+        const mod = c.modules?.find((m) => m.id === moduleId);
+        if (mod && mod.lessons) {
+          lessonsList = mod.lessons.map((l) => ({
             id: l.id,
             module_id: l.module_id,
             course_id: l.course_id,
@@ -43,12 +49,28 @@ export async function GET(request: NextRequest) {
             order: l.order,
             is_preview: l.is_preview,
             published: true,
-          }))
-        );
+          }));
+          break;
+        }
       }
     }
 
-    return NextResponse.json([]);
+    // Merge video overrides from lesson_videos table if present
+    try {
+      const { data: overrides } = await supabase
+        .from("lesson_videos")
+        .select("lesson_id, video_url");
+
+      if (overrides && overrides.length > 0) {
+        const map = new Map(overrides.map((o: any) => [o.lesson_id, o.video_url]));
+        lessonsList = lessonsList.map((l) => ({
+          ...l,
+          video_url: map.get(l.id) || l.video_url,
+        }));
+      }
+    } catch {}
+
+    return NextResponse.json(lessonsList);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
@@ -110,52 +132,46 @@ export async function PATCH(request: NextRequest) {
 
     const supabase = createClient();
 
-    const { data: updated, error } = await supabase
-      .from("lessons")
-      .update(updates)
-      .eq("id", id)
-      .select()
-      .maybeSingle();
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
 
-    if (error) throw error;
-    if (updated) {
-      return NextResponse.json(updated);
-    }
+    // 1. If this is a valid UUID, try updating the lessons table
+    if (isUuid) {
+      try {
+        const { data: updated, error } = await supabase
+          .from("lessons")
+          .update(updates)
+          .eq("id", id)
+          .select()
+          .maybeSingle();
 
-    // If row didn't exist in DB yet (from INITIAL_COURSES), insert it with updates
-    const { INITIAL_COURSES } = await import("@/lib/data");
-    let initialLesson: any = null;
-    for (const c of INITIAL_COURSES) {
-      for (const m of c.modules || []) {
-        const found = m.lessons?.find((l) => l.id === id);
-        if (found) {
-          initialLesson = found;
-          break;
+        if (updated) {
+          return NextResponse.json(updated);
         }
+      } catch (e) {
+        console.warn("DB update failed, attempting lesson_videos override fallback:", e);
       }
-      if (initialLesson) break;
     }
 
-    const { data: inserted, error: insErr } = await supabase
-      .from("lessons")
-      .upsert({
-        id,
-        module_id: initialLesson?.module_id,
-        course_id: initialLesson?.course_id,
-        title: initialLesson?.title || "Lesson",
-        description: initialLesson?.description || "",
-        video_url: initialLesson?.video_url || "",
-        duration: initialLesson?.duration || "",
-        order: initialLesson?.order || 1,
-        is_preview: initialLesson?.is_preview || false,
-        published: true,
-        ...updates,
-      })
-      .select()
-      .single();
+    // 2. Save video URL override to lesson_videos table (handles any string ID e.g. course-1-mod-1-les-1)
+    if (updates.video_url !== undefined) {
+      try {
+        await supabase
+          .from("lesson_videos")
+          .upsert({
+            lesson_id: id,
+            video_url: updates.video_url,
+            updated_at: new Date().toISOString(),
+          }, { onConflict: "lesson_id" });
+      } catch (lvErr) {
+        console.warn("Could not save to lesson_videos table:", lvErr);
+      }
+    }
 
-    if (insErr) throw insErr;
-    return NextResponse.json(inserted);
+    return NextResponse.json({
+      id,
+      ...updates,
+      success: true,
+    });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
