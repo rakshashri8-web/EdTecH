@@ -154,16 +154,17 @@ export async function PATCH(request: NextRequest) {
 
     // 2. Save video URL override to lesson_videos table (handles any string ID e.g. course-1-mod-1-les-1)
     if (updates.video_url !== undefined) {
-      try {
-        await supabase
-          .from("lesson_videos")
-          .upsert({
-            lesson_id: id,
-            video_url: updates.video_url,
-            updated_at: new Date().toISOString(),
-          }, { onConflict: "lesson_id" });
-      } catch (lvErr) {
-        console.warn("Could not save to lesson_videos table:", lvErr);
+      const { error: lvErr } = await supabase
+        .from("lesson_videos")
+        .upsert({
+          lesson_id: id,
+          video_url: updates.video_url,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: "lesson_id" });
+
+      if (lvErr) {
+        console.error("Could not save to lesson_videos table:", lvErr);
+        return NextResponse.json({ error: lvErr.message }, { status: 500 });
       }
     }
 
