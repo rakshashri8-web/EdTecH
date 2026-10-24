@@ -2,6 +2,23 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
+  // Canonical production domain enforcement:
+  // If a visitor reaches the old project domain (ed-tec-h or any -my-mini-project.vercel.app deployment alias),
+  // immediately 308 redirect them to the canonical domain https://edtech-eight-chi.vercel.app
+  const host = request.headers.get("x-forwarded-host") || request.headers.get("host") || "";
+  const isLocal = host.includes("localhost") || host.includes("127.0.0.1");
+
+  if (
+    !isLocal &&
+    (host.includes("ed-tec-h") || host.includes("-my-mini-project.vercel.app"))
+  ) {
+    const canonicalUrl = new URL(
+      request.nextUrl.pathname + request.nextUrl.search,
+      "https://edtech-eight-chi.vercel.app"
+    );
+    return NextResponse.redirect(canonicalUrl, 308);
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   });
