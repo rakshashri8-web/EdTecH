@@ -22,9 +22,33 @@ export async function GET(request: NextRequest) {
       .eq("module_id", moduleId)
       .order("order", { ascending: true });
 
-    if (error) throw error;
+    if (!error && data && data.length > 0) {
+      return NextResponse.json(data);
+    }
 
-    return NextResponse.json(data ?? []);
+    // Fallback to initial courses lessons
+    const { INITIAL_COURSES } = await import("@/lib/data");
+    for (const c of INITIAL_COURSES) {
+      const mod = c.modules?.find((m) => m.id === moduleId);
+      if (mod && mod.lessons) {
+        return NextResponse.json(
+          mod.lessons.map((l) => ({
+            id: l.id,
+            module_id: l.module_id,
+            course_id: l.course_id,
+            title: l.title,
+            description: l.description,
+            video_url: l.video_url,
+            duration: l.duration,
+            order: l.order,
+            is_preview: l.is_preview,
+            published: true,
+          }))
+        );
+      }
+    }
+
+    return NextResponse.json([]);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
@@ -86,16 +110,52 @@ export async function PATCH(request: NextRequest) {
 
     const supabase = createClient();
 
-    const { data, error } = await supabase
+    const { data: updated, error } = await supabase
       .from("lessons")
       .update(updates)
       .eq("id", id)
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) throw error;
+    if (updated) {
+      return NextResponse.json(updated);
+    }
 
-    return NextResponse.json(data);
+    // If row didn't exist in DB yet (from INITIAL_COURSES), insert it with updates
+    const { INITIAL_COURSES } = await import("@/lib/data");
+    let initialLesson: any = null;
+    for (const c of INITIAL_COURSES) {
+      for (const m of c.modules || []) {
+        const found = m.lessons?.find((l) => l.id === id);
+        if (found) {
+          initialLesson = found;
+          break;
+        }
+      }
+      if (initialLesson) break;
+    }
+
+    const { data: inserted, error: insErr } = await supabase
+      .from("lessons")
+      .upsert({
+        id,
+        module_id: initialLesson?.module_id,
+        course_id: initialLesson?.course_id,
+        title: initialLesson?.title || "Lesson",
+        description: initialLesson?.description || "",
+        video_url: initialLesson?.video_url || "",
+        duration: initialLesson?.duration || "",
+        order: initialLesson?.order || 1,
+        is_preview: initialLesson?.is_preview || false,
+        published: true,
+        ...updates,
+      })
+      .select()
+      .single();
+
+    if (insErr) throw insErr;
+    return NextResponse.json(inserted);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

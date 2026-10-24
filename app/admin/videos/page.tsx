@@ -27,6 +27,15 @@ export default async function VideosPage() {
     courses = [];
   }
 
+  // If no database courses yet, fall back to initial courses catalog
+  if (courses.length === 0) {
+    const { INITIAL_COURSES } = await import("@/lib/data");
+    courses = INITIAL_COURSES.map((c) => ({
+      id: c.id,
+      title: c.title,
+    }));
+  }
+
   return (
     <div className="p-6 lg:p-8 space-y-6 lg:mt-0 mt-[52px]">
       <div className="flex items-center gap-3">

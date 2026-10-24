@@ -22,9 +22,26 @@ export async function GET(request: NextRequest) {
       .eq("course_id", courseId)
       .order("order", { ascending: true });
 
-    if (error) throw error;
+    if (!error && data && data.length > 0) {
+      return NextResponse.json(data);
+    }
 
-    return NextResponse.json(data ?? []);
+    // Fallback to initial courses
+    const { INITIAL_COURSES } = await import("@/lib/data");
+    const course = INITIAL_COURSES.find((c) => c.id === courseId);
+    if (course && course.modules) {
+      return NextResponse.json(
+        course.modules.map((m) => ({
+          id: m.id,
+          course_id: m.course_id,
+          title: m.title,
+          description: m.description,
+          order: m.order,
+        }))
+      );
+    }
+
+    return NextResponse.json([]);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
