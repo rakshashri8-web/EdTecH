@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { extractDriveFileId, streamGoogleDriveVideo } from "@/lib/google-drive";
+import { INITIAL_COURSES } from "@/lib/data";
 
 export async function GET(
   request: NextRequest,
@@ -15,14 +16,46 @@ export async function GET(
 
     const supabase = createClient();
 
-    // 1. Fetch lesson record
-    const { data: lesson, error: lessonErr } = await supabase
+    // 1. Fetch lesson record from Supabase or fallback to initial courses
+    let lesson: {
+      id: string;
+      course_id: string;
+      title: string;
+      video_url: string;
+      is_preview?: boolean;
+      published?: boolean;
+    } | null = null;
+
+    const { data: dbLesson } = await supabase
       .from("lessons")
       .select("id, course_id, title, video_url, is_preview, published")
       .eq("id", lessonId)
       .maybeSingle();
 
-    if (lessonErr || !lesson) {
+    if (dbLesson) {
+      lesson = dbLesson;
+    } else {
+      // Check INITIAL_COURSES catalog
+      for (const course of INITIAL_COURSES) {
+        for (const mod of course.modules || []) {
+          const found = (mod.lessons || []).find((l) => l.id === lessonId);
+          if (found) {
+            lesson = {
+              id: found.id,
+              course_id: course.id,
+              title: found.title,
+              video_url: found.video_url,
+              is_preview: !!found.is_preview,
+              published: true,
+            };
+            break;
+          }
+        }
+        if (lesson) break;
+      }
+    }
+
+    if (!lesson) {
       return NextResponse.json({ error: "Lesson not found." }, { status: 404 });
     }
 
