@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import LessonPlayer from "@/components/LessonPlayer";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { INITIAL_COURSES } from "@/lib/data";
 import { Course, CourseModule } from "@/lib/types";
 
@@ -46,14 +46,17 @@ export default async function LearnPage({ params }: LearnPageProps) {
       notFound();
     }
 
-    // STRICT UNLOCK CHECK: Allow if user is admin/super_admin OR has approved enrollment
-    if (user.role !== "admin" && user.role !== "super_admin") {
+    // STRICT UNLOCK CHECK: Super Admin and Admins have full access to all courses without enrolling/paying
+    const isSuperAdminEmail = user.email?.toLowerCase() === "rakshashri8@gmail.com";
+    const isStaff = isAdmin(user) || isSuperAdminEmail || user.role === "admin" || user.role === "super_admin";
+
+    if (!isStaff) {
       const { data: enrollment } = await supabase
         .from("enrollments")
         .select("status")
         .eq("user_id", user.id)
         .eq("course_id", course.id)
-        .single();
+        .maybeSingle();
 
       // If enrollment is missing, pending, or rejected -> redirect to payment page!
       if (!enrollment || enrollment.status !== "approved") {

@@ -35,6 +35,13 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
     userEmail = user.email || "";
     userName = user.user_metadata?.full_name || user.user_metadata?.name || "";
 
+    // Super Admin and Admins bypass payment and are redirected straight to learning room
+    const isSuperAdminEmail = user.email?.toLowerCase() === "rakshashri8@gmail.com";
+    const role = (user.user_metadata?.role as string) || (user.app_metadata?.role as string);
+    if (isSuperAdminEmail || role === "admin" || role === "super_admin") {
+      redirect(`/learn/${course?.slug || enrollmentId}`);
+    }
+
     // Fetch course from DB
     const { data: dbCourse } = await supabase
       .from("courses")
