@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
-import { getStoredRefreshToken, getGoogleDriveAccessToken } from "@/lib/google-drive";
+import { getGoogleDriveRefreshTokenAsync, getGoogleDriveAccessToken } from "@/lib/google-drive";
 
 export async function GET() {
   try {
@@ -10,7 +10,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const refreshToken = getStoredRefreshToken();
+    const refreshToken = await getGoogleDriveRefreshTokenAsync();
     if (!refreshToken) {
       return NextResponse.json({
         connected: false,

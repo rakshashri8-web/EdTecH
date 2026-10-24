@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
-import { exchangeCodeForTokens } from "@/lib/google-drive";
+import { exchangeCodeForTokens, setRuntimeRefreshToken } from "@/lib/google-drive";
+import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: NextRequest) {
   try {
@@ -50,13 +51,30 @@ export async function GET(request: NextRequest) {
     const tokens = await exchangeCodeForTokens(code, origin);
     const refreshToken = tokens.refreshToken;
 
+    if (refreshToken) {
+      setRuntimeRefreshToken(refreshToken);
+      // Persist permanently in lesson_videos table so it survives all deployments
+      try {
+        const supabase = createClient();
+        await supabase
+          .from("lesson_videos")
+          .upsert({
+            lesson_id: "SYSTEM_GOOGLE_DRIVE_REFRESH_TOKEN",
+            video_url: refreshToken,
+            updated_at: new Date().toISOString(),
+          }, { onConflict: "lesson_id" });
+      } catch (err) {
+        console.warn("Could not save refresh token to database:", err);
+      }
+    }
+
     return new NextResponse(
       renderHtmlResponse({
         success: true,
         title: "Google Drive Successfully Connected!",
         message:
-          "Your Google Drive account has been authorized. Course videos can now be securely streamed to enrolled students.",
-        refreshToken: refreshToken || "Active in session (Refresh Token was previously granted).",
+          "Your Google Drive account has been permanently authorized. Course videos can now be securely streamed to enrolled students.",
+        refreshToken: refreshToken || "Active & Saved in Database",
       }),
       { headers: { "Content-Type": "text/html" } }
     );

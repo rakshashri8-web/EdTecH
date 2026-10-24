@@ -14,6 +14,28 @@ export function getStoredRefreshToken(): string | null {
   return process.env.GOOGLE_DRIVE_REFRESH_TOKEN || runtimeRefreshToken || null;
 }
 
+export async function getGoogleDriveRefreshTokenAsync(): Promise<string | null> {
+  if (process.env.GOOGLE_DRIVE_REFRESH_TOKEN) return process.env.GOOGLE_DRIVE_REFRESH_TOKEN;
+  if (runtimeRefreshToken) return runtimeRefreshToken;
+
+  try {
+    const { createClient } = await import("@/lib/supabase/server");
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("lesson_videos")
+      .select("video_url")
+      .eq("lesson_id", "SYSTEM_GOOGLE_DRIVE_REFRESH_TOKEN")
+      .maybeSingle();
+
+    if (data?.video_url) {
+      runtimeRefreshToken = data.video_url;
+      return data.video_url;
+    }
+  } catch {}
+
+  return null;
+}
+
 /**
  * Extracts a Google Drive file ID from various formats:
  * - Bare file ID: e.g. "1a2b3c4d5e6f7g8h9i0j_kLmNoP"
@@ -146,7 +168,7 @@ export async function getGoogleDriveAccessToken(): Promise<string> {
     return cachedAccessToken.token;
   }
 
-  const refreshToken = getStoredRefreshToken();
+  const refreshToken = await getGoogleDriveRefreshTokenAsync();
   if (!refreshToken) {
     throw new Error(
       "Google Drive is not linked yet. Please visit the Admin Portal and click 'Connect Google Drive' to complete one-time authorization."
