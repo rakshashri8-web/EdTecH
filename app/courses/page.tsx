@@ -8,6 +8,9 @@ export const metadata = {
   description: "Browse industry-focused courses in Data Analytics, Data Science, AI/ML, GenAI, and Agentic AI.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function CoursesPage() {
   let courses = INITIAL_COURSES;
   

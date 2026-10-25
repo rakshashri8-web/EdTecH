@@ -11,6 +11,9 @@ import Link from "next/link";
 import { ArrowRight, Award, CheckCircle2, Laptop, ShieldCheck, Sparkles, Target, Users, MessageSquare } from "lucide-react";
 import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HomePage() {
   // Try fetching courses from Supabase or fallback to INITIAL_COURSES
   let courses = INITIAL_COURSES;
