@@ -1,3 +1,6 @@
+import { INITIAL_COURSES } from "@/lib/data";
+import { Course } from "@/lib/types";
+
 /**
  * Centralized Course Artwork Resolution
  * Maps any course representation (slug, id, title) strictly to the 5 local 493x266 artwork images.
@@ -98,4 +101,60 @@ export function getCourseImage(course?: { id?: string; slug?: string; title?: st
   }
 
   return "/images/courses/data_analyst_493x266(2).png";
+}
+
+/**
+ * Maps any course identifier or database title to its corresponding complete
+ * curriculum (10 modules, 40 lessons, real-world projects) in INITIAL_COURSES.
+ */
+export function matchInitialCourse(identifier?: string, title?: string): Course {
+  const query = `${identifier || ""} ${title || ""}`.toLowerCase().trim();
+
+  // 1. Exact match by slug, ID, or title
+  const exact = INITIAL_COURSES.find(
+    (c) =>
+      c.slug === identifier ||
+      c.id === identifier ||
+      c.title.toLowerCase() === (title || "").toLowerCase()
+  );
+  if (exact) return exact;
+
+  // 2. Keyword match
+  if (query.includes("agent")) {
+    return INITIAL_COURSES.find((c) => c.slug === "agentic-ai-engineer") || INITIAL_COURSES[4];
+  }
+  if (
+    query.includes("genai") ||
+    query.includes("gen-ai") ||
+    query.includes("generative") ||
+    query.includes("course-4")
+  ) {
+    return INITIAL_COURSES.find((c) => c.slug === "genai-engineer") || INITIAL_COURSES[3];
+  }
+  if (
+    query.includes("data science") ||
+    query.includes("data-science") ||
+    query.includes("course-2")
+  ) {
+    return INITIAL_COURSES.find((c) => c.slug === "data-science") || INITIAL_COURSES[1];
+  }
+  if (
+    query.includes("ai-ml") ||
+    query.includes("ai / ml") ||
+    query.includes("ai & ml") ||
+    query.includes("mastery") ||
+    query.includes("course-3") ||
+    (query.includes("ai") && query.includes("ml"))
+  ) {
+    return INITIAL_COURSES.find((c) => c.slug === "ai-ml-engineer") || INITIAL_COURSES[2];
+  }
+  if (
+    query.includes("analyst") ||
+    query.includes("analytics") ||
+    query.includes("course-1")
+  ) {
+    return INITIAL_COURSES.find((c) => c.slug === "data-analyst") || INITIAL_COURSES[0];
+  }
+
+  return INITIAL_COURSES[0];
 }

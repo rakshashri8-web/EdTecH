@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import LessonPlayer from "@/components/LessonPlayer";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { INITIAL_COURSES } from "@/lib/data";
+import { matchInitialCourse, getCourseImage } from "@/lib/courseImage";
 import { Course, CourseModule } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -20,39 +21,34 @@ export default async function LearnPage({ params }: LearnPageProps) {
     redirect(`/login?redirectTo=/learn/${courseId}`);
   }
 
-  // First find in INITIAL_COURSES
-  const initialCourse = INITIAL_COURSES.find(
-    (c) => c.id === courseId || c.slug === courseId
-  ) || null;
+  // Always match to standard 5-track catalog
+  const initialCourse = matchInitialCourse(courseId);
 
-  let course: Course | null = initialCourse;
-  let modules: CourseModule[] = [];
+  let course: Course = { ...initialCourse };
+  let modules: CourseModule[] = initialCourse.modules || [];
   let userProgress: string[] = [];
 
   try {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = createClient();
 
-    // Fetch course from DB safely checking UUID format
+    // Fetch course from DB safely checking UUID format or slug
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(courseId);
     let dbCourseQuery = supabase.from("courses").select("*");
     if (isUuid) {
       dbCourseQuery = dbCourseQuery.eq("id", courseId);
     } else {
-      dbCourseQuery = dbCourseQuery.eq("slug", courseId);
+      dbCourseQuery = dbCourseQuery.or(`slug.eq.${courseId},slug.eq.${initialCourse.slug}`);
     }
-    const { data: dbCourse } = await dbCourseQuery.maybeSingle();
+    const { data: dbCourse } = await dbCourseQuery.limit(1).maybeSingle();
 
     if (dbCourse) {
-      // Find matching catalog course by title or slug if initialCourse wasn't found by courseId
-      const matchedCatalog = initialCourse || INITIAL_COURSES.find(
-        (c) => c.slug === dbCourse.slug || c.title.toLowerCase() === dbCourse.title?.toLowerCase()
-      );
-
+      const matchedCatalog = matchInitialCourse(dbCourse.slug || courseId, dbCourse.title);
       course = {
-        ...(matchedCatalog || {}),
+        ...matchedCatalog,
         ...dbCourse,
-        modules: matchedCatalog?.modules || course?.modules || [],
+        thumbnail: getCourseImage(dbCourse),
+        modules: matchedCatalog.modules || [],
       } as Course;
     }
 
@@ -69,7 +65,7 @@ export default async function LearnPage({ params }: LearnPageProps) {
         .from("enrollments")
         .select("status")
         .eq("user_id", user.id)
-        .eq("course_id", course.id)
+        .or(`course_id.eq.${course.id},course_id.eq.${initialCourse.id}`)
         .maybeSingle();
 
       // If enrollment is missing, pending, or rejected -> redirect to payment page!
@@ -82,11 +78,13 @@ export default async function LearnPage({ params }: LearnPageProps) {
     const { data: dbModules } = await supabase
       .from("course_modules")
       .select("*, lessons(*)")
-      .eq("course_id", course.id)
+      .or(`course_id.eq.${course.id},course_id.eq.${initialCourse.id}`)
       .order("order", { ascending: true });
 
-    if (dbModules && dbModules.length > 0) {
+    if (dbModules && dbModules.length > 0 && dbModules.some((m: any) => m.lessons && m.lessons.length > 0)) {
       modules = dbModules;
+    } else {
+      modules = initialCourse.modules || [];
     }
 
     // Fetch user progress
@@ -94,7 +92,7 @@ export default async function LearnPage({ params }: LearnPageProps) {
       .from("lesson_progress")
       .select("lesson_id")
       .eq("user_id", user.id)
-      .eq("course_id", course.id)
+      .or(`course_id.eq.${course.id},course_id.eq.${initialCourse.id}`)
       .eq("completed", true);
 
     if (progressData) {
@@ -113,10 +111,8 @@ export default async function LearnPage({ params }: LearnPageProps) {
   }
 
   // Use full 10 modules from catalog if DB modules table is empty
-  if (modules.length === 0) {
-    if (course.modules && course.modules.length > 0) {
-      modules = course.modules;
-    }
+  if (!modules || modules.length === 0) {
+    modules = initialCourse.modules || [];
   }
 
   // Merge any video URL overrides from lesson_videos table

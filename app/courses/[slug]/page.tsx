@@ -3,12 +3,15 @@ import Link from "next/link";
 import CurriculumAccordion from "@/components/CurriculumAccordion";
 import CourseCard from "@/components/CourseCard";
 import { INITIAL_COURSES, INSTRUCTOR_INFO, PROJECTS_LIST } from "@/lib/data";
-import { getCourseImage } from "@/lib/courseImage";
+import { getCourseImage, matchInitialCourse } from "@/lib/courseImage";
 import { Course, CourseModule, ProjectItem } from "@/lib/types";
 import { CheckCircle2, Clock, Award, Star, ArrowRight, User, Code2, Target, Sparkles, BookOpen, Rocket, Wrench, FileCode, MessageSquare, PlayCircle, Play } from "lucide-react";
 import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 interface CourseDetailPageProps {
   params: {
@@ -19,8 +22,9 @@ interface CourseDetailPageProps {
 export default async function CourseDetailPage({ params }: CourseDetailPageProps) {
   const { slug } = params;
 
-  let course: Course | null = INITIAL_COURSES.find((c) => c.slug === slug) || null;
-  let modules: CourseModule[] = [];
+  let initial = matchInitialCourse(slug);
+  let course: Course = { ...initial };
+  let modules: CourseModule[] = initial.modules || [];
 
   try {
     const { createClient } = await import("@/lib/supabase/server");
@@ -29,40 +33,43 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
     const { data: courseData } = await supabase
       .from("courses")
       .select("*")
-      .eq("slug", slug)
-      .single();
+      .or(`slug.eq.${slug},slug.eq.${initial.slug}`)
+      .limit(1)
+      .maybeSingle();
 
     if (courseData) {
+      initial = matchInitialCourse(courseData.slug || slug, courseData.title);
       course = {
+        ...initial,
         ...courseData,
-        outcomes: courseData.outcomes || course?.outcomes,
-        prerequisites: courseData.prerequisites || course?.prerequisites,
-        target_audience: courseData.target_audience || course?.target_audience,
-        technologies: courseData.technologies || course?.technologies,
-        modules: course?.modules,
+        title: courseData.title || initial.title,
+        thumbnail: getCourseImage(courseData),
+        outcomes: courseData.outcomes && courseData.outcomes.length > 0 ? courseData.outcomes : initial.outcomes,
+        prerequisites: courseData.prerequisites && courseData.prerequisites.length > 0 ? courseData.prerequisites : initial.prerequisites,
+        target_audience: courseData.target_audience && courseData.target_audience.length > 0 ? courseData.target_audience : initial.target_audience,
+        technologies: courseData.technologies && courseData.technologies.length > 0 ? courseData.technologies : initial.technologies,
       };
 
       const { data: moduleData } = await supabase
         .from("course_modules")
         .select("*, lessons(*)")
-        .eq("course_id", courseData.id)
+        .or(`course_id.eq.${courseData.id},course_id.eq.${initial.id}`)
         .order("order", { ascending: true });
 
       if (moduleData && moduleData.length > 0) {
-        modules = moduleData;
+        const hasLessons = moduleData.some((m: any) => m.lessons && m.lessons.length > 0);
+        if (hasLessons) {
+          modules = moduleData;
+        }
       }
     }
-  } catch {
-    // Fallback if DB fetch fails
+  } catch (err) {
+    console.warn("Course DB fetch fallback:", err);
   }
 
-  if (!course) {
-    notFound();
-  }
-
-  // Use full modules list from initial course data if DB modules not yet populated
-  if (modules.length === 0) {
-    modules = course.modules || [];
+  // Ensure full modules (10 modules, 40 lessons) are always present
+  if (!modules || modules.length === 0) {
+    modules = initial.modules || [];
   }
 
   // Merge video overrides from lesson_videos table
@@ -124,7 +131,11 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
 
   // Map related projects for this specific course
   const courseProjects: ProjectItem[] = PROJECTS_LIST.filter(
-    (p) => p.course_slug === course?.slug || p.course.toLowerCase() === course.title.toLowerCase()
+    (p) =>
+      p.course_slug === course?.slug ||
+      p.course_slug === initial.slug ||
+      p.course.toLowerCase() === course.title.toLowerCase() ||
+      p.course.toLowerCase() === initial.title.toLowerCase()
   ).sort((a, b) => (a.project_order || 0) - (b.project_order || 0));
 
   const discountPercent = Math.round(
