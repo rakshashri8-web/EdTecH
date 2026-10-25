@@ -6,6 +6,7 @@ import WhatsIncluded from "@/components/WhatsIncluded";
 import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 import FAQ from "@/components/FAQ";
 import { INITIAL_COURSES } from "@/lib/data";
+import { getCourseImage } from "@/lib/courseImage";
 import Link from "next/link";
 import { ArrowRight, Award, CheckCircle2, Laptop, ShieldCheck, Sparkles, Target, Users, MessageSquare } from "lucide-react";
 import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
@@ -21,6 +22,7 @@ export default async function HomePage() {
     if (data && data.length > 0) {
       courses = data.map((c: any) => ({
         ...c,
+        thumbnail: getCourseImage(c),
         price: 3999,
         original_price: 3999,
       }));
@@ -31,6 +33,7 @@ export default async function HomePage() {
 
   courses = courses.map((c) => ({
     ...c,
+    thumbnail: getCourseImage(c),
     price: 3999,
     original_price: 3999,
   }));

@@ -3,6 +3,7 @@ import Link from "next/link";
 import CurriculumAccordion from "@/components/CurriculumAccordion";
 import CourseCard from "@/components/CourseCard";
 import { INITIAL_COURSES, INSTRUCTOR_INFO, PROJECTS_LIST } from "@/lib/data";
+import { getCourseImage } from "@/lib/courseImage";
 import { Course, CourseModule, ProjectItem } from "@/lib/types";
 import { CheckCircle2, Clock, Award, Star, ArrowRight, User, Code2, Target, Sparkles, BookOpen, Rocket, Wrench, FileCode, MessageSquare, PlayCircle, Play } from "lucide-react";
 import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
@@ -107,22 +108,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
     } catch {}
   }
 
-  const COURSE_IMAGES: Record<string, string> = {
-    "data-analyst": "/images/courses/data_analyst_493x266(2).png",
-    "course-1": "/images/courses/data_analyst_493x266(2).png",
-    "data-science": "/images/courses/data_science_493x266(2).png",
-    "course-2": "/images/courses/data_science_493x266(2).png",
-    "ai-ml-engineer": "/images/courses/ai_ml_493x266(2).png",
-    "ai-ml": "/images/courses/ai_ml_493x266(2).png",
-    "course-3": "/images/courses/ai_ml_493x266(2).png",
-    "genai-engineer": "/images/courses/gen_ai_493x266(2).png",
-    "generative-ai-engineer": "/images/courses/gen_ai_493x266(2).png",
-    "course-4": "/images/courses/gen_ai_493x266(2).png",
-    "agentic-ai-engineer": "/images/courses/agentic_ai_493x266(2).png",
-    "course-5": "/images/courses/agentic_ai_493x266(2).png",
-  };
-
-  const courseImage = COURSE_IMAGES[course.slug] || COURSE_IMAGES[course.id] || course.thumbnail || "/images/courses/data_analyst_493x266(2).png";
+  const courseImage = getCourseImage(course);
 
   // Force consistent ₹3,999 pricing and updated course card image
   course = {
@@ -236,6 +222,8 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                   alt={course.title}
                   width={493}
                   height={266}
+                  loading="eager"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>

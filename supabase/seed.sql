@@ -84,7 +84,8 @@ ON CONFLICT (slug) DO UPDATE SET
   price = EXCLUDED.price,
   original_price = EXCLUDED.original_price,
   title = EXCLUDED.title,
-  description = EXCLUDED.description;
+  description = EXCLUDED.description,
+  thumbnail = EXCLUDED.thumbnail;
 
 -- 2. SEED MODULES FOR DATA ANALYST
 INSERT INTO public.course_modules (id, course_id, title, description, "order")

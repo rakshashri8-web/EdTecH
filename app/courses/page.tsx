@@ -1,5 +1,6 @@
 import CourseGrid from "@/components/CourseGrid";
 import { INITIAL_COURSES } from "@/lib/data";
+import { getCourseImage } from "@/lib/courseImage";
 import { BookOpen } from "lucide-react";
 
 export const metadata = {
@@ -17,6 +18,7 @@ export default async function CoursesPage() {
     if (data && data.length > 0) {
       courses = data.map((c: any) => ({
         ...c,
+        thumbnail: getCourseImage(c),
         price: 3999,
         original_price: 3999,
       }));
@@ -25,9 +27,10 @@ export default async function CoursesPage() {
     courses = INITIAL_COURSES;
   }
 
-  // Ensure all course prices are strictly set to 3999
+  // Ensure all course prices are strictly set to 3999 and images are local artwork
   courses = courses.map((c) => ({
     ...c,
+    thumbnail: getCourseImage(c),
     price: 3999,
     original_price: 3999,
   }));

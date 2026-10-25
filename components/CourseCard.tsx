@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Course } from "@/lib/types";
 import { PROJECTS_LIST } from "@/lib/data";
+import { getCourseImage } from "@/lib/courseImage";
 import { 
   Star, 
   ArrowRight, 
@@ -20,23 +21,8 @@ interface CourseCardProps {
   course: Course;
 }
 
-const COURSE_IMAGES: Record<string, string> = {
-  "data-analyst": "/images/courses/data_analyst_493x266(2).png",
-  "course-1": "/images/courses/data_analyst_493x266(2).png",
-  "data-science": "/images/courses/data_science_493x266(2).png",
-  "course-2": "/images/courses/data_science_493x266(2).png",
-  "ai-ml-engineer": "/images/courses/ai_ml_493x266(2).png",
-  "ai-ml": "/images/courses/ai_ml_493x266(2).png",
-  "course-3": "/images/courses/ai_ml_493x266(2).png",
-  "genai-engineer": "/images/courses/gen_ai_493x266(2).png",
-  "generative-ai-engineer": "/images/courses/gen_ai_493x266(2).png",
-  "course-4": "/images/courses/gen_ai_493x266(2).png",
-  "agentic-ai-engineer": "/images/courses/agentic_ai_493x266(2).png",
-  "course-5": "/images/courses/agentic_ai_493x266(2).png",
-};
-
 export default function CourseCard({ course }: CourseCardProps) {
-  const imageSrc = COURSE_IMAGES[course.slug] || COURSE_IMAGES[course.id] || course.thumbnail || "/images/courses/data_analyst_493x266(2).png";
+  const imageSrc = getCourseImage(course);
 
   const modulesCount = course.modules_count || course.modules?.length || 10;
   const courseProjectsCount = PROJECTS_LIST.filter(p => p.course_slug === course.slug).length;
@@ -57,6 +43,8 @@ export default function CourseCard({ course }: CourseCardProps) {
           alt={course.title}
           width={493}
           height={266}
+          loading="eager"
+          decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
 
