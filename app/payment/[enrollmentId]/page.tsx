@@ -54,6 +54,12 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
     }
 
     if (course) {
+      course = {
+        ...course,
+        price: 3999,
+        original_price: 3999,
+      };
+
       // Check if user already submitted enrollment for this course
       const { data: dbEnrollment } = await supabase
         .from("enrollments")
@@ -75,6 +81,12 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
   if (!course) {
     notFound();
   }
+
+  course = {
+    ...course,
+    price: 3999,
+    original_price: 3999,
+  };
 
   return (
     <div className="py-12 sm:py-16 bg-slate-50 min-h-screen">

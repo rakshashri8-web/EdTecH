@@ -25,6 +25,8 @@ export async function GET() {
 
     const courses = (data ?? []).map((c: any) => ({
       ...c,
+      price: 3999,
+      original_price: 3999,
       module_count: c.course_modules?.[0]?.count ?? 0,
       lesson_count: c.lessons?.[0]?.count ?? 0,
     }));

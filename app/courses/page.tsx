@@ -15,11 +15,22 @@ export default async function CoursesPage() {
     const supabase = createClient();
     const { data } = await supabase.from("courses").select("*").eq("published", true);
     if (data && data.length > 0) {
-      courses = data;
+      courses = data.map((c: any) => ({
+        ...c,
+        price: 3999,
+        original_price: 3999,
+      }));
     }
   } catch {
     courses = INITIAL_COURSES;
   }
+
+  // Ensure all course prices are strictly set to 3999
+  courses = courses.map((c) => ({
+    ...c,
+    price: 3999,
+    original_price: 3999,
+  }));
 
   return (
     <div className="py-12 sm:py-16 bg-slate-50 min-h-screen">

@@ -17,11 +17,21 @@ export default async function PricingPage() {
     const supabase = createClient();
     const { data } = await supabase.from("courses").select("*").eq("published", true);
     if (data && data.length > 0) {
-      courses = data;
+      courses = data.map((c: any) => ({
+        ...c,
+        price: 3999,
+        original_price: 3999,
+      }));
     }
   } catch {
     courses = INITIAL_COURSES;
   }
+
+  courses = courses.map((c) => ({
+    ...c,
+    price: 3999,
+    original_price: 3999,
+  }));
 
   return (
     <div className="py-12 sm:py-16 bg-slate-50 min-h-screen space-y-16">
@@ -62,23 +72,18 @@ export default async function PricingPage() {
                   <div className="pt-2">
                     <div className="flex items-baseline gap-2">
                       <span className="text-3xl font-black text-slate-900">
-                        ₹{course.price.toLocaleString("en-IN")}
+                        ₹3,999
                       </span>
-                      <span className="text-xs text-slate-400 line-through">
-                        ₹{course.original_price.toLocaleString("en-IN")}
+                      <span className="text-xs font-semibold text-slate-400">
+                        Flat Rate
                       </span>
                     </div>
-                    {discount > 0 && (
-                      <span className="inline-block mt-1 text-[11px] font-extrabold text-red-600 bg-red-50 px-2 py-0.5 rounded">
-                        Save {discount}% OFF
-                      </span>
-                    )}
                   </div>
 
                   <ul className="text-xs text-slate-600 space-y-2 pt-2 border-t border-slate-100">
                     <li className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>{course.duration} HD Video Lessons</span>
+                      <span>Full 10-Module HD Curriculum</span>
                     </li>
                     <li className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />

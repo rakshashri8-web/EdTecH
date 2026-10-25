@@ -107,6 +107,13 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
     } catch {}
   }
 
+  // Force consistent ₹3,999 pricing
+  course = {
+    ...course,
+    price: 3999,
+    original_price: 3999,
+  };
+
   // Calculate actual dynamic counts
   const actualModuleCount = modules.length;
   const actualLessonCount = modules.reduce((acc, m) => acc + (m.lessons?.length || 0), 0);
@@ -160,9 +167,6 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                 <span className="px-3 py-1 bg-white/10 text-slate-300 text-xs font-bold rounded-full">
                   {course.difficulty} Level
                 </span>
-                <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-full flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5" /> {course.duration}
-                </span>
                 <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-bold rounded-full flex items-center gap-1">
                   <BookOpen className="w-3.5 h-3.5" /> {actualModuleCount} Modules ({actualLessonCount} Lessons)
                 </span>
@@ -212,17 +216,12 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Program Investment</span>
                 <div className="flex items-center justify-center gap-3">
                   <span className="text-4xl font-black text-slate-900">
-                    ₹{course.price.toLocaleString("en-IN")}
-                  </span>
-                  <span className="text-sm font-medium text-slate-400 line-through">
-                    ₹{course.original_price.toLocaleString("en-IN")}
+                    ₹3,999
                   </span>
                 </div>
-                {discountPercent > 0 && (
-                  <span className="inline-block px-3 py-1 bg-red-100 text-red-700 text-xs font-black rounded-full">
-                    Save {discountPercent}% Today
-                  </span>
-                )}
+                <span className="inline-block text-xs font-bold text-slate-500">
+                  Flat One-Time Payment • Lifetime Access
+                </span>
               </div>
 
               {isEnrolled ? (

@@ -19,11 +19,21 @@ export default async function HomePage() {
     const supabase = createClient();
     const { data } = await supabase.from("courses").select("*").eq("published", true);
     if (data && data.length > 0) {
-      courses = data;
+      courses = data.map((c: any) => ({
+        ...c,
+        price: 3999,
+        original_price: 3999,
+      }));
     }
   } catch {
     courses = INITIAL_COURSES;
   }
+
+  courses = courses.map((c) => ({
+    ...c,
+    price: 3999,
+    original_price: 3999,
+  }));
 
   const whyUsFeatures = [
     {
