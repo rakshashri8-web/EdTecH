@@ -17,7 +17,7 @@ VALUES
   'Shaik Anwar',
   'Senior Data Scientist',
   'Beginner',
-  '40 Hours',
+  '',
   true
 ),
 (
@@ -32,7 +32,7 @@ VALUES
   'Shaik Anwar',
   'Senior Data Scientist',
   'Intermediate',
-  '65 Hours',
+  '',
   true
 ),
 (
@@ -47,7 +47,7 @@ VALUES
   'Shaik Anwar',
   'Senior Data Scientist',
   'Intermediate',
-  '80 Hours',
+  '',
   true
 ),
 (
@@ -62,7 +62,7 @@ VALUES
   'Shaik Anwar',
   'Senior Data Scientist',
   'Advanced',
-  '75 Hours',
+  '',
   true
 ),
 (
@@ -77,7 +77,7 @@ VALUES
   'Shaik Anwar',
   'Senior Data Scientist',
   'Advanced',
-  '90 Hours',
+  '',
   true
 )
 ON CONFLICT (slug) DO UPDATE SET
