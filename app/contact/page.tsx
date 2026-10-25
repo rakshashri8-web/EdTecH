@@ -14,12 +14,13 @@ export default function ContactPage() {
 
   const [statusState, setStatusState] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorText, setErrorText] = useState("");
+  const [lastWhatsAppUrl, setLastWhatsAppUrl] = useState("");
 
   const whatsappUrl = getWhatsAppLink(WHATSAPP_MESSAGES.general);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !subject || !message) {
+    if (!name.trim() || !email.trim() || !subject.trim() || !message.trim()) {
       setErrorText("Please fill out all required fields.");
       setStatusState("error");
       return;
@@ -28,37 +29,47 @@ export default function ContactPage() {
     setStatusState("sending");
     setErrorText("");
 
+    // Format the full message for WhatsApp to +91 93906 69648
+    const formattedWhatsAppMessage = 
+      `*New Contact Message — AIMP*\n\n` +
+      `👤 *Name:* ${name.trim()}\n` +
+      `📧 *Email:* ${email.trim()}\n` +
+      `📱 *Phone:* ${phone.trim() || "Not provided"}\n` +
+      `📌 *Subject:* ${subject.trim()}\n\n` +
+      `💬 *Message:*\n${message.trim()}`;
+
+    const sendUrl = getWhatsAppLink(formattedWhatsAppMessage);
+    setLastWhatsAppUrl(sendUrl);
+
+    // Try saving to Supabase in background
     try {
       const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
 
-      const { error } = await supabase.from("contact_messages").insert({
-        name,
-        email,
-        phone: phone || null,
-        subject,
-        message,
+      await supabase.from("contact_messages").insert({
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim() || null,
+        subject: subject.trim(),
+        message: message.trim(),
         status: "new",
         created_at: new Date().toISOString(),
       });
-
-      if (error) {
-        console.error("Contact message submission error:", error);
-        setStatusState("error");
-        setErrorText("Unable to send message. Please try again.");
-      } else {
-        setStatusState("success");
-        setName("");
-        setEmail("");
-        setPhone("");
-        setSubject("");
-        setMessage("");
-      }
     } catch (err) {
-      console.error(err);
-      setStatusState("error");
-      setErrorText("Unable to send message. Please try again.");
+      console.warn("Could not archive to Supabase:", err);
     }
+
+    // Open WhatsApp directly to +91 93906 69648
+    if (typeof window !== "undefined") {
+      window.open(sendUrl, "_blank", "noopener,noreferrer");
+    }
+
+    setStatusState("success");
+    setName("");
+    setEmail("");
+    setPhone("");
+    setSubject("");
+    setMessage("");
   };
 
   return (
@@ -202,14 +213,30 @@ export default function ContactPage() {
                 Send Us a Message
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                Fill out the form below and your message will be delivered directly to our support team.
+                Fill out the form below and your message will be sent directly to <strong>+91 93906 69648</strong> on WhatsApp.
               </p>
             </div>
 
             {statusState === "success" && (
-              <div className="p-4 bg-emerald-50 text-emerald-900 rounded-2xl border border-emerald-200 flex items-center gap-3 text-xs sm:text-sm font-bold">
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                Message sent successfully. We will get back to you soon.
+              <div className="p-4 bg-emerald-50 text-emerald-950 rounded-2xl border border-emerald-200 space-y-2.5">
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold text-emerald-900">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <span>Message ready and opened for +91 93906 69648!</span>
+                </div>
+                <p className="text-xs text-emerald-800">
+                  If WhatsApp did not open automatically, click the button below to send your message:
+                </p>
+                {lastWhatsAppUrl && (
+                  <a
+                    href={lastWhatsAppUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-black rounded-xl shadow-sm transition-colors"
+                  >
+                    <MessageSquare className="w-4 h-4 fill-current" />
+                    Open WhatsApp Chat (+91 93906 69648)
+                  </a>
+                )}
               </div>
             )}
 
@@ -297,10 +324,10 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={statusState === "sending"}
-                className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-brand-blue to-brand-indigo text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-brand-blue to-brand-indigo hover:from-blue-600 hover:to-indigo-600 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
-                {statusState === "sending" ? "Sending..." : "Send Message"}
+                {statusState === "sending" ? "Connecting to WhatsApp..." : "Send Message to +91 93906 69648"}
               </button>
             </form>
 
