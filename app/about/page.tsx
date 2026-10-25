@@ -159,7 +159,7 @@ export default function AboutPage() {
             {/* Credentials Badges */}
             <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-1">
               <span className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                <Award className="w-3.5 h-3.5 text-brand-blue" /> 10+ Years Industry Experience
+                <Award className="w-3.5 h-3.5 text-brand-blue" /> Years of Experience
               </span>
               <span className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-purple-600" /> 10,000+ Students Mentored

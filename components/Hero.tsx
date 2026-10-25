@@ -141,7 +141,7 @@ export default function Hero({ stats }: HeroProps) {
                       <p className="text-[11px] text-slate-300 font-medium truncate">Senior Data Scientist • AIMP</p>
                     </div>
                     <div className="shrink-0 px-2 py-1 rounded-lg bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[10px] font-black">
-                      10+ Yrs Exp
+                      Years of Experience
                     </div>
                   </div>
                 </div>
