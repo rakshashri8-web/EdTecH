@@ -80,28 +80,87 @@ export default function LessonManager({ courses }: LessonManagerProps) {
       .catch(() => setDriveConnected(false));
   }, []);
 
+  // Auto-restore selected course from URL or localStorage, or default to first course
+  useEffect(() => {
+    if (!courses || courses.length === 0) return;
+
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlCourse = urlParams.get("course_id");
+      const storedCourse = localStorage.getItem("aimp_admin_course_id");
+
+      const targetCourse =
+        (urlCourse && courses.some((c) => c.id === urlCourse) ? urlCourse : null) ||
+        (storedCourse && courses.some((c) => c.id === storedCourse) ? storedCourse : null) ||
+        courses[0]?.id ||
+        "";
+
+      if (targetCourse && targetCourse !== selectedCourseId) {
+        setSelectedCourseId(targetCourse);
+      }
+    }
+  }, [courses]);
+
+  // When selectedCourseId changes, fetch modules and restore/default selectedModuleId
   useEffect(() => {
     if (!selectedCourseId) {
       setModules([]);
       setSelectedModuleId("");
       return;
     }
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("aimp_admin_course_id", selectedCourseId);
+    }
+
     setLoadingModules(true);
     fetch(`/api/admin/modules?course_id=${selectedCourseId}`)
       .then((r) => r.json())
-      .then((data) => {
-        setModules(data ?? []);
-        setSelectedModuleId("");
+      .then((data: Module[]) => {
+        const mods = data ?? [];
+        setModules(mods);
+
+        // Check if there was a saved module for this course
+        let targetMod = "";
+        if (typeof window !== "undefined") {
+          const urlParams = new URLSearchParams(window.location.search);
+          const urlModule = urlParams.get("module_id");
+          const storedModule = localStorage.getItem("aimp_admin_module_id");
+
+          if (urlModule && mods.some((m) => m.id === urlModule)) {
+            targetMod = urlModule;
+          } else if (storedModule && mods.some((m) => m.id === storedModule)) {
+            targetMod = storedModule;
+          } else if (mods.length > 0) {
+            targetMod = mods[0].id;
+          }
+        } else if (mods.length > 0) {
+          targetMod = mods[0].id;
+        }
+
+        setSelectedModuleId(targetMod);
       })
       .catch(console.error)
       .finally(() => setLoadingModules(false));
   }, [selectedCourseId]);
 
+  // When selectedModuleId changes, save to localStorage and sync URL
   useEffect(() => {
     if (!selectedModuleId) {
       setLessons([]);
       return;
     }
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("aimp_admin_module_id", selectedModuleId);
+
+      // Sync to browser URL silently without reloading
+      const url = new URL(window.location.href);
+      if (selectedCourseId) url.searchParams.set("course_id", selectedCourseId);
+      url.searchParams.set("module_id", selectedModuleId);
+      window.history.replaceState(null, "", url.toString());
+    }
+
     setLoadingLessons(true);
     fetch(`/api/admin/lessons?module_id=${selectedModuleId}`)
       .then((r) => r.json())
@@ -321,7 +380,21 @@ export default function LessonManager({ courses }: LessonManagerProps) {
             <label className={labelCls}>Course</label>
             <select
               value={selectedCourseId}
-              onChange={(e) => setSelectedCourseId(e.target.value)}
+              onChange={(e) => {
+                const newCourse = e.target.value;
+                setSelectedCourseId(newCourse);
+                if (typeof window !== "undefined") {
+                  localStorage.removeItem("aimp_admin_module_id");
+                  const url = new URL(window.location.href);
+                  url.searchParams.delete("module_id");
+                  if (newCourse) {
+                    url.searchParams.set("course_id", newCourse);
+                  } else {
+                    url.searchParams.delete("course_id");
+                  }
+                  window.history.replaceState(null, "", url.toString());
+                }
+              }}
               className={inputCls}
             >
               <option value="">-- Select a course --</option>
@@ -349,13 +422,12 @@ export default function LessonManager({ courses }: LessonManagerProps) {
       </div>
 
       {/* Upload Notice */}
-      <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
-        <Info className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-start gap-3">
+        <Video className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-sm font-black text-amber-800">Video Upload Notice</p>
-          <p className="text-xs text-amber-700 mt-0.5">
-            Direct file upload requires a configured storage provider (Google Drive integration coming soon).
-            Enter a video URL or Drive embed link in the &quot;Video URL&quot; field below.
+          <p className="text-sm font-black text-emerald-900">Google Drive Video Streaming Active</p>
+          <p className="text-xs text-emerald-800 mt-0.5">
+            Paste any Google Drive link or file ID into the &quot;Video URL&quot; field. The system streams directly and securely to enrolled students with fast timeline scrubbing and mobile playback.
           </p>
         </div>
       </div>
