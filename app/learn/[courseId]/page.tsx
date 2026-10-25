@@ -20,10 +20,12 @@ export default async function LearnPage({ params }: LearnPageProps) {
     redirect(`/login?redirectTo=/learn/${courseId}`);
   }
 
-  let course: Course | null = INITIAL_COURSES.find(
+  // First find in INITIAL_COURSES
+  const initialCourse = INITIAL_COURSES.find(
     (c) => c.id === courseId || c.slug === courseId
   ) || null;
 
+  let course: Course | null = initialCourse;
   let modules: CourseModule[] = [];
   let userProgress: string[] = [];
 
@@ -31,15 +33,27 @@ export default async function LearnPage({ params }: LearnPageProps) {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = createClient();
 
-    // Fetch course
-    const { data: dbCourse } = await supabase
-      .from("courses")
-      .select("*")
-      .or(`id.eq.${courseId},slug.eq.${courseId}`)
-      .single();
+    // Fetch course from DB safely checking UUID format
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(courseId);
+    let dbCourseQuery = supabase.from("courses").select("*");
+    if (isUuid) {
+      dbCourseQuery = dbCourseQuery.eq("id", courseId);
+    } else {
+      dbCourseQuery = dbCourseQuery.eq("slug", courseId);
+    }
+    const { data: dbCourse } = await dbCourseQuery.maybeSingle();
 
     if (dbCourse) {
-      course = dbCourse;
+      // Find matching catalog course by title or slug if initialCourse wasn't found by courseId
+      const matchedCatalog = initialCourse || INITIAL_COURSES.find(
+        (c) => c.slug === dbCourse.slug || c.title.toLowerCase() === dbCourse.title?.toLowerCase()
+      );
+
+      course = {
+        ...(matchedCatalog || {}),
+        ...dbCourse,
+        modules: matchedCatalog?.modules || course?.modules || [],
+      } as Course;
     }
 
     if (!course) {
@@ -64,7 +78,7 @@ export default async function LearnPage({ params }: LearnPageProps) {
       }
     }
 
-    // Fetch modules and lessons
+    // Fetch modules and lessons from DB if available
     const { data: dbModules } = await supabase
       .from("course_modules")
       .select("*, lessons(*)")
@@ -98,64 +112,10 @@ export default async function LearnPage({ params }: LearnPageProps) {
     notFound();
   }
 
-  // Fallback modules if DB modules not yet seeded
+  // Use full 10 modules from catalog if DB modules table is empty
   if (modules.length === 0) {
     if (course.modules && course.modules.length > 0) {
       modules = course.modules;
-    } else {
-      modules = [
-        {
-          id: "mod-1",
-          course_id: course.id,
-          title: "Module 1: Computational & Theoretical Foundation",
-          description: "Core syntax, data structures, and environmental setup.",
-          order: 1,
-          lessons: [
-            {
-              id: "les-1",
-              module_id: "mod-1",
-              course_id: course.id,
-              title: "Lesson 1.1: Program Overview & Python Environment",
-              description: "Setting up VS Code, virtual environments, and Jupyter notebooks.",
-              video_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-              duration: "15 mins",
-              order: 1,
-              is_preview: true,
-            },
-            {
-              id: "les-2",
-              module_id: "mod-1",
-              course_id: course.id,
-              title: "Lesson 1.2: Variables, Data Types & Control Logic",
-              description: "Lists, dictionaries, conditionals, and loops.",
-              video_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-              duration: "22 mins",
-              order: 2,
-              is_preview: false,
-            }
-          ]
-        },
-        {
-          id: "mod-2",
-          course_id: course.id,
-          title: "Module 2: Practical Projects & Capstone Implementation",
-          description: "Hands-on projects and production code building.",
-          order: 2,
-          lessons: [
-            {
-              id: "les-3",
-              module_id: "mod-2",
-              course_id: course.id,
-              title: "Lesson 2.1: Building Production-Grade Pipelines",
-              description: "Structuring clean modular code and handling exceptions.",
-              video_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-              duration: "30 mins",
-              order: 1,
-              is_preview: false,
-            }
-          ]
-        }
-      ];
     }
   }
 

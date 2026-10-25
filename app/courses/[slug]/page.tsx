@@ -4,9 +4,10 @@ import CurriculumAccordion from "@/components/CurriculumAccordion";
 import CourseCard from "@/components/CourseCard";
 import { INITIAL_COURSES, INSTRUCTOR_INFO, PROJECTS_LIST } from "@/lib/data";
 import { Course, CourseModule, ProjectItem } from "@/lib/types";
-import { CheckCircle2, Clock, Award, Star, ArrowRight, User, Code2, Target, Sparkles, BookOpen, Rocket, Wrench, FileCode, MessageSquare } from "lucide-react";
+import { CheckCircle2, Clock, Award, Star, ArrowRight, User, Code2, Target, Sparkles, BookOpen, Rocket, Wrench, FileCode, MessageSquare, PlayCircle, Play } from "lucide-react";
 import HowEnrollmentWorks from "@/components/HowEnrollmentWorks";
 import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
+import { getCurrentUser, isAdmin } from "@/lib/auth";
 
 interface CourseDetailPageProps {
   params: {
@@ -61,6 +62,49 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
   // Use full modules list from initial course data if DB modules not yet populated
   if (modules.length === 0) {
     modules = course.modules || [];
+  }
+
+  // Merge video overrides from lesson_videos table
+  try {
+    const { createClient } = await import("@/lib/supabase/server");
+    const supabase = createClient();
+    const { data: videoOverrides } = await supabase
+      .from("lesson_videos")
+      .select("lesson_id, video_url");
+
+    if (videoOverrides && videoOverrides.length > 0) {
+      const overrideMap = new Map(videoOverrides.map((v: any) => [v.lesson_id, v.video_url]));
+      modules = modules.map((m) => ({
+        ...m,
+        lessons: (m.lessons || []).map((l) => ({
+          ...l,
+          video_url: overrideMap.get(l.id) || l.video_url,
+        })),
+      }));
+    }
+  } catch {}
+
+  // Check enrollment & staff privileges
+  const user = await getCurrentUser();
+  const isSuperAdminEmail = user?.email?.toLowerCase() === "rakshashri8@gmail.com";
+  const isStaff = !!user && (isAdmin(user) || isSuperAdminEmail || user.role === "admin" || user.role === "super_admin");
+  let isEnrolled = isStaff;
+
+  if (user && !isEnrolled) {
+    try {
+      const { createClient } = await import("@/lib/supabase/server");
+      const supabase = createClient();
+      const { data: enrollment } = await supabase
+        .from("enrollments")
+        .select("status")
+        .eq("user_id", user.id)
+        .eq("course_id", course.id)
+        .maybeSingle();
+
+      if (enrollment?.status === "approved") {
+        isEnrolled = true;
+      }
+    } catch {}
   }
 
   // Calculate actual dynamic counts
@@ -181,13 +225,38 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                 )}
               </div>
 
-              <Link
-                href={`/payment/${course.id}`}
-                className="w-full py-4 text-center text-sm font-extrabold text-white bg-gradient-to-r from-brand-blue to-brand-indigo rounded-2xl shadow-lg shadow-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/40 transition-all flex items-center justify-center gap-2 group"
-              >
-                Enroll in Program Now
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              {isEnrolled ? (
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-black">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    Access Granted (Enrolled / Staff)
+                  </div>
+                  <Link
+                    href={`/learn/${course.slug || course.id}`}
+                    className="w-full py-4 text-center text-sm font-extrabold text-white bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl shadow-lg shadow-emerald-600/30 hover:shadow-xl hover:shadow-emerald-600/40 transition-all flex items-center justify-center gap-2 group"
+                  >
+                    <PlayCircle className="w-5 h-5 fill-white text-emerald-600 group-hover:scale-110 transition-transform" />
+                    Watch Course Lessons Now
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <Link
+                    href={`/payment/${course.id}`}
+                    className="w-full py-4 text-center text-sm font-extrabold text-white bg-gradient-to-r from-brand-blue to-brand-indigo rounded-2xl shadow-lg shadow-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/40 transition-all flex items-center justify-center gap-2 group"
+                  >
+                    Enroll in Program Now
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <a
+                    href="#curriculum-section"
+                    className="w-full py-2.5 text-center text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-slate-700" /> Watch Free Preview Lessons
+                  </a>
+                </div>
+              )}
 
               <a
                 href={getWhatsAppLink(WHATSAPP_MESSAGES.course(course.title))}
@@ -244,7 +313,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
             </div>
 
             {/* Complete Curriculum Accordion */}
-            <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+            <div id="curriculum-section" className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
                 <div>
                   <div className="flex items-center gap-2 text-brand-blue font-extrabold text-sm uppercase tracking-wider">
@@ -252,7 +321,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                   </div>
                   <h3 className="text-2xl font-black text-slate-900 mt-1">Full 10-Module Curriculum</h3>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    Expand every module to inspect lessons, video duration, and free preview topics.
+                    Click any preview or unlocked lesson below to play its video immediately.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -265,7 +334,12 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                 </div>
               </div>
 
-              <CurriculumAccordion modules={modules} />
+              <CurriculumAccordion
+                modules={modules}
+                courseId={course.id}
+                courseSlug={course.slug}
+                isEnrolled={!!isEnrolled}
+              />
             </div>
 
             {/* REAL-WORLD PROJECTS SECTION */}

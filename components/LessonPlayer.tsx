@@ -37,10 +37,32 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
   const [useEmbedFallback, setUseEmbedFallback] = useState(false);
   const [streamError, setStreamError] = useState<string | null>(null);
 
-  // Reset video player states when lesson changes
+  // Check URL query param ?lesson=... on initial mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const lessonParam = params.get("lesson");
+      if (lessonParam) {
+        const found = allLessons.find((l) => l.id === lessonParam);
+        if (found) {
+          setCurrentLesson(found);
+        }
+      }
+    }
+  }, []);
+
+  // Sync current lesson to URL silently and reset video error states
   useEffect(() => {
     setUseEmbedFallback(false);
     setStreamError(null);
+
+    if (currentLesson && typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("lesson") !== currentLesson.id) {
+        url.searchParams.set("lesson", currentLesson.id);
+        window.history.replaceState(null, "", url.toString());
+      }
+    }
   }, [currentLesson?.id]);
 
   // Check if video is hosted on Google Drive

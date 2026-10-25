@@ -26,9 +26,22 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(data);
     }
 
+    let dbCourseTitle = "";
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(courseId);
+    if (isUuid) {
+      try {
+        const { data: dbCourse } = await supabase.from("courses").select("title, slug").eq("id", courseId).maybeSingle();
+        if (dbCourse) dbCourseTitle = dbCourse.title;
+      } catch {}
+    }
+
     // Fallback to initial courses
     const { INITIAL_COURSES } = await import("@/lib/data");
-    const course = INITIAL_COURSES.find((c) => c.id === courseId);
+    const course = INITIAL_COURSES.find((c) =>
+      c.id === courseId ||
+      c.slug === courseId ||
+      (dbCourseTitle && c.title.toLowerCase() === dbCourseTitle.toLowerCase())
+    );
     if (course && course.modules) {
       return NextResponse.json(
         course.modules.map((m) => ({

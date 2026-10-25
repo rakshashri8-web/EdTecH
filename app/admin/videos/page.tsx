@@ -20,7 +20,7 @@ export default async function VideosPage() {
   try {
     const { data } = await supabase
       .from("courses")
-      .select("id, title")
+      .select("id, title, slug")
       .order("title", { ascending: true });
     courses = data ?? [];
   } catch {
@@ -33,6 +33,7 @@ export default async function VideosPage() {
     courses = INITIAL_COURSES.map((c) => ({
       id: c.id,
       title: c.title,
+      slug: c.slug,
     }));
   }
 
