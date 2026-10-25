@@ -20,68 +20,23 @@ interface CourseCardProps {
   course: Course;
 }
 
-const getCourseTheme = (slug: string, title: string) => {
-  const s = (slug || "").toLowerCase();
-  const t = (title || "").toLowerCase();
-
-  if (s.includes("analyst") || t.includes("analyst")) {
-    return {
-      badge: "Analytics & BI",
-      icon: BarChart3,
-      accentBg: "bg-blue-600",
-      accentText: "text-blue-600",
-      lightBg: "bg-blue-50 text-blue-700 border-blue-200/60",
-    };
-  }
-  if (s.includes("science") || t.includes("science")) {
-    return {
-      badge: "Statistics & ML",
-      icon: Database,
-      accentBg: "bg-indigo-600",
-      accentText: "text-indigo-600",
-      lightBg: "bg-indigo-50 text-indigo-700 border-indigo-200/60",
-    };
-  }
-  if (s.includes("ai-ml") || t.includes("machine learning") || t.includes("ai / ml")) {
-    return {
-      badge: "Neural Networks & AI",
-      icon: Cpu,
-      accentBg: "bg-violet-600",
-      accentText: "text-violet-600",
-      lightBg: "bg-violet-50 text-violet-700 border-violet-200/60",
-    };
-  }
-  if (s.includes("genai") || s.includes("generative") || t.includes("generative")) {
-    return {
-      badge: "Generative AI & LLMs",
-      icon: Sparkles,
-      accentBg: "bg-cyan-600",
-      accentText: "text-cyan-600",
-      lightBg: "bg-cyan-50 text-cyan-700 border-cyan-200/60",
-    };
-  }
-  if (s.includes("agentic") || t.includes("agentic") || t.includes("agent")) {
-    return {
-      badge: "Multi-Agent Systems",
-      icon: Workflow,
-      accentBg: "bg-emerald-600",
-      accentText: "text-emerald-600",
-      lightBg: "bg-emerald-50 text-emerald-700 border-emerald-200/60",
-    };
-  }
-
-  return {
-    badge: "Industry Program",
-    icon: Sparkles,
-    accentBg: "bg-brand-blue",
-    accentText: "text-brand-blue",
-    lightBg: "bg-blue-50 text-brand-blue border-blue-200/60",
-  };
+const COURSE_IMAGES: Record<string, string> = {
+  "data-analyst": "/images/courses/data_analyst_493x266(2).png",
+  "course-1": "/images/courses/data_analyst_493x266(2).png",
+  "data-science": "/images/courses/data_science_493x266(2).png",
+  "course-2": "/images/courses/data_science_493x266(2).png",
+  "ai-ml-engineer": "/images/courses/ai_ml_493x266(2).png",
+  "ai-ml": "/images/courses/ai_ml_493x266(2).png",
+  "course-3": "/images/courses/ai_ml_493x266(2).png",
+  "genai-engineer": "/images/courses/gen_ai_493x266(2).png",
+  "generative-ai-engineer": "/images/courses/gen_ai_493x266(2).png",
+  "course-4": "/images/courses/gen_ai_493x266(2).png",
+  "agentic-ai-engineer": "/images/courses/agentic_ai_493x266(2).png",
+  "course-5": "/images/courses/agentic_ai_493x266(2).png",
 };
 
 export default function CourseCard({ course }: CourseCardProps) {
-  const theme = getCourseTheme(course.slug, course.title);
-  const IconComponent = theme.icon;
+  const imageSrc = COURSE_IMAGES[course.slug] || COURSE_IMAGES[course.id] || course.thumbnail || "/images/courses/data_analyst_493x266(2).png";
 
   const modulesCount = course.modules_count || course.modules?.length || 10;
   const courseProjectsCount = PROJECTS_LIST.filter(p => p.course_slug === course.slug).length;
@@ -95,36 +50,20 @@ export default function CourseCard({ course }: CourseCardProps) {
   return (
     <div className="group bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-lg shadow-slate-100 hover:shadow-2xl hover:shadow-brand-blue/15 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
       
-      {/* Top Thumbnail Image Header */}
-      <Link href={`/courses/${course.slug}`} className="relative h-52 w-full overflow-hidden bg-slate-900 block">
+      {/* Top Thumbnail Image Header with exact 493x266 dimensions */}
+      <Link href={`/courses/${course.slug}`} className="relative aspect-[493/266] w-full overflow-hidden bg-slate-900 block group/img">
         <img
-          src={course.thumbnail}
+          src={imageSrc}
           alt={course.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+          width={493}
+          height={266}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
-        
-        {/* Course Specific Thematic Icon Badge */}
-        <div className="absolute top-3 left-3 flex items-center gap-2 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 shadow-lg text-white">
-          <div className={`p-1 rounded-lg ${theme.accentBg} text-white`}>
-            <IconComponent className="w-3.5 h-3.5" />
-          </div>
-          <span className="text-[11px] font-extrabold tracking-wide">
-            {theme.badge}
-          </span>
-        </div>
 
         {/* Category Pill */}
-        <span className="absolute top-3 right-3 bg-white/95 backdrop-blur-md text-slate-900 font-extrabold text-[11px] px-3 py-1.5 rounded-xl shadow-md border border-white/40">
+        <span className="absolute top-3 right-3 bg-slate-950/80 backdrop-blur-md text-white font-extrabold text-[11px] px-3 py-1 rounded-full shadow-md border border-white/20">
           {course.category}
         </span>
-
-        {/* Rating Floating Tag */}
-        <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-slate-900/85 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-amber-400 border border-white/10 shadow-sm">
-          <Star className="w-3.5 h-3.5 fill-amber-400" />
-          <span>4.9 ★</span>
-          <span className="text-slate-300 font-normal">| 120+ Student Reviews</span>
-        </div>
       </Link>
 
       {/* Card Body */}

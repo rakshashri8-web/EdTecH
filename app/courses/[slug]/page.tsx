@@ -107,9 +107,27 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
     } catch {}
   }
 
-  // Force consistent ₹3,999 pricing
+  const COURSE_IMAGES: Record<string, string> = {
+    "data-analyst": "/images/courses/data_analyst_493x266(2).png",
+    "course-1": "/images/courses/data_analyst_493x266(2).png",
+    "data-science": "/images/courses/data_science_493x266(2).png",
+    "course-2": "/images/courses/data_science_493x266(2).png",
+    "ai-ml-engineer": "/images/courses/ai_ml_493x266(2).png",
+    "ai-ml": "/images/courses/ai_ml_493x266(2).png",
+    "course-3": "/images/courses/ai_ml_493x266(2).png",
+    "genai-engineer": "/images/courses/gen_ai_493x266(2).png",
+    "generative-ai-engineer": "/images/courses/gen_ai_493x266(2).png",
+    "course-4": "/images/courses/gen_ai_493x266(2).png",
+    "agentic-ai-engineer": "/images/courses/agentic_ai_493x266(2).png",
+    "course-5": "/images/courses/agentic_ai_493x266(2).png",
+  };
+
+  const courseImage = COURSE_IMAGES[course.slug] || COURSE_IMAGES[course.id] || course.thumbnail || "/images/courses/data_analyst_493x266(2).png";
+
+  // Force consistent ₹3,999 pricing and updated course card image
   course = {
     ...course,
+    thumbnail: courseImage,
     price: 3999,
     original_price: 3999,
   };
@@ -212,6 +230,16 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
 
             {/* Price & Action Card */}
             <div className="lg:col-span-4 bg-white text-slate-900 p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100 text-center space-y-5">
+              <div className="relative aspect-[493/266] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-900">
+                <img
+                  src={courseImage}
+                  alt={course.title}
+                  width={493}
+                  height={266}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
               <div className="space-y-1">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Program Investment</span>
                 <div className="flex items-center justify-center gap-3">
