@@ -115,22 +115,55 @@ export default async function LearnPage({ params }: LearnPageProps) {
     modules = initialCourse.modules || [];
   }
 
-  // Merge any video URL overrides from lesson_videos table
+  // Merge any video URL and duration overrides from lesson_videos table
   try {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = createClient();
-    const { data: videoOverrides } = await supabase
-      .from("lesson_videos")
-      .select("lesson_id, video_url");
+    let videoOverrides: any[] = [];
+    try {
+      const { data, error } = await supabase
+        .from("lesson_videos")
+        .select("lesson_id, video_url, duration");
+      if (!error && data) {
+        videoOverrides = data;
+      } else {
+        const { data: fallbackData } = await supabase
+          .from("lesson_videos")
+          .select("lesson_id, video_url");
+        videoOverrides = fallbackData || [];
+      }
+    } catch {}
 
     if (videoOverrides && videoOverrides.length > 0) {
-      const overrideMap = new Map(videoOverrides.map((v: any) => [v.lesson_id, v.video_url]));
+      const overrideMap = new Map<string, { video_url?: string; duration?: string }>();
+      for (const v of videoOverrides) {
+        if (v.lesson_id && !v.lesson_id.startsWith("SYSTEM_")) {
+          overrideMap.set(v.lesson_id, {
+            video_url: v.video_url,
+            duration: v.duration,
+          });
+        }
+      }
+
       modules = modules.map((m) => ({
         ...m,
-        lessons: (m.lessons || []).map((l) => ({
-          ...l,
-          video_url: overrideMap.get(l.id) || l.video_url,
-        })),
+        lessons: (m.lessons || []).map((l) => {
+          const override = overrideMap.get(l.id);
+          let videoUrl = (override?.video_url ?? l.video_url ?? "").trim();
+          let duration = (override?.duration ?? l.duration ?? "").trim();
+          if (videoUrl.includes("dQw4w9WgXcQ")) {
+            videoUrl = "";
+            duration = "";
+          }
+          if (!videoUrl) {
+            duration = "";
+          }
+          return {
+            ...l,
+            video_url: videoUrl,
+            duration: duration,
+          };
+        }),
       }));
     }
   } catch {}

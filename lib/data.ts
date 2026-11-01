@@ -797,8 +797,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 1.1: Fundamentals & Conceptual Overview of Computational Foundation & Python Programming Logic",
                 "description": "Practical hands-on walkthrough for lesson 1.1: fundamentals & conceptual overview of computational foundation & python programming logic with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "gdrive://1I6qy610LlGgML8XEMjUd7V--XouX3ILo",
+                "duration": "",
                 "order": 1,
                 "is_preview": true
             },
@@ -808,8 +808,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 1.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 1.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -819,8 +819,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 1.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 1.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -830,8 +830,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 1.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 1.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -850,8 +850,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 2.1: Fundamentals & Conceptual Overview of Advanced Python Syntax, OOP & Modular Structure",
                 "description": "Practical hands-on walkthrough for lesson 2.1: fundamentals & conceptual overview of advanced python syntax, oop & modular structure with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -861,8 +861,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 2.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 2.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -872,8 +872,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 2.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 2.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -883,8 +883,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 2.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 2.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -903,8 +903,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 3.1: Fundamentals & Conceptual Overview of Relational Database Querying & SQL Fundamentals",
                 "description": "Practical hands-on walkthrough for lesson 3.1: fundamentals & conceptual overview of relational database querying & sql fundamentals with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -914,8 +914,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 3.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 3.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -925,8 +925,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 3.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 3.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -936,8 +936,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 3.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 3.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -956,8 +956,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 4.1: Fundamentals & Conceptual Overview of Advanced SQL — Joins, Subqueries, CTEs & Window Functions",
                 "description": "Practical hands-on walkthrough for lesson 4.1: fundamentals & conceptual overview of advanced sql — joins, subqueries, ctes & window functions with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -967,8 +967,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 4.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 4.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -978,8 +978,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 4.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 4.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -989,8 +989,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 4.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 4.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1009,8 +1009,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 5.1: Fundamentals & Conceptual Overview of Mathematical Foundations & Descriptive Statistics",
                 "description": "Practical hands-on walkthrough for lesson 5.1: fundamentals & conceptual overview of mathematical foundations & descriptive statistics with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1020,8 +1020,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 5.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 5.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1031,8 +1031,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 5.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 5.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1042,8 +1042,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 5.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 5.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1062,8 +1062,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 6.1: Fundamentals & Conceptual Overview of Excel Business Reporting & Data Modeling",
                 "description": "Practical hands-on walkthrough for lesson 6.1: fundamentals & conceptual overview of excel business reporting & data modeling with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1073,8 +1073,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 6.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 6.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1084,8 +1084,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 6.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 6.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1095,8 +1095,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 6.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 6.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1115,8 +1115,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 7.1: Fundamentals & Conceptual Overview of Numerical Computing with NumPy & Pandas Dataframes",
                 "description": "Practical hands-on walkthrough for lesson 7.1: fundamentals & conceptual overview of numerical computing with numpy & pandas dataframes with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1126,8 +1126,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 7.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 7.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1137,8 +1137,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 7.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 7.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1148,8 +1148,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 7.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 7.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1168,8 +1168,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 8.1: Fundamentals & Conceptual Overview of Exploratory Data Analysis (EDA) & Data Cleaning",
                 "description": "Practical hands-on walkthrough for lesson 8.1: fundamentals & conceptual overview of exploratory data analysis (eda) & data cleaning with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1179,8 +1179,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 8.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 8.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1190,8 +1190,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 8.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 8.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1201,8 +1201,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 8.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 8.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1221,8 +1221,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 9.1: Fundamentals & Conceptual Overview of Business Data Visualization with Matplotlib & Seaborn",
                 "description": "Practical hands-on walkthrough for lesson 9.1: fundamentals & conceptual overview of business data visualization with matplotlib & seaborn with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1232,8 +1232,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 9.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 9.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1243,8 +1243,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 9.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 9.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1254,8 +1254,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 9.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 9.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1274,8 +1274,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 10.1: Fundamentals & Conceptual Overview of Executive Dashboards & Power BI Analytics",
                 "description": "Practical hands-on walkthrough for lesson 10.1: fundamentals & conceptual overview of executive dashboards & power bi analytics with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1285,8 +1285,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 10.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 10.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1296,8 +1296,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 10.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 10.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1307,8 +1307,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-1",
                 "title": "Lesson 10.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 10.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1357,8 +1357,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 1.1: Fundamentals & Conceptual Overview of Advanced Exploratory Data Analysis & Feature Extraction",
                 "description": "Practical hands-on walkthrough for lesson 1.1: fundamentals & conceptual overview of advanced exploratory data analysis & feature extraction with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": true
             },
@@ -1368,8 +1368,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 1.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 1.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1379,8 +1379,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 1.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 1.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1390,8 +1390,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 1.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 1.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1410,8 +1410,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 2.1: Fundamentals & Conceptual Overview of Probability Distributions & Inferential Statistics",
                 "description": "Practical hands-on walkthrough for lesson 2.1: fundamentals & conceptual overview of probability distributions & inferential statistics with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1421,8 +1421,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 2.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 2.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1432,8 +1432,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 2.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 2.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1443,8 +1443,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 2.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 2.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1463,8 +1463,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 3.1: Fundamentals & Conceptual Overview of Hypothesis Testing, A/B Testing & Confidence Intervals",
                 "description": "Practical hands-on walkthrough for lesson 3.1: fundamentals & conceptual overview of hypothesis testing, a/b testing & confidence intervals with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1474,8 +1474,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 3.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 3.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1485,8 +1485,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 3.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 3.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1496,8 +1496,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 3.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 3.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1516,8 +1516,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 4.1: Fundamentals & Conceptual Overview of Machine Learning Fundamentals & Supervised Workflows",
                 "description": "Practical hands-on walkthrough for lesson 4.1: fundamentals & conceptual overview of machine learning fundamentals & supervised workflows with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1527,8 +1527,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 4.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 4.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1538,8 +1538,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 4.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 4.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1549,8 +1549,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 4.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 4.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1569,8 +1569,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 5.1: Fundamentals & Conceptual Overview of Regression Analysis (Linear, Ridge, Lasso)",
                 "description": "Practical hands-on walkthrough for lesson 5.1: fundamentals & conceptual overview of regression analysis (linear, ridge, lasso) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1580,8 +1580,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 5.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 5.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1591,8 +1591,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 5.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 5.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1602,8 +1602,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 5.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 5.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1622,8 +1622,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 6.1: Fundamentals & Conceptual Overview of Classification Models (Logistic, KNN, Naive Bayes)",
                 "description": "Practical hands-on walkthrough for lesson 6.1: fundamentals & conceptual overview of classification models (logistic, knn, naive bayes) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1633,8 +1633,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 6.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 6.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1644,8 +1644,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 6.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 6.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1655,8 +1655,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 6.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 6.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1675,8 +1675,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 7.1: Fundamentals & Conceptual Overview of Decision Trees, Random Forests & Ensemble Learning",
                 "description": "Practical hands-on walkthrough for lesson 7.1: fundamentals & conceptual overview of decision trees, random forests & ensemble learning with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1686,8 +1686,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 7.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 7.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1697,8 +1697,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 7.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 7.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1708,8 +1708,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 7.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 7.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1728,8 +1728,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 8.1: Fundamentals & Conceptual Overview of Unsupervised Learning — Clustering (K-Means, DBSCAN)",
                 "description": "Practical hands-on walkthrough for lesson 8.1: fundamentals & conceptual overview of unsupervised learning — clustering (k-means, dbscan) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1739,8 +1739,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 8.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 8.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1750,8 +1750,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 8.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 8.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1761,8 +1761,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 8.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 8.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1781,8 +1781,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 9.1: Fundamentals & Conceptual Overview of Dimensionality Reduction (PCA, t-SNE) & Recommendation Systems",
                 "description": "Practical hands-on walkthrough for lesson 9.1: fundamentals & conceptual overview of dimensionality reduction (pca, t-sne) & recommendation systems with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1792,8 +1792,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 9.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 9.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1803,8 +1803,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 9.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 9.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1814,8 +1814,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 9.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 9.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1834,8 +1834,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 10.1: Fundamentals & Conceptual Overview of Model Evaluation, Cross-Validation & SMOTE Class Imbalance",
                 "description": "Practical hands-on walkthrough for lesson 10.1: fundamentals & conceptual overview of model evaluation, cross-validation & smote class imbalance with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1845,8 +1845,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 10.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 10.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1856,8 +1856,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 10.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 10.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1867,8 +1867,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-2",
                 "title": "Lesson 10.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 10.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1917,8 +1917,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 1.1: Fundamentals & Conceptual Overview of Advanced Machine Learning & XGBoost Optimization",
                 "description": "Practical hands-on walkthrough for lesson 1.1: fundamentals & conceptual overview of advanced machine learning & xgboost optimization with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": true
             },
@@ -1928,8 +1928,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 1.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 1.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1939,8 +1939,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 1.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 1.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -1950,8 +1950,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 1.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 1.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -1970,8 +1970,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 2.1: Fundamentals & Conceptual Overview of Linear Algebra & Matrix Calculus for Deep Learning",
                 "description": "Practical hands-on walkthrough for lesson 2.1: fundamentals & conceptual overview of linear algebra & matrix calculus for deep learning with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -1981,8 +1981,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 2.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 2.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -1992,8 +1992,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 2.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 2.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2003,8 +2003,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 2.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 2.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2023,8 +2023,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 3.1: Fundamentals & Conceptual Overview of PyTorch Core Tensors, Gradients & Autograd Engine",
                 "description": "Practical hands-on walkthrough for lesson 3.1: fundamentals & conceptual overview of pytorch core tensors, gradients & autograd engine with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2034,8 +2034,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 3.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 3.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2045,8 +2045,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 3.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 3.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2056,8 +2056,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 3.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 3.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2076,8 +2076,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 4.1: Fundamentals & Conceptual Overview of Deep Neural Network Architecture & Backpropagation",
                 "description": "Practical hands-on walkthrough for lesson 4.1: fundamentals & conceptual overview of deep neural network architecture & backpropagation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2087,8 +2087,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 4.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 4.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2098,8 +2098,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 4.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 4.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2109,8 +2109,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 4.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 4.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2129,8 +2129,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 5.1: Fundamentals & Conceptual Overview of Convolutional Neural Networks (CNNs) & Image Processing",
                 "description": "Practical hands-on walkthrough for lesson 5.1: fundamentals & conceptual overview of convolutional neural networks (cnns) & image processing with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2140,8 +2140,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 5.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 5.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2151,8 +2151,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 5.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 5.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2162,8 +2162,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 5.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 5.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2182,8 +2182,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 6.1: Fundamentals & Conceptual Overview of Computer Vision & Transfer Learning (ResNet, EfficientNet)",
                 "description": "Practical hands-on walkthrough for lesson 6.1: fundamentals & conceptual overview of computer vision & transfer learning (resnet, efficientnet) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2193,8 +2193,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 6.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 6.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2204,8 +2204,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 6.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 6.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2215,8 +2215,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 6.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 6.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2235,8 +2235,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 7.1: Fundamentals & Conceptual Overview of Sequence Modeling & Recurrent Neural Networks (RNNs, LSTMs)",
                 "description": "Practical hands-on walkthrough for lesson 7.1: fundamentals & conceptual overview of sequence modeling & recurrent neural networks (rnns, lstms) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2246,8 +2246,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 7.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 7.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2257,8 +2257,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 7.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 7.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2268,8 +2268,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 7.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 7.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2288,8 +2288,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 8.1: Fundamentals & Conceptual Overview of Autoencoders & Unsupervised Anomaly Detection",
                 "description": "Practical hands-on walkthrough for lesson 8.1: fundamentals & conceptual overview of autoencoders & unsupervised anomaly detection with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2299,8 +2299,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 8.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 8.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2310,8 +2310,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 8.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 8.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2321,8 +2321,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 8.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 8.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2341,8 +2341,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 9.1: Fundamentals & Conceptual Overview of Model Optimization, Quantization & ONNX Export",
                 "description": "Practical hands-on walkthrough for lesson 9.1: fundamentals & conceptual overview of model optimization, quantization & onnx export with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2352,8 +2352,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 9.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 9.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2363,8 +2363,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 9.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 9.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2374,8 +2374,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 9.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 9.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2394,8 +2394,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 10.1: Fundamentals & Conceptual Overview of Production Model Serving with FastAPI & Docker Containers",
                 "description": "Practical hands-on walkthrough for lesson 10.1: fundamentals & conceptual overview of production model serving with fastapi & docker containers with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2405,8 +2405,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 10.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 10.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2416,8 +2416,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 10.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 10.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2427,8 +2427,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-3",
                 "title": "Lesson 10.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 10.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2477,8 +2477,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 1.1: Fundamentals & Conceptual Overview of Generative AI Fundamentals & Transformer Architecture",
                 "description": "Practical hands-on walkthrough for lesson 1.1: fundamentals & conceptual overview of generative ai fundamentals & transformer architecture with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": true
             },
@@ -2488,8 +2488,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 1.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 1.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2499,8 +2499,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 1.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 1.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2510,8 +2510,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 1.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 1.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2530,8 +2530,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 2.1: Fundamentals & Conceptual Overview of Self-Attention Mechanisms & Token Embeddings",
                 "description": "Practical hands-on walkthrough for lesson 2.1: fundamentals & conceptual overview of self-attention mechanisms & token embeddings with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2541,8 +2541,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 2.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 2.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2552,8 +2552,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 2.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 2.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2563,8 +2563,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 2.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 2.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2583,8 +2583,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 3.1: Fundamentals & Conceptual Overview of Advanced Prompt Engineering & Chain-of-Thought Systems",
                 "description": "Practical hands-on walkthrough for lesson 3.1: fundamentals & conceptual overview of advanced prompt engineering & chain-of-thought systems with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2594,8 +2594,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 3.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 3.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2605,8 +2605,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 3.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 3.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2616,8 +2616,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 3.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 3.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2636,8 +2636,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 4.1: Fundamentals & Conceptual Overview of Structured Output Parsing (Pydantic & JSON Schemas)",
                 "description": "Practical hands-on walkthrough for lesson 4.1: fundamentals & conceptual overview of structured output parsing (pydantic & json schemas) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2647,8 +2647,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 4.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 4.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2658,8 +2658,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 4.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 4.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2669,8 +2669,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 4.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 4.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2689,8 +2689,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 5.1: Fundamentals & Conceptual Overview of OpenAI, Gemini & Claude API Integration",
                 "description": "Practical hands-on walkthrough for lesson 5.1: fundamentals & conceptual overview of openai, gemini & claude api integration with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2700,8 +2700,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 5.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 5.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2711,8 +2711,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 5.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 5.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2722,8 +2722,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 5.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 5.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2742,8 +2742,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 6.1: Fundamentals & Conceptual Overview of Open-Source LLMs & Local Serving (Ollama, vLLM)",
                 "description": "Practical hands-on walkthrough for lesson 6.1: fundamentals & conceptual overview of open-source llms & local serving (ollama, vllm) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2753,8 +2753,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 6.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 6.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2764,8 +2764,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 6.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 6.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2775,8 +2775,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 6.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 6.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2795,8 +2795,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 7.1: Fundamentals & Conceptual Overview of Vector Databases & Semantic Search (Pinecone, ChromaDB)",
                 "description": "Practical hands-on walkthrough for lesson 7.1: fundamentals & conceptual overview of vector databases & semantic search (pinecone, chromadb) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2806,8 +2806,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 7.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 7.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2817,8 +2817,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 7.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 7.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2828,8 +2828,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 7.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 7.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2848,8 +2848,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 8.1: Fundamentals & Conceptual Overview of Retrieval-Augmented Generation (RAG) Foundations",
                 "description": "Practical hands-on walkthrough for lesson 8.1: fundamentals & conceptual overview of retrieval-augmented generation (rag) foundations with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2859,8 +2859,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 8.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 8.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2870,8 +2870,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 8.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 8.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2881,8 +2881,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 8.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 8.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2901,8 +2901,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 9.1: Fundamentals & Conceptual Overview of Fine-Tuning LLMs with LoRA & QLoRA",
                 "description": "Practical hands-on walkthrough for lesson 9.1: fundamentals & conceptual overview of fine-tuning llms with lora & qlora with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2912,8 +2912,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 9.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 9.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2923,8 +2923,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 9.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 9.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2934,8 +2934,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 9.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 9.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -2954,8 +2954,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 10.1: Fundamentals & Conceptual Overview of AI Safety, Guardrails & LLM Evaluation Benchmarks",
                 "description": "Practical hands-on walkthrough for lesson 10.1: fundamentals & conceptual overview of ai safety, guardrails & llm evaluation benchmarks with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -2965,8 +2965,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 10.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 10.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -2976,8 +2976,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 10.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 10.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -2987,8 +2987,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-4",
                 "title": "Lesson 10.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 10.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3037,8 +3037,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 1.1: Fundamentals & Conceptual Overview of Introduction to Autonomous Agentic AI Systems",
                 "description": "Practical hands-on walkthrough for lesson 1.1: fundamentals & conceptual overview of introduction to autonomous agentic ai systems with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": true
             },
@@ -3048,8 +3048,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 1.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 1.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3059,8 +3059,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 1.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 1.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3070,8 +3070,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 1.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 1.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3090,8 +3090,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 2.1: Fundamentals & Conceptual Overview of Tool Calling & Function Execution Architecture",
                 "description": "Practical hands-on walkthrough for lesson 2.1: fundamentals & conceptual overview of tool calling & function execution architecture with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3101,8 +3101,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 2.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 2.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3112,8 +3112,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 2.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 2.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3123,8 +3123,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 2.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 2.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3143,8 +3143,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 3.1: Fundamentals & Conceptual Overview of Agentic Memory Systems (Short-Term, Long-Term, Checkpoints)",
                 "description": "Practical hands-on walkthrough for lesson 3.1: fundamentals & conceptual overview of agentic memory systems (short-term, long-term, checkpoints) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3154,8 +3154,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 3.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 3.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3165,8 +3165,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 3.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 3.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3176,8 +3176,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 3.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 3.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3196,8 +3196,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 4.1: Fundamentals & Conceptual Overview of LangChain & LCEL (LangChain Expression Language)",
                 "description": "Practical hands-on walkthrough for lesson 4.1: fundamentals & conceptual overview of langchain & lcel (langchain expression language) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3207,8 +3207,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 4.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 4.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3218,8 +3218,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 4.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 4.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3229,8 +3229,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 4.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 4.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3249,8 +3249,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 5.1: Fundamentals & Conceptual Overview of Advanced RAG (Hybrid Search, Re-Ranking, HyDE)",
                 "description": "Practical hands-on walkthrough for lesson 5.1: fundamentals & conceptual overview of advanced rag (hybrid search, re-ranking, hyde) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3260,8 +3260,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 5.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 5.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3271,8 +3271,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 5.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 5.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3282,8 +3282,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 5.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 5.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3302,8 +3302,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 6.1: Fundamentals & Conceptual Overview of LangGraph Stateful Multi-Agent Orchestration",
                 "description": "Practical hands-on walkthrough for lesson 6.1: fundamentals & conceptual overview of langgraph stateful multi-agent orchestration with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3313,8 +3313,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 6.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 6.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3324,8 +3324,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 6.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 6.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3335,8 +3335,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 6.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 6.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3355,8 +3355,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 7.1: Fundamentals & Conceptual Overview of Reasoning & Planning Frameworks (ReAct, Plan-and-Execute)",
                 "description": "Practical hands-on walkthrough for lesson 7.1: fundamentals & conceptual overview of reasoning & planning frameworks (react, plan-and-execute) with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3366,8 +3366,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 7.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 7.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3377,8 +3377,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 7.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 7.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3388,8 +3388,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 7.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 7.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3408,8 +3408,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 8.1: Fundamentals & Conceptual Overview of Multi-Agent Teams with CrewAI & AutoGen",
                 "description": "Practical hands-on walkthrough for lesson 8.1: fundamentals & conceptual overview of multi-agent teams with crewai & autogen with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3419,8 +3419,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 8.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 8.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3430,8 +3430,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 8.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 8.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3441,8 +3441,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 8.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 8.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3461,8 +3461,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 9.1: Fundamentals & Conceptual Overview of Model Context Protocol (MCP) Enterprise Interoperability",
                 "description": "Practical hands-on walkthrough for lesson 9.1: fundamentals & conceptual overview of model context protocol (mcp) enterprise interoperability with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3472,8 +3472,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 9.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 9.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3483,8 +3483,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 9.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 9.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3494,8 +3494,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 9.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 9.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }
@@ -3514,8 +3514,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 10.1: Fundamentals & Conceptual Overview of Human-in-the-Loop Workflows & Production Deployment",
                 "description": "Practical hands-on walkthrough for lesson 10.1: fundamentals & conceptual overview of human-in-the-loop workflows & production deployment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "15 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 1,
                 "is_preview": false
             },
@@ -3525,8 +3525,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 10.2: Core Syntax, Functions & Implementation",
                 "description": "Practical hands-on walkthrough for lesson 10.2: core syntax, functions & implementation with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "20 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 2,
                 "is_preview": false
             },
@@ -3536,8 +3536,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 10.3: Real-World Industry Application & Pipeline",
                 "description": "Practical hands-on walkthrough for lesson 10.3: real-world industry application & pipeline with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "25 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 3,
                 "is_preview": false
             },
@@ -3547,8 +3547,8 @@ export const INITIAL_COURSES: Course[] = [
                 "course_id": "course-5",
                 "title": "Lesson 10.4: Optimization, Code Review & Module Assignment",
                 "description": "Practical hands-on walkthrough for lesson 10.4: optimization, code review & module assignment with runnable Jupyter notebooks and exercises.",
-                "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                "duration": "30 mins",
+                "video_url": "",
+                "duration": "",
                 "order": 4,
                 "is_preview": false
             }

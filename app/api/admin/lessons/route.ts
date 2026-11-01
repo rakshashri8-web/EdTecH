@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { detectVideoDuration } from "@/lib/video-duration";
 
 export async function GET(request: NextRequest) {
   try {
@@ -55,20 +56,60 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Merge video overrides from lesson_videos table if present
+    // Merge video and duration overrides from lesson_videos table
+    let overrides: any[] = [];
     try {
-      const { data: overrides } = await supabase
+      const { data, error } = await supabase
         .from("lesson_videos")
-        .select("lesson_id, video_url");
-
-      if (overrides && overrides.length > 0) {
-        const map = new Map(overrides.map((o: any) => [o.lesson_id, o.video_url]));
-        lessonsList = lessonsList.map((l) => ({
-          ...l,
-          video_url: map.get(l.id) || l.video_url,
-        }));
+        .select("lesson_id, video_url, duration");
+      if (!error && data) {
+        overrides = data;
+      } else {
+        const { data: fallbackData } = await supabase
+          .from("lesson_videos")
+          .select("lesson_id, video_url");
+        overrides = fallbackData || [];
       }
     } catch {}
+
+    const overridesMap = new Map<string, { video_url?: string; duration?: string }>();
+    if (overrides && overrides.length > 0) {
+      for (const o of overrides) {
+        if (o.lesson_id && !o.lesson_id.startsWith("SYSTEM_")) {
+          overridesMap.set(o.lesson_id, {
+            video_url: o.video_url,
+            duration: o.duration,
+          });
+        }
+      }
+    }
+
+    // Sanitize and map lessons:
+    // 1. If an override exists in lesson_videos, use it.
+    // 2. Prevent automatic Rickroll placeholder URLs (dQw4w9WgXcQ).
+    // 3. If video_url is empty, do not show hardcoded fake durations.
+    lessonsList = lessonsList.map((l) => {
+      const override = overridesMap.get(l.id);
+      let videoUrl = (override?.video_url ?? l.video_url ?? "").trim();
+      let duration = (override?.duration ?? l.duration ?? "").trim();
+
+      // Filter out dummy rickroll placeholder
+      if (videoUrl.includes("dQw4w9WgXcQ")) {
+        videoUrl = "";
+        duration = "";
+      }
+
+      // If no video is present, ensure duration is cleared so fake duration is not shown
+      if (!videoUrl) {
+        duration = "";
+      }
+
+      return {
+        ...l,
+        video_url: videoUrl,
+        duration: duration,
+      };
+    });
 
     return NextResponse.json(lessonsList);
   } catch (err: any) {
@@ -84,10 +125,20 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { module_id, course_id, title, description, video_url, duration, order, is_preview, published } = body;
+    let { module_id, course_id, title, description, video_url, duration, order, is_preview, published } = body;
 
     if (!module_id || !title) {
       return NextResponse.json({ error: "module_id and title required" }, { status: 400 });
+    }
+
+    video_url = (video_url || "").trim();
+    if (video_url && (!duration || duration === "Processing video...")) {
+      const detected = await detectVideoDuration(video_url);
+      if (detected.duration) {
+        duration = detected.duration;
+      }
+    } else if (!video_url) {
+      duration = "";
     }
 
     const supabase = createClient();
@@ -121,11 +172,17 @@ export async function POST(request: NextRequest) {
     if (!insertedLesson) {
       const customId = `${module_id}-les-${Date.now()}`;
       if (video_url) {
-        await supabase.from("lesson_videos").upsert({
+        const lvPayload: any = {
           lesson_id: customId,
           video_url,
+          duration: duration ?? "",
           updated_at: new Date().toISOString(),
-        }, { onConflict: "lesson_id" });
+        };
+        const { error: lvErr } = await supabase.from("lesson_videos").upsert(lvPayload, { onConflict: "lesson_id" });
+        if (lvErr && lvErr.code === "42703") {
+          delete lvPayload.duration;
+          await supabase.from("lesson_videos").upsert(lvPayload, { onConflict: "lesson_id" });
+        }
       }
       insertedLesson = {
         id: customId,
@@ -161,8 +218,24 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "Lesson ID required" }, { status: 400 });
     }
 
-    const supabase = createClient();
+    // Video URL & Duration handling
+    if (updates.video_url !== undefined) {
+      updates.video_url = (updates.video_url || "").trim();
 
+      if (!updates.video_url) {
+        // Video explicitly removed
+        updates.video_url = "";
+        updates.duration = "";
+      } else if (!updates.duration || updates.duration === "Processing video...") {
+        // Auto-detect duration when a video is linked or replaced
+        const detected = await detectVideoDuration(updates.video_url);
+        if (detected.duration) {
+          updates.duration = detected.duration;
+        }
+      }
+    }
+
+    const supabase = createClient();
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
 
     // 1. If this is a valid UUID, try updating the lessons table
@@ -183,19 +256,25 @@ export async function PATCH(request: NextRequest) {
       }
     }
 
-    // 2. Save video URL override to lesson_videos table (handles any string ID e.g. course-1-mod-1-les-1)
-    if (updates.video_url !== undefined) {
+    // 2. Save video URL and duration override to lesson_videos table
+    if (updates.video_url !== undefined || updates.duration !== undefined) {
+      const lvPayload: any = {
+        lesson_id: id,
+        video_url: updates.video_url ?? "",
+        duration: updates.duration ?? "",
+        updated_at: new Date().toISOString(),
+      };
+
       const { error: lvErr } = await supabase
         .from("lesson_videos")
-        .upsert({
-          lesson_id: id,
-          video_url: updates.video_url,
-          updated_at: new Date().toISOString(),
-        }, { onConflict: "lesson_id" });
+        .upsert(lvPayload, { onConflict: "lesson_id" });
 
-      if (lvErr) {
-        console.error("Could not save to lesson_videos table:", lvErr);
-        return NextResponse.json({ error: lvErr.message }, { status: 500 });
+      if (lvErr && lvErr.code === "42703") {
+        // Column duration does not exist yet in lesson_videos table, fallback without duration column
+        delete lvPayload.duration;
+        await supabase
+          .from("lesson_videos")
+          .upsert(lvPayload, { onConflict: "lesson_id" });
       }
     }
 
@@ -225,6 +304,8 @@ export async function DELETE(request: NextRequest) {
     const supabase = createClient();
 
     const { error } = await supabase.from("lessons").delete().eq("id", id);
+    // Also remove from lesson_videos table if present
+    await supabase.from("lesson_videos").delete().eq("lesson_id", id);
 
     if (error) throw error;
 

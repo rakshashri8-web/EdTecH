@@ -14,6 +14,8 @@ import {
   ExternalLink,
   ShieldCheck,
   Sparkles,
+  VideoOff,
+  AlertCircle,
 } from "lucide-react";
 
 interface CurriculumAccordionProps {
@@ -40,6 +42,7 @@ export default function CurriculumAccordion({
 
   const [fallbackToEmbed, setFallbackToEmbed] = useState(false);
   const [lockedNoticeLesson, setLockedNoticeLesson] = useState<Lesson | null>(null);
+  const [noVideoNoticeLesson, setNoVideoNoticeLesson] = useState<Lesson | null>(null);
 
   const toggleModule = (id: string) => {
     setOpenModuleIds((prev) =>
@@ -69,18 +72,21 @@ export default function CurriculumAccordion({
     return null;
   };
 
-  const getEmbedUrl = (url: string) => {
-    if (!url) return "https://www.youtube.com/embed/dQw4w9WgXcQ";
+  const getEmbedUrl = (url?: string | null) => {
+    if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
+    const match = url.trim().match(regExp);
     return match && match[2].length === 11
       ? `https://www.youtube.com/embed/${match[2]}?autoplay=1`
-      : url.startsWith("http")
-      ? url
-      : "https://www.youtube.com/embed/dQw4w9WgXcQ";
+      : null;
   };
 
   const handleLessonClick = (lesson: Lesson, moduleTitle: string) => {
+    const hasVideo = !!lesson.video_url && !!lesson.video_url.trim();
+    if (!hasVideo) {
+      setNoVideoNoticeLesson(lesson);
+      return;
+    }
     const canPlay = isEnrolled || lesson.is_preview;
     if (canPlay) {
       setFallbackToEmbed(false);
@@ -141,7 +147,8 @@ export default function CurriculumAccordion({
               <div className="divide-y divide-slate-100 px-6 py-2">
                 {mod.lessons && mod.lessons.length > 0 ? (
                   mod.lessons.map((lesson) => {
-                    const isPlayable = isEnrolled || lesson.is_preview;
+                    const hasVideo = !!lesson.video_url && !!lesson.video_url.trim();
+                    const isPlayable = (isEnrolled || lesson.is_preview) && hasVideo;
 
                     return (
                       <div
@@ -165,11 +172,15 @@ export default function CurriculumAccordion({
                           </div>
                           <div>
                             <span className="font-semibold block">{lesson.title}</span>
-                            {isPlayable && (
+                            {isPlayable ? (
                               <span className="text-[11px] text-brand-blue font-bold flex items-center gap-1 mt-0.5">
                                 <Sparkles className="w-3 h-3" /> Click to Play Video
                               </span>
-                            )}
+                            ) : !hasVideo ? (
+                              <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
+                                <Clock className="w-3 h-3 text-slate-400" /> Video not uploaded yet
+                              </span>
+                            ) : null}
                           </div>
                         </div>
 
@@ -187,10 +198,17 @@ export default function CurriculumAccordion({
                               <Lock className="w-3 h-3" /> Enrolled
                             </span>
                           )}
-                          <span className="text-xs text-slate-400 font-normal flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {lesson.duration || "15 mins"}
-                          </span>
+                          {lesson.duration ? (
+                            <span className="text-xs text-slate-500 font-medium flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {lesson.duration}
+                            </span>
+                          ) : hasVideo ? (
+                            <span className="text-xs text-slate-400 font-normal flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              Processing...
+                            </span>
+                          ) : null}
                         </div>
                       </div>
                     );
@@ -254,14 +272,20 @@ export default function CurriculumAccordion({
                     onError={() => setFallbackToEmbed(true)}
                   />
                 )
-              ) : (
+              ) : getEmbedUrl(activeLesson.lesson.video_url) ? (
                 <iframe
-                  src={getEmbedUrl(activeLesson.lesson.video_url)}
+                  src={getEmbedUrl(activeLesson.lesson.video_url)!}
                   title={activeLesson.lesson.title}
                   className="w-full h-full border-0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
+              ) : (
+                <div className="flex flex-col items-center justify-center p-8 text-center text-slate-400 space-y-2">
+                  <VideoOff className="w-10 h-10 text-slate-500" />
+                  <p className="text-sm font-bold text-white">Video not uploaded yet</p>
+                  <p className="text-xs text-slate-400 max-w-sm">The instructor will upload this lesson video soon.</p>
+                </div>
               )}
             </div>
 
@@ -277,9 +301,11 @@ export default function CurriculumAccordion({
                     <ShieldCheck className="w-3.5 h-3.5" /> Full Lesson
                   </span>
                 )}
-                <span className="text-xs text-slate-400">
-                  Duration: {activeLesson.lesson.duration || "15 mins"}
-                </span>
+                {activeLesson.lesson.duration && (
+                  <span className="text-xs text-slate-400">
+                    Duration: {activeLesson.lesson.duration}
+                  </span>
+                )}
               </div>
 
               <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -297,6 +323,29 @@ export default function CurriculumAccordion({
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Video Not Uploaded Notice Modal */}
+      {noVideoNoticeLesson && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4">
+            <div className="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto">
+              <VideoOff className="w-7 h-7" />
+            </div>
+            <div>
+              <h3 className="text-lg font-black text-slate-900">Video not uploaded yet</h3>
+              <p className="text-xs text-slate-500 mt-2">
+                The video for <span className="font-bold text-slate-700">&quot;{noVideoNoticeLesson.title}&quot;</span> has not been uploaded by the instructor yet. Please check back soon.
+              </p>
+            </div>
+            <button
+              onClick={() => setNoVideoNoticeLesson(null)}
+              className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

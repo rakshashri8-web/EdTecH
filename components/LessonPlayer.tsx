@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Course, CourseModule, Lesson } from "@/lib/types";
-import { PlayCircle, CheckCircle2, ChevronLeft, ChevronRight, Lock, Award, BookOpen, Layers } from "lucide-react";
+import { PlayCircle, CheckCircle2, ChevronLeft, ChevronRight, Lock, Award, BookOpen, Layers, VideoOff, Video, AlertCircle } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface LessonPlayerProps {
@@ -89,14 +89,14 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
     return null;
   };
 
-  // Extract YouTube embed URL helper
-  const getEmbedUrl = (url: string) => {
-    if (!url) return "https://www.youtube.com/embed/dQw4w9WgXcQ";
+  // Extract YouTube embed URL helper (returns null if invalid, never returns dummy/rickroll URLs)
+  const getEmbedUrl = (url?: string | null) => {
+    if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
+    const match = url.trim().match(regExp);
     return match && match[2].length === 11
       ? `https://www.youtube.com/embed/${match[2]}?autoplay=1`
-      : "https://www.youtube.com/embed/dQw4w9WgXcQ";
+      : null;
   };
 
   const handleToggleComplete = async () => {
@@ -258,7 +258,11 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
                           )}
                           <span className="truncate">{les.title}</span>
                         </div>
-                        <span className="text-[10px] text-slate-400 shrink-0">{les.duration}</span>
+                        {les.duration ? (
+                          <span className="text-[10px] text-slate-400 shrink-0">{les.duration}</span>
+                        ) : !les.video_url ? (
+                          <span className="text-[10px] text-slate-500 italic shrink-0">Pending</span>
+                        ) : null}
                       </button>
                     );
                   })}
@@ -274,7 +278,17 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
           {/* Video Player Container */}
           <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl">
             {currentLesson ? (
-              isGoogleDriveVideo(currentLesson.video_url) ? (
+              !currentLesson.video_url || !currentLesson.video_url.trim() ? (
+                <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-slate-900 text-slate-400 space-y-3">
+                  <div className="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-400">
+                    <VideoOff className="w-8 h-8 text-slate-400" />
+                  </div>
+                  <h3 className="text-base font-black text-slate-200">Video not uploaded yet</h3>
+                  <p className="text-xs text-slate-400 max-w-md">
+                    The instructor has not uploaded the video for this lesson yet. Please check back soon or proceed to another lesson.
+                  </p>
+                </div>
+              ) : isGoogleDriveVideo(currentLesson.video_url) ? (
                 useEmbedFallback || !getDriveFileId(currentLesson.video_url) ? (
                   <iframe
                     key={`embed-${currentLesson.id}`}
@@ -313,14 +327,24 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
                     )}
                   </div>
                 )
-              ) : (
+              ) : getEmbedUrl(currentLesson.video_url) ? (
                 <iframe
-                  src={getEmbedUrl(currentLesson.video_url)}
+                  src={getEmbedUrl(currentLesson.video_url)!}
                   title={currentLesson.title}
                   className="w-full h-full border-0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-slate-900 text-slate-400 space-y-3">
+                  <div className="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-400">
+                    <AlertCircle className="w-8 h-8 text-amber-400" />
+                  </div>
+                  <h3 className="text-base font-black text-slate-200">Video unavailable</h3>
+                  <p className="text-xs text-slate-400 max-w-md">
+                    The video link for this lesson could not be loaded. Please contact support.
+                  </p>
+                </div>
               )
             ) : (
               <div className="flex items-center justify-center h-full text-slate-500 text-sm font-bold">
