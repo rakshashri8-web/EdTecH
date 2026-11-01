@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { getCanonicalCourseTitle, sortCoursesCanonical } from "@/lib/courseImage";
 import CourseManager from "@/components/admin/CourseManager";
 import { BookOpen } from "lucide-react";
 
@@ -29,9 +30,11 @@ export default async function CoursesPage() {
 
     courses = (data ?? []).map((c: any) => ({
       ...c,
+      title: getCanonicalCourseTitle(c),
       module_count: c.course_modules?.[0]?.count ?? 0,
       lesson_count: c.lessons?.[0]?.count ?? 0,
     }));
+    courses = sortCoursesCanonical(courses);
   } catch {
     courses = [];
   }

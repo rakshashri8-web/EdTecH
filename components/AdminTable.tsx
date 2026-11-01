@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Enrollment } from "@/lib/types";
+import { getCanonicalCourseTitle } from "@/lib/courseImage";
 import { CheckCircle2, XCircle, Eye, Search, Clock, ShieldCheck, DollarSign, Users, BookOpen, MessageSquare, Mail } from "lucide-react";
 
 interface ContactMessage {
@@ -303,7 +304,7 @@ export default function AdminTable({ initialEnrollments }: AdminTableProps) {
                         </td>
 
                         <td className="py-4 px-6 font-extrabold text-slate-900">
-                          {item.course?.title || "AIMP Course"}
+                          {item.course ? getCanonicalCourseTitle(item.course) : "AIMP Course"}
                         </td>
 
                         <td className="py-4 px-6 font-bold text-emerald-700">

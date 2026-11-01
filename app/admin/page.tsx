@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { getCanonicalCourseTitle } from "@/lib/courseImage";
 import {
   Users,
   CreditCard,
@@ -203,7 +204,7 @@ export default async function AdminDashboard() {
                       <p className="text-slate-400 text-[11px]">{enrollment.email}</p>
                     </td>
                     <td className="px-6 py-4 font-bold text-slate-700">
-                      {enrollment.course?.title ?? "—"}
+                      {enrollment.course ? getCanonicalCourseTitle(enrollment.course) : "—"}
                     </td>
                     <td className="px-6 py-4 text-emerald-700 font-bold">
                       ₹{enrollment.amount?.toLocaleString("en-IN")}

@@ -158,3 +158,79 @@ export function matchInitialCourse(identifier?: string, title?: string): Course 
 
   return INITIAL_COURSES[0];
 }
+
+/**
+ * Returns the exact clean canonical title for any course variant:
+ * - Data Analyst
+ * - Data Science
+ * - AI / ML Engineer
+ * - Generative AI Engineer
+ * - Agentic AI Engineer
+ */
+export function getCanonicalCourseTitle(
+  course?: { title?: string; slug?: string; id?: string } | string | null
+): string {
+  if (!course) return "Data Analyst";
+  const str =
+    typeof course === "string"
+      ? course
+      : `${course.title || ""} ${course.slug || ""} ${course.id || ""}`;
+  const query = str.toLowerCase().trim();
+
+  if (query.includes("agent")) return "Agentic AI Engineer";
+  if (
+    query.includes("genai") ||
+    query.includes("gen-ai") ||
+    query.includes("generative") ||
+    query.includes("course-4")
+  ) {
+    return "Generative AI Engineer";
+  }
+  if (
+    query.includes("data science") ||
+    query.includes("data-science") ||
+    query.includes("course-2")
+  ) {
+    return "Data Science";
+  }
+  if (
+    query.includes("ai-ml") ||
+    query.includes("ai / ml") ||
+    query.includes("ai & ml") ||
+    query.includes("mastery") ||
+    query.includes("course-3") ||
+    (query.includes("ai") && query.includes("ml"))
+  ) {
+    return "AI / ML Engineer";
+  }
+  if (
+    query.includes("analyst") ||
+    query.includes("analytics") ||
+    query.includes("course-1")
+  ) {
+    return "Data Analyst";
+  }
+
+  if (typeof course !== "string" && course.title) return course.title;
+  return "Data Analyst";
+}
+
+const CANONICAL_ORDER: Record<string, number> = {
+  "Data Analyst": 1,
+  "Data Science": 2,
+  "AI / ML Engineer": 3,
+  "Generative AI Engineer": 4,
+  "Agentic AI Engineer": 5,
+};
+
+export function sortCoursesCanonical<T extends { title?: string; slug?: string; id?: string }>(
+  courses: T[]
+): T[] {
+  return [...courses].sort((a, b) => {
+    const titleA = getCanonicalCourseTitle(a);
+    const titleB = getCanonicalCourseTitle(b);
+    const orderA = CANONICAL_ORDER[titleA] ?? 99;
+    const orderB = CANONICAL_ORDER[titleB] ?? 99;
+    return orderA - orderB;
+  });
+}

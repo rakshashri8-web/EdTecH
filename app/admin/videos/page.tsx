@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { getCanonicalCourseTitle, sortCoursesCanonical } from "@/lib/courseImage";
 import LessonManager from "@/components/admin/LessonManager";
 import { Video } from "lucide-react";
 
@@ -20,9 +21,11 @@ export default async function VideosPage() {
   try {
     const { data } = await supabase
       .from("courses")
-      .select("id, title, slug")
-      .order("title", { ascending: true });
-    courses = data ?? [];
+      .select("id, title, slug");
+    courses = (data ?? []).map((c: any) => ({
+      ...c,
+      title: getCanonicalCourseTitle(c),
+    }));
   } catch {
     courses = [];
   }
@@ -32,10 +35,12 @@ export default async function VideosPage() {
     const { INITIAL_COURSES } = await import("@/lib/data");
     courses = INITIAL_COURSES.map((c) => ({
       id: c.id,
-      title: c.title,
+      title: getCanonicalCourseTitle(c),
       slug: c.slug,
     }));
   }
+
+  courses = sortCoursesCanonical(courses);
 
   return (
     <div className="p-6 lg:p-8 space-y-6 lg:mt-0 mt-[52px]">

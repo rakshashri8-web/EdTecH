@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Plus, Edit, Eye, EyeOff, BookOpen } from "lucide-react";
+import { getCanonicalCourseTitle } from "@/lib/courseImage";
 
 interface Course {
   id: string;
@@ -75,7 +76,7 @@ export default function CourseManager({ initialCourses }: CourseManagerProps) {
                 courses.map((course) => (
                   <tr key={course.id} className="hover:bg-slate-50/70 transition-colors">
                     <td className="px-6 py-4">
-                      <p className="font-bold text-slate-900 max-w-[200px] truncate">{course.title}</p>
+                      <p className="font-bold text-slate-900 max-w-[200px] truncate">{getCanonicalCourseTitle(course)}</p>
                       <p className="text-slate-400 text-[11px] font-mono">{course.slug}</p>
                     </td>
                     <td className="px-6 py-4">

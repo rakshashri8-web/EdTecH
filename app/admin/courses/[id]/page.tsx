@@ -2,6 +2,7 @@ import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { getCanonicalCourseTitle } from "@/lib/courseImage";
 import CourseForm from "@/components/admin/CourseForm";
 import { ArrowLeft } from "lucide-react";
 
@@ -28,7 +29,10 @@ export default async function EditCoursePage({ params }: Props) {
       .maybeSingle();
 
     if (!courseData) notFound();
-    course = courseData;
+    course = {
+      ...courseData,
+      title: getCanonicalCourseTitle(courseData),
+    };
 
     const { data: modulesData } = await supabase
       .from("course_modules")

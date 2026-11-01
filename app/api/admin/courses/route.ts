@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { getCanonicalCourseTitle, sortCoursesCanonical } from "@/lib/courseImage";
 
 export async function GET() {
   try {
@@ -23,13 +24,15 @@ export async function GET() {
 
     if (error) throw error;
 
-    const courses = (data ?? []).map((c: any) => ({
+    let courses = (data ?? []).map((c: any) => ({
       ...c,
+      title: getCanonicalCourseTitle(c),
       price: 3999,
       original_price: 3999,
       module_count: c.course_modules?.[0]?.count ?? 0,
       lesson_count: c.lessons?.[0]?.count ?? 0,
     }));
+    courses = sortCoursesCanonical(courses);
 
     return NextResponse.json(courses);
   } catch (err: any) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { getCanonicalCourseTitle } from "@/lib/courseImage";
 
 interface Params {
   params: { id: string };
@@ -27,7 +28,10 @@ export async function GET(_request: NextRequest, { params }: Params) {
     if (error) throw error;
     if (!data) return NextResponse.json({ error: "Course not found" }, { status: 404 });
 
-    return NextResponse.json(data);
+    return NextResponse.json({
+      ...data,
+      title: getCanonicalCourseTitle(data),
+    });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
@@ -57,7 +61,10 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
     if (error) throw error;
 
-    return NextResponse.json(data);
+    return NextResponse.json({
+      ...data,
+      title: getCanonicalCourseTitle(data),
+    });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }

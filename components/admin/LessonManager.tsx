@@ -16,6 +16,7 @@ import {
   EyeOff,
 } from "lucide-react";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
+import { getCanonicalCourseTitle } from "@/lib/courseImage";
 
 interface Lesson {
   id: string;
@@ -403,7 +404,7 @@ export default function LessonManager({ courses }: LessonManagerProps) {
             >
               <option value="">-- Select a course --</option>
               {courses.map((c) => (
-                <option key={c.id} value={c.id}>{c.title}</option>
+                <option key={c.id} value={c.id}>{getCanonicalCourseTitle(c)}</option>
               ))}
             </select>
           </div>
@@ -427,7 +428,7 @@ export default function LessonManager({ courses }: LessonManagerProps) {
         {selectedCourse && (
           <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
             <span className="text-xs text-slate-500 font-bold">
-              Test video playback on: <span className="text-slate-800 font-black">{selectedCourse.title}</span>
+              Test video playback on: <span className="text-slate-800 font-black">{getCanonicalCourseTitle(selectedCourse)}</span>
             </span>
             <div className="flex items-center gap-2">
               <a

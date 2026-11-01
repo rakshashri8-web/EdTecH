@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Eye, CheckCircle2, XCircle, Search, Clock, User, CreditCard } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import ConfirmDialog from "@/components/admin/ConfirmDialog";
+import { getCanonicalCourseTitle } from "@/lib/courseImage";
 
 interface Enrollment {
   id: string;
@@ -179,7 +180,7 @@ export default function PaymentApprovalTable({ initialEnrollments }: PaymentAppr
                       <p className="text-slate-400 text-[11px]">{e.phone}</p>
                     </td>
                     <td className="px-6 py-4 font-bold text-slate-700 max-w-[160px]">
-                      {e.course?.title ?? "—"}
+                      {e.course ? getCanonicalCourseTitle(e.course) : "—"}
                     </td>
                     <td className="px-6 py-4 font-bold text-emerald-700">
                       ₹{e.amount?.toLocaleString("en-IN")}
