@@ -43,12 +43,20 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
       ? "super_admin"
       : (profile?.role || (user.user_metadata?.role as any) || (user.app_metadata?.role as any) || "student")) as "student" | "admin" | "super_admin";
 
+    // If profile.full_name is missing or placeholder 'Student', use user_metadata name
+    let resolvedName = profile?.full_name;
+    if (!resolvedName || resolvedName === "Student" || resolvedName === "student") {
+      resolvedName = user.user_metadata?.full_name || user.user_metadata?.name || (isSuperAdminEmail ? "Shri Raksha" : user.email?.split("@")[0]) || "Student";
+    }
+
+    const resolvedAvatar = profile?.avatar_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+
     return {
       id: user.id,
       email: user.email || "",
-      full_name: profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student",
+      full_name: resolvedName,
       role: resolvedRole,
-      avatar_url: profile?.avatar_url || user.user_metadata?.avatar_url || null,
+      avatar_url: resolvedAvatar,
     };
   } catch (err: any) {
     if (err && typeof err === "object" && err.digest === "DYNAMIC_SERVER_USAGE") {

@@ -72,27 +72,46 @@ export default function Navbar({ initialUser }: NavbarProps) {
           .eq("id", user.id)
           .maybeSingle();
 
-        if (profile) {
-          setUserProfile(profile);
-        } else {
-          setUserProfile({
-            id: user.id,
-            email: user.email || "",
-            full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student",
-            phone: null,
-            avatar_url: user.user_metadata?.avatar_url || null,
-            role: (user.user_metadata?.role as any) || (user.app_metadata?.role as any) || "student",
-            created_at: new Date().toISOString(),
-          });
+        const isSuperAdmin = user.email?.toLowerCase() === "rakshashri8@gmail.com";
+        let resolvedName = profile?.full_name;
+        if (!resolvedName || resolvedName === "Student" || resolvedName === "student") {
+          resolvedName = user.user_metadata?.full_name || user.user_metadata?.name || (isSuperAdmin ? "Shri Raksha" : user.email?.split("@")[0]) || "Student";
         }
-      } catch {
+        const resolvedAvatar = profile?.avatar_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+        const resolvedRole = isSuperAdmin ? "super_admin" : (profile?.role || (user.user_metadata?.role as any) || "student");
+
         setUserProfile({
           id: user.id,
           email: user.email || "",
-          full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student",
+          full_name: resolvedName,
+          phone: profile?.phone || null,
+          avatar_url: resolvedAvatar,
+          role: resolvedRole,
+          created_at: profile?.created_at || new Date().toISOString(),
+        });
+
+        // Background sync: if the profile row in database has placeholder 'Student' or missing avatar, update it with Google data
+        if (profile && (profile.full_name === "Student" || !profile.full_name || !profile.avatar_url) && (resolvedName !== "Student" || resolvedAvatar)) {
+          supabase
+            .from("profiles")
+            .update({
+              full_name: resolvedName,
+              ...(resolvedAvatar ? { avatar_url: resolvedAvatar } : {}),
+            })
+            .eq("id", user.id)
+            .then(() => {});
+        }
+      } catch {
+        const isSuperAdmin = user.email?.toLowerCase() === "rakshashri8@gmail.com";
+        const resolvedName = user.user_metadata?.full_name || user.user_metadata?.name || (isSuperAdmin ? "Shri Raksha" : user.email?.split("@")[0]) || "Student";
+        const resolvedAvatar = user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+        setUserProfile({
+          id: user.id,
+          email: user.email || "",
+          full_name: resolvedName,
           phone: null,
-          avatar_url: user.user_metadata?.avatar_url || null,
-          role: (user.user_metadata?.role as any) || "student",
+          avatar_url: resolvedAvatar,
+          role: isSuperAdmin ? "super_admin" : "student",
           created_at: new Date().toISOString(),
         });
       } finally {
