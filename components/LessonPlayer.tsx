@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Course, CourseModule, Lesson } from "@/lib/types";
-import { PlayCircle, CheckCircle2, ChevronLeft, ChevronRight, Lock, Award, BookOpen, Layers, VideoOff, Video, AlertCircle } from "lucide-react";
+import { PlayCircle, CheckCircle2, ChevronLeft, ChevronRight, Lock, Award, BookOpen, Layers, VideoOff, Video, AlertCircle, Clock } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface LessonPlayerProps {
@@ -220,11 +220,11 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
         </div>
       </header>
 
-      {/* Main Grid: Left Modules Sidebar + Center Video + Right Details */}
+      {/* Main Grid: Left Modules Sidebar + Center Video + Lesson Details */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         
         {/* Left Modules Sidebar (Col 3) */}
-        <div className="lg:col-span-3 bg-slate-900 border-r border-slate-800 overflow-y-auto max-h-[40vh] lg:max-h-none p-4 space-y-4">
+        <div className="lg:col-span-3 xl:col-span-3 bg-slate-900 border-r border-slate-800 overflow-y-auto max-h-[40vh] lg:max-h-[calc(100vh-4rem)] p-4 space-y-4">
           <h3 className="text-xs font-black uppercase text-slate-400 tracking-wider">
             Course Modules ({modules.length})
           </h3>
@@ -272,139 +272,149 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
           </div>
         </div>
 
-        {/* Center & Right Video Player (Col 9) */}
-        <div className="lg:col-span-9 bg-slate-950 flex flex-col justify-between overflow-y-auto p-4 sm:p-6 space-y-6">
-          
-          {/* Video Player Container */}
-          <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl">
-            {currentLesson ? (
-              !currentLesson.video_url || !currentLesson.video_url.trim() ? (
-                <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-slate-900 text-slate-400 space-y-3">
-                  <div className="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-400">
-                    <VideoOff className="w-8 h-8 text-slate-400" />
+        {/* Center & Right Video Player and Lesson Details (Col 9) */}
+        <div className="lg:col-span-9 xl:col-span-9 bg-slate-950 overflow-y-auto max-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8">
+          <div className="w-full max-w-5xl mx-auto space-y-4 sm:space-y-5">
+            
+            {/* Video Player Container (Natural 16:9 Aspect Ratio) */}
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl">
+              {currentLesson ? (
+                !currentLesson.video_url || !currentLesson.video_url.trim() ? (
+                  <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-slate-900 text-slate-400 space-y-3">
+                    <div className="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-400">
+                      <VideoOff className="w-8 h-8 text-slate-400" />
+                    </div>
+                    <h3 className="text-base font-black text-slate-200">Video not uploaded yet</h3>
+                    <p className="text-xs text-slate-400 max-w-md">
+                      The instructor has not uploaded the video for this lesson yet. Please check back soon or proceed to another lesson.
+                    </p>
                   </div>
-                  <h3 className="text-base font-black text-slate-200">Video not uploaded yet</h3>
-                  <p className="text-xs text-slate-400 max-w-md">
-                    The instructor has not uploaded the video for this lesson yet. Please check back soon or proceed to another lesson.
-                  </p>
-                </div>
-              ) : isGoogleDriveVideo(currentLesson.video_url) ? (
-                useEmbedFallback || !getDriveFileId(currentLesson.video_url) ? (
+                ) : isGoogleDriveVideo(currentLesson.video_url) ? (
+                  useEmbedFallback || !getDriveFileId(currentLesson.video_url) ? (
+                    <iframe
+                      key={`embed-${currentLesson.id}`}
+                      src={`https://drive.google.com/file/d/${getDriveFileId(currentLesson.video_url)}/preview`}
+                      title={currentLesson.title}
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <div className="relative w-full h-full bg-black">
+                      <video
+                        key={`stream-${currentLesson.id}`}
+                        src={`/api/videos/${currentLesson.id}/stream`}
+                        controls
+                        controlsList="nodownload"
+                        playsInline
+                        className="w-full h-full object-contain"
+                        onEnded={!isCurrentCompleted ? handleToggleComplete : undefined}
+                        onError={() => {
+                          // Automatically fall back to Google Drive Preview player for resilience
+                          setUseEmbedFallback(true);
+                        }}
+                      />
+
+                      {streamError && (
+                        <div className="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center p-6 text-center space-y-3 z-10">
+                          <p className="text-sm font-bold text-amber-400 max-w-md">{streamError}</p>
+                          <button
+                            onClick={() => setUseEmbedFallback(true)}
+                            className="px-4 py-2 bg-brand-blue text-white font-bold text-xs rounded-xl shadow-lg hover:opacity-90 transition-all"
+                          >
+                            Switch to Google Drive Embed Player
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )
+                ) : getEmbedUrl(currentLesson.video_url) ? (
                   <iframe
-                    key={`embed-${currentLesson.id}`}
-                    src={`https://drive.google.com/file/d/${getDriveFileId(currentLesson.video_url)}/preview`}
+                    src={getEmbedUrl(currentLesson.video_url)!}
                     title={currentLesson.title}
                     className="w-full h-full border-0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
                 ) : (
-                  <div className="relative w-full h-full bg-black">
-                    <video
-                      key={`stream-${currentLesson.id}`}
-                      src={`/api/videos/${currentLesson.id}/stream`}
-                      controls
-                      controlsList="nodownload"
-                      playsInline
-                      className="w-full h-full object-contain"
-                      onEnded={!isCurrentCompleted ? handleToggleComplete : undefined}
-                      onError={() => {
-                        // Automatically fall back to Google Drive Preview player for resilience
-                        setUseEmbedFallback(true);
-                      }}
-                    />
-
-                    {streamError && (
-                      <div className="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center p-6 text-center space-y-3 z-10">
-                        <p className="text-sm font-bold text-amber-400 max-w-md">{streamError}</p>
-                        <button
-                          onClick={() => setUseEmbedFallback(true)}
-                          className="px-4 py-2 bg-brand-blue text-white font-bold text-xs rounded-xl shadow-lg hover:opacity-90 transition-all"
-                        >
-                          Switch to Google Drive Embed Player
-                        </button>
-                      </div>
-                    )}
+                  <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-slate-900 text-slate-400 space-y-3">
+                    <div className="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-400">
+                      <AlertCircle className="w-8 h-8 text-amber-400" />
+                    </div>
+                    <h3 className="text-base font-black text-slate-200">Video unavailable</h3>
+                    <p className="text-xs text-slate-400 max-w-md">
+                      The video link for this lesson could not be loaded. Please contact support.
+                    </p>
                   </div>
                 )
-              ) : getEmbedUrl(currentLesson.video_url) ? (
-                <iframe
-                  src={getEmbedUrl(currentLesson.video_url)!}
-                  title={currentLesson.title}
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
               ) : (
-                <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-slate-900 text-slate-400 space-y-3">
-                  <div className="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-400">
-                    <AlertCircle className="w-8 h-8 text-amber-400" />
-                  </div>
-                  <h3 className="text-base font-black text-slate-200">Video unavailable</h3>
-                  <p className="text-xs text-slate-400 max-w-md">
-                    The video link for this lesson could not be loaded. Please contact support.
-                  </p>
+                <div className="flex items-center justify-center h-full text-slate-500 text-sm font-bold">
+                  Select a lesson to start playing
                 </div>
-              )
-            ) : (
-              <div className="flex items-center justify-center h-full text-slate-500 text-sm font-bold">
-                Select a lesson to start playing
+              )}
+            </div>
+
+            {/* Lesson Title, Description & Action Controls Immediately Below Video */}
+            {currentLesson && (
+              <div className="bg-slate-900 p-5 sm:p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
+                
+                <div className="space-y-1.5 flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-bold text-brand-blue uppercase tracking-wider">
+                      Current Lesson
+                    </span>
+                    {currentLesson.duration && (
+                      <span className="text-[11px] text-slate-400 font-bold flex items-center gap-1 bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-700/50">
+                        <Clock className="w-3 h-3 text-slate-400" />
+                        {currentLesson.duration}
+                      </span>
+                    )}
+                  </div>
+                  <h2 className="text-base sm:text-lg font-black text-white">
+                    {currentLesson.title}
+                  </h2>
+                  {currentLesson.description && (
+                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-3xl">
+                      {currentLesson.description}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2.5 shrink-0 w-full md:w-auto justify-between md:justify-end pt-3 md:pt-0 border-t md:border-t-0 border-slate-800">
+                  <button
+                    onClick={handlePrevLesson}
+                    disabled={currentLessonIndex === 0}
+                    className="px-3.5 py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-700 disabled:opacity-30 transition-colors flex items-center gap-1"
+                  >
+                    <ChevronLeft className="w-4 h-4" /> Previous
+                  </button>
+
+                  <button
+                    onClick={handleToggleComplete}
+                    disabled={isUpdating}
+                    className={`px-4 sm:px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all flex items-center gap-2 ${
+                      isCurrentCompleted
+                        ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/30"
+                        : "bg-gradient-to-r from-brand-blue to-brand-indigo text-white shadow-md shadow-brand-blue/30 hover:opacity-90"
+                    }`}
+                  >
+                    <CheckCircle2 className="w-4 h-4" />
+                    {isCurrentCompleted ? "Completed" : "Mark as Complete"}
+                  </button>
+
+                  <button
+                    onClick={handleNextLesson}
+                    disabled={isLastLesson}
+                    className="px-3.5 py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-700 disabled:opacity-30 transition-colors flex items-center gap-1"
+                  >
+                    Next <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+
               </div>
             )}
+
           </div>
-
-          {/* Lesson Action Controls & Information Footer */}
-          {currentLesson && (
-            <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-              
-              <div>
-                <span className="text-xs font-bold text-brand-blue uppercase tracking-wider">
-                  Current Lesson
-                </span>
-                <h2 className="text-lg font-black text-white mt-0.5">
-                  {currentLesson.title}
-                </h2>
-                {currentLesson.description && (
-                  <p className="text-xs text-slate-400 mt-1 max-w-xl">
-                    {currentLesson.description}
-                  </p>
-                )}
-              </div>
-
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handlePrevLesson}
-                  disabled={currentLessonIndex === 0}
-                  className="px-3.5 py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-700 disabled:opacity-30 transition-colors flex items-center gap-1"
-                >
-                  <ChevronLeft className="w-4 h-4" /> Previous
-                </button>
-
-                <button
-                  onClick={handleToggleComplete}
-                  disabled={isUpdating}
-                  className={`px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all flex items-center gap-2 ${
-                    isCurrentCompleted
-                      ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/30"
-                      : "bg-gradient-to-r from-brand-blue to-brand-indigo text-white shadow-md shadow-brand-blue/30 hover:opacity-90"
-                  }`}
-                >
-                  <CheckCircle2 className="w-4 h-4" />
-                  {isCurrentCompleted ? "Completed" : "Mark as Complete"}
-                </button>
-
-                <button
-                  onClick={handleNextLesson}
-                  disabled={isLastLesson}
-                  className="px-3.5 py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-700 disabled:opacity-30 transition-colors flex items-center gap-1"
-                >
-                  Next <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-
-            </div>
-          )}
-
         </div>
 
       </div>
