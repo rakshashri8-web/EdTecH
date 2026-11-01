@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createServerSupabase } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser, isSuperAdmin } from "@/lib/auth";
 
 // POST: Grant admin role to a user by email (super_admin only)
@@ -16,13 +17,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email required" }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = createAdminClient() || createServerSupabase();
 
     // Find the user by email in profiles
     const { data: targetProfile, error: findErr } = await supabase
       .from("profiles")
       .select("*")
-      .eq("email", email)
+      .ilike("email", email.trim())
       .maybeSingle();
 
     if (findErr) throw findErr;
@@ -70,7 +71,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Cannot revoke your own admin role." }, { status: 403 });
     }
 
-    const supabase = createClient();
+    const supabase = createAdminClient() || createServerSupabase();
 
     // Guard: cannot revoke super_admin
     const { data: targetProfile } = await supabase

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser, isSuperAdmin } from "@/lib/auth";
-import { createClient } from "@/lib/supabase/server";
+import { createClient as createServerSupabase } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import AdminManager from "@/components/admin/AdminManager";
 import { ShieldCheck } from "lucide-react";
 
@@ -14,17 +15,22 @@ export default async function AdminsPage() {
   const user = await getCurrentUser();
   if (!user || !isSuperAdmin(user)) redirect("/admin");
 
-  const supabase = createClient();
+  const supabase = createAdminClient() || createServerSupabase();
 
   let admins: any[] = [];
   try {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("profiles")
       .select("id, full_name, email, role, created_at")
       .in("role", ["admin", "super_admin"])
       .order("created_at", { ascending: true });
+
+    if (error) {
+      console.warn("Could not fetch admins from profiles table:", error);
+    }
     admins = data ?? [];
-  } catch {
+  } catch (err) {
+    console.warn("Admins page query exception:", err);
     admins = [];
   }
 
