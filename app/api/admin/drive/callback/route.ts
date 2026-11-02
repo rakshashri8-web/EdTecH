@@ -66,18 +66,30 @@ export async function GET(request: NextRequest) {
       } catch (err) {
         console.warn("Could not save refresh token to database:", err);
       }
-    }
 
-    return new NextResponse(
-      renderHtmlResponse({
-        success: true,
-        title: "Google Drive Successfully Connected!",
-        message:
-          "Your Google Drive account has been permanently authorized. Course videos can now be securely streamed to enrolled students.",
-        refreshToken: refreshToken || "Active & Saved in Database",
-      }),
-      { headers: { "Content-Type": "text/html" } }
-    );
+      return new NextResponse(
+        renderHtmlResponse({
+          success: true,
+          title: "Google Drive Successfully Connected!",
+          message:
+            "Your Google Drive account has been permanently authorized. Course videos can now be securely streamed to enrolled students.",
+          refreshToken: refreshToken,
+        }),
+        { headers: { "Content-Type": "text/html" } }
+      );
+    } else {
+      // Google didn't issue a new refresh token — this happens when the account
+      // was previously authorized. The existing token in the DB is still valid.
+      return new NextResponse(
+        renderHtmlResponse({
+          success: false,
+          title: "No Refresh Token Received",
+          message:
+            "Google did not issue a new access token. This usually means this Google account was already connected before. To force reconnection with a DIFFERENT Google account (e.g. anwarshaik7288@gmail.com):\n\n1. Sign out of all Google accounts in your browser.\n2. Open an Incognito / Private browsing window.\n3. Visit the Admin Portal and click 'Connect Google Drive' again.\n4. Sign in with anwarshaik7288@gmail.com and check 'Select all'.\n\nOr, go to https://myaccount.google.com/permissions and revoke access for this app, then reconnect.",
+        }),
+        { headers: { "Content-Type": "text/html" } }
+      );
+    }
   } catch (err: any) {
     return new NextResponse(
       renderHtmlResponse({

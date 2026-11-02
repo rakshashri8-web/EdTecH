@@ -114,7 +114,7 @@ export function getGoogleDriveAuthUrl(origin?: string, stateToken?: string): str
     `response_type=code&` +
     `scope=${scope}&` +
     `access_type=offline&` +
-    `prompt=consent` +
+    `prompt=select_account%20consent` +
     (state ? `&state=${state}` : "")
   );
 }
