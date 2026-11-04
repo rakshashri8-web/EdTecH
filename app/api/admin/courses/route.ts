@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { getCanonicalCourseTitle, sortCoursesCanonical } from "@/lib/courseImage";
+import { revalidateCoursePages } from "@/lib/revalidate";
 
 export async function GET() {
   try {
@@ -77,6 +78,8 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
 
+    revalidateCoursePages();
+
     return NextResponse.json(data, { status: 201 });
   } catch (err: any) {
     console.error("Course POST error:", err);
@@ -115,6 +118,8 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) throw error;
+
+    revalidateCoursePages();
 
     return NextResponse.json(data);
   } catch (err: any) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { revalidateModulePages } from "@/lib/revalidate";
 
 export async function GET(request: NextRequest) {
   try {
@@ -84,6 +85,8 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
 
+    revalidateModulePages();
+
     return NextResponse.json(data, { status: 201 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -115,6 +118,8 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
 
+    revalidateModulePages();
+
     return NextResponse.json(data);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -139,6 +144,8 @@ export async function DELETE(request: NextRequest) {
     const { error } = await supabase.from("course_modules").delete().eq("id", id);
 
     if (error) throw error;
+
+    revalidateModulePages();
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

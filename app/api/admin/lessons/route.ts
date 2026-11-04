@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { detectVideoDuration } from "@/lib/video-duration";
+import { revalidateLessonPages } from "@/lib/revalidate";
 
 export async function GET(request: NextRequest) {
   try {
@@ -211,6 +212,8 @@ export async function POST(request: NextRequest) {
       };
     }
 
+    revalidateLessonPages();
+
     return NextResponse.json(insertedLesson, { status: 201 });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
@@ -318,6 +321,8 @@ export async function PATCH(request: NextRequest) {
       }
     }
 
+    revalidateLessonPages();
+
     return NextResponse.json({
       id,
       ...updates,
@@ -348,6 +353,8 @@ export async function DELETE(request: NextRequest) {
     await supabase.from("lesson_videos").delete().eq("lesson_id", id);
 
     if (error) throw error;
+
+    revalidateLessonPages();
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

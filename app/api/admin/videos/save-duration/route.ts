@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { detectVideoDuration } from "@/lib/video-duration";
+import { revalidateLessonPages } from "@/lib/revalidate";
 
 /**
  * POST /api/admin/videos/save-duration
@@ -71,6 +72,8 @@ export async function POST(request: NextRequest) {
           .update({ duration: result.duration })
           .eq("id", lesson_id);
       }
+
+      revalidateLessonPages();
 
       return NextResponse.json({ ...result, lesson_id });
     } else if (result.status === "processing") {

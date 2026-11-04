@@ -34,22 +34,12 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // Cache static assets aggressively
+        // Cache immutable static asset chunks aggressively
         source: "/_next/static/(.*)",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        // ISR pages — allow short-lived caching
-        source: "/courses",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, s-maxage=60, stale-while-revalidate=300",
           },
         ],
       },

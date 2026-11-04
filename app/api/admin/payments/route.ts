@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
+import { revalidatePaymentPages } from "@/lib/revalidate";
 
 export async function PATCH(request: NextRequest) {
   try {
@@ -50,6 +51,8 @@ export async function PATCH(request: NextRequest) {
     } catch {
       // payments table may not exist — non-fatal
     }
+
+    revalidatePaymentPages();
 
     return NextResponse.json({ success: true, status: newStatus });
   } catch (err: any) {

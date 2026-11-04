@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { getCanonicalCourseTitle } from "@/lib/courseImage";
+import { revalidateCoursePages } from "@/lib/revalidate";
 
 interface Params {
   params: { id: string };
@@ -61,6 +62,8 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
     if (error) throw error;
 
+    revalidateCoursePages();
+
     return NextResponse.json({
       ...data,
       title: getCanonicalCourseTitle(data),
@@ -82,6 +85,8 @@ export async function DELETE(_request: NextRequest, { params }: Params) {
     const { error } = await supabase.from("courses").delete().eq("id", params.id);
 
     if (error) throw error;
+
+    revalidateCoursePages();
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

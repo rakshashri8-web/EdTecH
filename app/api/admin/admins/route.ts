@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient as createServerSupabase } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentUser, isSuperAdmin } from "@/lib/auth";
+import { revalidateAdminPages } from "@/lib/revalidate";
 
 // POST: Grant admin role to a user by email (super_admin only)
 export async function POST(request: NextRequest) {
@@ -44,6 +45,8 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (updateErr) throw updateErr;
+
+    revalidateAdminPages();
 
     return NextResponse.json({ success: true, user: data });
   } catch (err: any) {
@@ -90,6 +93,8 @@ export async function DELETE(request: NextRequest) {
       .eq("id", userId);
 
     if (error) throw error;
+
+    revalidateAdminPages();
 
     return NextResponse.json({ success: true });
   } catch (err: any) {
