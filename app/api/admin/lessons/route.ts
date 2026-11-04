@@ -61,24 +61,26 @@ export async function GET(request: NextRequest) {
     try {
       const { data, error } = await supabase
         .from("lesson_videos")
-        .select("lesson_id, video_url, duration");
+        .select("lesson_id, video_url, duration, video_processing_status");
       if (!error && data) {
         overrides = data;
       } else {
+        // Fallback: try without the new columns (migration may be pending)
         const { data: fallbackData } = await supabase
           .from("lesson_videos")
-          .select("lesson_id, video_url");
+          .select("lesson_id, video_url, duration");
         overrides = fallbackData || [];
       }
     } catch {}
 
-    const overridesMap = new Map<string, { video_url?: string; duration?: string }>();
+    const overridesMap = new Map<string, { video_url?: string; duration?: string; video_processing_status?: string }>();
     if (overrides && overrides.length > 0) {
       for (const o of overrides) {
         if (o.lesson_id && !o.lesson_id.startsWith("SYSTEM_")) {
           overridesMap.set(o.lesson_id, {
             video_url: o.video_url,
             duration: o.duration,
+            video_processing_status: o.video_processing_status,
           });
         }
       }
@@ -88,26 +90,37 @@ export async function GET(request: NextRequest) {
     // 1. If an override exists in lesson_videos, use it.
     // 2. Prevent automatic Rickroll placeholder URLs (dQw4w9WgXcQ).
     // 3. If video_url is empty, do not show hardcoded fake durations.
+    // 4. Never surface "Processing video..." saved as a duration string — treat it as empty.
     lessonsList = lessonsList.map((l) => {
       const override = overridesMap.get(l.id);
       let videoUrl = (override?.video_url ?? l.video_url ?? "").trim();
       let duration = (override?.duration ?? l.duration ?? "").trim();
+      let processingStatus = override?.video_processing_status ?? null;
 
       // Filter out dummy rickroll placeholder
       if (videoUrl.includes("dQw4w9WgXcQ")) {
         videoUrl = "";
         duration = "";
+        processingStatus = null;
       }
 
-      // If no video is present, ensure duration is cleared so fake duration is not shown
+      // Never show "Processing video..." as a saved duration — it means detection failed last time
+      if (duration === "Processing video...") {
+        duration = "";
+        processingStatus = processingStatus ?? "processing";
+      }
+
+      // If no video is present, ensure duration and status are cleared
       if (!videoUrl) {
         duration = "";
+        processingStatus = null;
       }
 
       return {
         ...l,
         video_url: videoUrl,
         duration: duration,
+        video_processing_status: processingStatus,
       };
     });
 
@@ -223,16 +236,30 @@ export async function PATCH(request: NextRequest) {
       updates.video_url = (updates.video_url || "").trim();
 
       if (!updates.video_url) {
-        // Video explicitly removed
+        // Video explicitly removed — clear everything
         updates.video_url = "";
         updates.duration = "";
+        updates.video_processing_status = null;
       } else if (!updates.duration || updates.duration === "Processing video...") {
         // Auto-detect duration when a video is linked or replaced
         const detected = await detectVideoDuration(updates.video_url);
-        if (detected.duration) {
+        if (detected.status === "ready" && detected.duration) {
           updates.duration = detected.duration;
+          updates.video_processing_status = "completed";
+        } else if (detected.status === "processing") {
+          // Drive hasn't processed metadata yet — do NOT save "Processing video..." as duration
+          updates.duration = "";
+          updates.video_processing_status = "processing";
+        } else {
+          updates.duration = "";
+          updates.video_processing_status = "unavailable";
         }
       }
+    }
+    // Never persist "Processing video..." as a duration string
+    if (updates.duration === "Processing video...") {
+      updates.duration = "";
+      if (!updates.video_processing_status) updates.video_processing_status = "processing";
     }
 
     const supabase = createClient();
@@ -265,16 +292,29 @@ export async function PATCH(request: NextRequest) {
         updated_at: new Date().toISOString(),
       };
 
+      // Include processing status if available
+      if (updates.video_processing_status !== undefined) {
+        lvPayload.video_processing_status = updates.video_processing_status;
+        if (updates.video_processing_status === "completed") {
+          lvPayload.video_processed_at = new Date().toISOString();
+        }
+      }
+
       const { error: lvErr } = await supabase
         .from("lesson_videos")
         .upsert(lvPayload, { onConflict: "lesson_id" });
 
-      if (lvErr && lvErr.code === "42703") {
-        // Column duration does not exist yet in lesson_videos table, fallback without duration column
-        delete lvPayload.duration;
+      if (lvErr && (lvErr.code === "42703" || lvErr.message?.includes("column"))) {
+        // New status columns don't exist yet (migration pending) — save without them
+        const fallbackPayload: any = {
+          lesson_id: id,
+          video_url: updates.video_url ?? "",
+          duration: updates.duration ?? "",
+          updated_at: new Date().toISOString(),
+        };
         await supabase
           .from("lesson_videos")
-          .upsert(lvPayload, { onConflict: "lesson_id" });
+          .upsert(fallbackPayload, { onConflict: "lesson_id" });
       }
     }
 

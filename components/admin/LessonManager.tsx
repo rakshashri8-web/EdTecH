@@ -30,6 +30,7 @@ interface Lesson {
   order: number;
   is_preview: boolean;
   published: boolean;
+  video_processing_status?: string | null;
 }
 
 interface Module {
@@ -201,6 +202,28 @@ export default function LessonManager({ courses }: LessonManagerProps) {
       setLessons((prev) => [...prev, newLesson]);
       setLessonForm({ ...emptyLesson });
       setAddingLesson(false);
+
+      // If video was added but duration still unknown, trigger background save-duration
+      if (newLesson.video_url && !newLesson.duration) {
+        fetch("/api/admin/videos/save-duration", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lesson_id: newLesson.id, video_url: newLesson.video_url }),
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.status === "ready" && data.duration) {
+              setLessons((prev) =>
+                prev.map((l) =>
+                  l.id === newLesson.id
+                    ? { ...l, duration: data.duration, video_processing_status: "completed" }
+                    : l
+                )
+              );
+            }
+          })
+          .catch(() => {});
+      }
     } catch (err: any) {
       alert(`Failed to add lesson: ${err.message}`);
     } finally {
@@ -225,14 +248,37 @@ export default function LessonManager({ courses }: LessonManagerProps) {
         }),
       });
       if (!res.ok) throw new Error(await res.text());
+      const updated = await res.json();
       setLessons((prev) =>
         prev.map((l) =>
           l.id === lessonId
-            ? { ...l, ...editForm, description: editForm.description || null }
+            ? { ...l, ...editForm, duration: updated.duration ?? editForm.duration, description: editForm.description || null }
             : l
         )
       );
       setEditingId(null);
+
+      // If video was added/changed but duration still not resolved, run background save-duration
+      if (editForm.video_url && !updated.duration) {
+        fetch("/api/admin/videos/save-duration", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lesson_id: lessonId, video_url: editForm.video_url }),
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.status === "ready" && data.duration) {
+              setLessons((prev) =>
+                prev.map((l) =>
+                  l.id === lessonId
+                    ? { ...l, duration: data.duration, video_processing_status: "completed" }
+                    : l
+                )
+              );
+            }
+          })
+          .catch(() => {});
+      }
     } catch (err: any) {
       alert(`Failed to update lesson: ${err.message}`);
     } finally {
@@ -295,6 +341,7 @@ export default function LessonManager({ courses }: LessonManagerProps) {
   };
 
   const [detectingDuration, setDetectingDuration] = useState(false);
+  const [retryingDurationId, setRetryingDurationId] = useState<string | null>(null);
 
   const handleDetectDuration = async (url: string, setFn: (k: string, v: any) => void) => {
     if (!url || !url.trim()) return;
@@ -302,15 +349,62 @@ export default function LessonManager({ courses }: LessonManagerProps) {
     try {
       const res = await fetch(`/api/admin/videos/detect-duration?url=${encodeURIComponent(url.trim())}`);
       const data = await res.json();
-      if (data.duration) {
+      if (data.status === "ready" && data.duration) {
         setFn("duration", data.duration);
       } else if (data.status === "processing") {
-        setFn("duration", "Processing video...");
+        // Don't set "Processing video..." as the duration value in the form
+        setFn("duration", "");
       }
     } catch (err) {
       console.warn("Detect duration error:", err);
     } finally {
       setDetectingDuration(false);
+    }
+  };
+
+  // Retry duration detection for a saved lesson (calls save-duration API which persists to DB)
+  const handleRetryDuration = async (lesson: Lesson) => {
+    if (!lesson.video_url) return;
+    setRetryingDurationId(lesson.id);
+    try {
+      const res = await fetch("/api/admin/videos/save-duration", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lesson_id: lesson.id, video_url: lesson.video_url }),
+      });
+      const data = await res.json();
+      if (data.status === "ready" && data.duration) {
+        // Duration successfully detected — update lesson in list
+        setLessons((prev) =>
+          prev.map((l) =>
+            l.id === lesson.id
+              ? { ...l, duration: data.duration, video_processing_status: "completed" }
+              : l
+          )
+        );
+      } else if (data.status === "processing") {
+        setLessons((prev) =>
+          prev.map((l) =>
+            l.id === lesson.id
+              ? { ...l, duration: "", video_processing_status: "processing" }
+              : l
+          )
+        );
+        alert("Google Drive is still processing this video. Please try again in a few minutes.");
+      } else {
+        setLessons((prev) =>
+          prev.map((l) =>
+            l.id === lesson.id
+              ? { ...l, duration: "", video_processing_status: "unavailable" }
+              : l
+          )
+        );
+        alert("Could not detect duration. Make sure Google Drive is connected and the video has finished uploading.");
+      }
+    } catch (err: any) {
+      alert(`Retry failed: ${err.message}`);
+    } finally {
+      setRetryingDurationId(null);
     }
   };
 
@@ -647,9 +741,17 @@ export default function LessonManager({ courses }: LessonManagerProps) {
                           <span className="text-[10px] font-bold bg-slate-200 text-slate-700 rounded-full px-2 py-0.5 flex items-center gap-1">
                             <Clock className="w-2.5 h-2.5 text-slate-500" />{lesson.duration}
                           </span>
+                        ) : lesson.video_url && lesson.video_processing_status === "processing" ? (
+                          <span className="text-[10px] font-bold bg-amber-50 text-amber-700 rounded-full px-2 py-0.5 flex items-center gap-1">
+                            <Loader2 className="w-2.5 h-2.5 text-amber-500 animate-spin" />Drive processing...
+                          </span>
+                        ) : lesson.video_url && lesson.video_processing_status === "unavailable" ? (
+                          <span className="text-[10px] font-bold bg-red-50 text-red-600 rounded-full px-2 py-0.5 flex items-center gap-1">
+                            <Clock className="w-2.5 h-2.5 text-red-400" />Duration unavailable
+                          </span>
                         ) : lesson.video_url ? (
                           <span className="text-[10px] font-bold bg-amber-50 text-amber-700 rounded-full px-2 py-0.5 flex items-center gap-1">
-                            <Clock className="w-2.5 h-2.5 text-amber-500" />Processing video...
+                            <Clock className="w-2.5 h-2.5 text-amber-500" />Duration pending
                           </span>
                         ) : null}
                         {lesson.published ? (
@@ -681,6 +783,22 @@ export default function LessonManager({ courses }: LessonManagerProps) {
                           >
                             <Video className="w-3 h-3 text-emerald-700" /> Play
                           </a>
+                          {/* Show Retry Duration button when duration is missing */}
+                          {!lesson.duration && (
+                            <button
+                              onClick={() => handleRetryDuration(lesson)}
+                              disabled={retryingDurationId === lesson.id}
+                              className="px-2 py-1 bg-blue-50 hover:bg-blue-100 text-brand-blue rounded-lg text-[11px] font-bold flex items-center gap-1 transition-colors mr-1"
+                              title="Detect and save video duration"
+                            >
+                              {retryingDurationId === lesson.id ? (
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                              ) : (
+                                <Sparkles className="w-3 h-3" />
+                              )}
+                              {retryingDurationId === lesson.id ? "Detecting..." : "Get Duration"}
+                            </button>
+                          )}
                           <button
                             onClick={() => handleRemoveVideo(lesson.id)}
                             className="px-2 py-1 bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-600 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-colors mr-1"
