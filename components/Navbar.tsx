@@ -66,41 +66,54 @@ export default function Navbar({ initialUser }: NavbarProps) {
   useEffect(() => {
     const syncUserProfile = async (user: any) => {
       try {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .maybeSingle();
-
+        // Only fetch the profile row if we don't already have full data from the server
+        // This avoids an extra Supabase query on every client-side navigation
         const isSuperAdmin = user.email?.toLowerCase() === "rakshashri8@gmail.com";
-        let resolvedName = profile?.full_name;
-        if (!resolvedName || resolvedName === "Student" || resolvedName === "student") {
-          resolvedName = user.user_metadata?.full_name || user.user_metadata?.name || (isSuperAdmin ? "Shri Raksha" : user.email?.split("@")[0]) || "Student";
+        let resolvedName = user.user_metadata?.full_name || user.user_metadata?.name || (isSuperAdmin ? "Shri Raksha" : user.email?.split("@")[0]) || "Student";
+        let resolvedAvatar = user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+        let resolvedRole: "student" | "admin" | "super_admin" = isSuperAdmin ? "super_admin" : (user.user_metadata?.role || "student");
+
+        // Fetch profile only once — when we genuinely don't know the role or name
+        if (!isSuperAdmin) {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("full_name, avatar_url, role")
+            .eq("id", user.id)
+            .maybeSingle();
+
+          if (profile) {
+            if (profile.full_name && profile.full_name !== "Student") {
+              resolvedName = profile.full_name;
+            }
+            if (profile.avatar_url) resolvedAvatar = profile.avatar_url;
+            if (profile.role) resolvedRole = profile.role;
+
+            // Background sync: update placeholder name/avatar in DB
+            if (
+              (profile.full_name === "Student" || !profile.full_name || !profile.avatar_url) &&
+              (resolvedName !== "Student" || resolvedAvatar)
+            ) {
+              supabase
+                .from("profiles")
+                .update({
+                  full_name: resolvedName,
+                  ...(resolvedAvatar ? { avatar_url: resolvedAvatar } : {}),
+                })
+                .eq("id", user.id)
+                .then(() => {});
+            }
+          }
         }
-        const resolvedAvatar = profile?.avatar_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
-        const resolvedRole = isSuperAdmin ? "super_admin" : (profile?.role || (user.user_metadata?.role as any) || "student");
 
         setUserProfile({
           id: user.id,
           email: user.email || "",
           full_name: resolvedName,
-          phone: profile?.phone || null,
+          phone: null,
           avatar_url: resolvedAvatar,
           role: resolvedRole,
-          created_at: profile?.created_at || new Date().toISOString(),
+          created_at: new Date().toISOString(),
         });
-
-        // Background sync: if the profile row in database has placeholder 'Student' or missing avatar, update it with Google data
-        if (profile && (profile.full_name === "Student" || !profile.full_name || !profile.avatar_url) && (resolvedName !== "Student" || resolvedAvatar)) {
-          supabase
-            .from("profiles")
-            .update({
-              full_name: resolvedName,
-              ...(resolvedAvatar ? { avatar_url: resolvedAvatar } : {}),
-            })
-            .eq("id", user.id)
-            .then(() => {});
-        }
       } catch {
         const isSuperAdmin = user.email?.toLowerCase() === "rakshashri8@gmail.com";
         const resolvedName = user.user_metadata?.full_name || user.user_metadata?.name || (isSuperAdmin ? "Shri Raksha" : user.email?.split("@")[0]) || "Student";
@@ -134,10 +147,15 @@ export default function Navbar({ initialUser }: NavbarProps) {
       if (event === "SIGNED_OUT") {
         setUserProfile(null);
         setIsLoading(false);
-      } else if (session?.user) {
+      } else if (event === "SIGNED_IN" && session?.user && !initialUser) {
+        // Only sync if we didn't already get user data from the server (SSR)
         await syncUserProfile(session.user);
       } else if (event === "INITIAL_SESSION" && !initialUser) {
-        setIsLoading(false);
+        if (session?.user) {
+          await syncUserProfile(session.user);
+        } else {
+          setIsLoading(false);
+        }
       }
     });
 

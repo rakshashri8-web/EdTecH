@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
+// Revalidate stats every 30 seconds so the dashboard loads from cache on rapid navigation
+export const revalidate = 30;
 
 export const metadata = {
   title: "Admin Dashboard — AIMP",

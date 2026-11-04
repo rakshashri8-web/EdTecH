@@ -8,8 +8,7 @@ export const metadata = {
   description: "Browse industry-focused courses in Data Analytics, Data Science, AI/ML, GenAI, and Agentic AI.",
 };
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 60; // ISR: re-fetch course list at most every 60 seconds
 
 export default async function CoursesPage() {
   let courses = INITIAL_COURSES;
@@ -17,7 +16,7 @@ export default async function CoursesPage() {
   try {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = createClient();
-    const { data } = await supabase.from("courses").select("*").eq("published", true);
+    const { data } = await supabase.from("courses").select("id, slug, title, category, price, original_price, thumbnail, difficulty, duration, published").eq("published", true);
     if (data && data.length > 0) {
       courses = data.map((c: any) => ({
         ...c,

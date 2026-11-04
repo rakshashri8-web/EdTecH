@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createClient as createServerSupabase } from "@/lib/supabase/server";
 
 export interface AuthUser {
@@ -16,40 +17,66 @@ export function isSuperAdmin(user: AuthUser | null): boolean {
   return user?.role === "super_admin";
 }
 
-export async function getCurrentUser(): Promise<AuthUser | null> {
+/**
+ * Fetch the current authenticated user, deduped per request via React cache().
+ * React cache() ensures that if getCurrentUser() is called multiple times
+ * in the same server request (layout + page + middleware), it only runs ONCE.
+ */
+export const getCurrentUser = cache(async (): Promise<AuthUser | null> => {
   try {
     const supabase = createServerSupabase();
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
 
     if (error || !user) {
       return null;
     }
 
-    // Fetch profile role and metadata from Supabase profiles table (or fallback to user_metadata)
+    // Fetch only needed profile fields (id, full_name, email, avatar_url, role)
     let profile: any = null;
     try {
       const { data } = await supabase
         .from("profiles")
-        .select("*")
+        .select("id, full_name, email, avatar_url, role")
         .eq("id", user.id)
         .maybeSingle();
       profile = data;
     } catch {
-      // Profile query error fallback
+      // Profile query error — fallback to user_metadata
     }
 
-    const isSuperAdminEmail = user.email?.toLowerCase() === "rakshashri8@gmail.com";
-    const resolvedRole = (isSuperAdminEmail
-      ? "super_admin"
-      : (profile?.role || (user.user_metadata?.role as any) || (user.app_metadata?.role as any) || "student")) as "student" | "admin" | "super_admin";
+    const isSuperAdminEmail =
+      user.email?.toLowerCase() === "rakshashri8@gmail.com";
+    const resolvedRole = (
+      isSuperAdminEmail
+        ? "super_admin"
+        : profile?.role ||
+          (user.user_metadata?.role as any) ||
+          (user.app_metadata?.role as any) ||
+          "student"
+    ) as "student" | "admin" | "super_admin";
 
-    // If profile.full_name is missing or placeholder 'Student', use user_metadata name
+    // If profile.full_name is missing or placeholder 'Student', use Google metadata
     let resolvedName = profile?.full_name;
-    if (!resolvedName || resolvedName === "Student" || resolvedName === "student") {
-      resolvedName = user.user_metadata?.full_name || user.user_metadata?.name || (isSuperAdminEmail ? "Shri Raksha" : user.email?.split("@")[0]) || "Student";
+    if (
+      !resolvedName ||
+      resolvedName === "Student" ||
+      resolvedName === "student"
+    ) {
+      resolvedName =
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        (isSuperAdminEmail ? "Shri Raksha" : user.email?.split("@")[0]) ||
+        "Student";
     }
 
-    const resolvedAvatar = profile?.avatar_url || user.user_metadata?.avatar_url || user.user_metadata?.picture || null;
+    const resolvedAvatar =
+      profile?.avatar_url ||
+      user.user_metadata?.avatar_url ||
+      user.user_metadata?.picture ||
+      null;
 
     return {
       id: user.id,
@@ -65,4 +92,4 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     console.error("Error in getCurrentUser:", err);
     return null;
   }
-}
+});
