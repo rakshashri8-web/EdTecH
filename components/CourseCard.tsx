@@ -131,10 +131,11 @@ export default function CourseCard({ course }: CourseCardProps) {
               View Syllabus
             </Link>
             <Link
-              href={`/payment/${course.id}`}
+              href={`/payment/${course.slug || course.id}`}
               className="py-2.5 text-center text-xs font-extrabold text-white bg-gradient-to-r from-brand-blue to-brand-indigo hover:shadow-lg hover:shadow-brand-blue/25 rounded-xl transition-all flex items-center justify-center gap-1 group/btn"
+              title={`Enroll Now in ${course.title}`}
             >
-              Enroll for ₹3,999
+              Enroll Now
               <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
             </Link>
           </div>

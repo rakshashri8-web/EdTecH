@@ -102,7 +102,7 @@ export default async function PricingPage() {
 
                 <div className="pt-6">
                   <Link
-                    href={`/payment/${course.id}`}
+                    href={`/payment/${course.slug || course.id}`}
                     className="w-full py-3 px-4 bg-gradient-to-r from-brand-blue to-brand-indigo text-white text-xs font-extrabold rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1"
                   >
                     Enroll Now <ArrowRight className="w-3.5 h-3.5" />

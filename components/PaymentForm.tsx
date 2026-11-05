@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
@@ -17,7 +18,9 @@ import {
   X,
   Copy,
   Check,
-  Smartphone
+  Smartphone,
+  ArrowRight,
+  PlayCircle
 } from "lucide-react";
 import { getWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
@@ -225,7 +228,31 @@ export default function PaymentForm({
         </div>
       </div>
 
-      {currentEnrollment?.status === "pending" ? (
+      {currentEnrollment?.status === "approved" ? (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-3xl p-8 text-center space-y-4">
+          <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
+          <h3 className="text-xl font-black text-emerald-900">
+            Enrollment Confirmed & Course Unlocked!
+          </h3>
+          <p className="text-sm text-emerald-800 max-w-lg mx-auto">
+            You are enrolled in <span className="font-bold">{course.title}</span>. Your course lessons, streaming videos, and learning materials are fully accessible.
+          </p>
+          <div className="pt-2 flex flex-wrap justify-center gap-3">
+            <Link
+              href={`/learn/${course.slug || course.id}`}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white font-extrabold text-xs rounded-xl shadow-md hover:bg-emerald-700 transition-colors"
+            >
+              <PlayCircle className="w-4 h-4" /> Go to Classroom & Watch Lessons
+            </Link>
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-2 px-5 py-3 bg-white text-slate-700 border border-slate-200 font-extrabold text-xs rounded-xl hover:bg-slate-50 transition-colors"
+            >
+              View in Dashboard <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      ) : currentEnrollment?.status === "pending" ? (
         <div className="bg-amber-50 border border-amber-200 rounded-3xl p-8 text-center space-y-4">
           <Clock className="w-12 h-12 text-amber-600 mx-auto animate-bounce" />
           <h3 className="text-xl font-black text-amber-900">

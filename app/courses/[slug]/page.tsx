@@ -302,7 +302,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
               ) : (
                 <div className="space-y-3">
                   <Link
-                    href={`/payment/${course.id}`}
+                    href={`/payment/${course.slug || course.id}`}
                     className="w-full py-4 text-center text-sm font-extrabold text-white bg-gradient-to-r from-brand-blue to-brand-indigo rounded-2xl shadow-lg shadow-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/40 transition-all flex items-center justify-center gap-2 group"
                   >
                     Enroll in Program Now
