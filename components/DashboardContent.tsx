@@ -79,16 +79,16 @@ export default function DashboardContent({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Welcome Header */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
+            <h1 className="text-xl sm:text-3xl font-black text-slate-900">
               Welcome back, {user.full_name || "Learner"}! 👋
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">
               Student Account: <span className="font-semibold text-slate-800">{user.email}</span>
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
             {(user.role === "admin" || user.role === "super_admin") && (
               <Link
                 href="/admin"
@@ -642,8 +642,8 @@ export default function DashboardContent({
 
                   {/* Payments List / Table */}
                   {enrollments.length > 0 ? (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
+                    <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+                      <table className="w-full text-left border-collapse min-w-[620px]">
                         <thead>
                           <tr className="border-b border-slate-200 text-[11px] font-black uppercase text-slate-400 tracking-wider">
                             <th className="py-3 px-4">Course</th>

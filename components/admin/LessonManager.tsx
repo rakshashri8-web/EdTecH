@@ -720,7 +720,7 @@ export default function LessonManager({ courses }: LessonManagerProps) {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-start gap-3">
+                  <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-[10px] font-black text-slate-400 bg-slate-200 rounded px-1.5 py-0.5">#{idx + 1}</span>
@@ -771,7 +771,7 @@ export default function LessonManager({ courses }: LessonManagerProps) {
                         </p>
                       )}
                     </div>
-                    <div className="flex items-center gap-1 flex-shrink-0">
+                    <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto pt-2.5 sm:pt-0 border-t sm:border-t-0 border-slate-200/80 justify-between sm:justify-end shrink-0">
                       {lesson.video_url ? (
                         <>
                           <a

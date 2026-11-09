@@ -174,6 +174,10 @@ export default function Navbar({ initialUser }: NavbarProps) {
     window.location.href = "/";
   };
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Courses", href: "/courses" },
@@ -318,14 +322,33 @@ export default function Navbar({ initialUser }: NavbarProps) {
             )}
           </div>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Right Controls */}
           <div className="flex md:hidden items-center gap-2">
+            {userProfile && (
+              <Link
+                href="/dashboard"
+                className="p-0.5 rounded-full border border-slate-200 hover:bg-slate-50 transition-colors"
+                title="Go to Dashboard"
+              >
+                {userProfile.avatar_url ? (
+                  <img
+                    src={userProfile.avatar_url}
+                    alt={userProfile.full_name || "User"}
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center font-bold text-xs">
+                    {userProfile.full_name ? userProfile.full_name.charAt(0).toUpperCase() : "U"}
+                  </div>
+                )}
+              </Link>
+            )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50"
+              className="p-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 active:scale-95 transition-all"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -333,7 +356,49 @@ export default function Navbar({ initialUser }: NavbarProps) {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-brand-border px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top-4 duration-200">
+        <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-brand-border px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top-4 duration-200 max-h-[calc(100vh-4.5rem)] overflow-y-auto shadow-xl">
+          {/* User Profile Card when logged in */}
+          {userProfile && (
+            <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 mb-3 space-y-2.5">
+              <div className="flex items-center gap-3">
+                {userProfile.avatar_url ? (
+                  <img
+                    src={userProfile.avatar_url}
+                    alt={userProfile.full_name || "User Avatar"}
+                    className="w-10 h-10 rounded-full object-cover border border-slate-200"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center font-bold text-sm">
+                    {userProfile.full_name ? userProfile.full_name.charAt(0).toUpperCase() : "U"}
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-black text-slate-900 truncate">
+                    {userProfile.full_name || "Student"}
+                  </p>
+                  <p className="text-[11px] text-slate-500 truncate">{userProfile.email}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200/60">
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="py-2 px-3 bg-white border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-700 hover:text-brand-blue shadow-xs"
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  href="/completed"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="py-2 px-3 bg-white border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-700 hover:text-brand-blue shadow-xs"
+                >
+                  Certificates
+                </Link>
+              </div>
+            </div>
+          )}
+
           {navLinks.map((link) => {
             const isActive = link.href === "/"
               ? pathname === "/"
@@ -344,8 +409,8 @@ export default function Navbar({ initialUser }: NavbarProps) {
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-xl text-sm font-extrabold ${
-                  isActive ? "bg-blue-50 text-brand-blue" : "text-slate-700 hover:bg-slate-50"
+                className={`block px-3.5 py-2.5 rounded-xl text-sm font-extrabold transition-colors ${
+                  isActive ? "bg-blue-50 text-brand-blue font-black" : "text-slate-700 hover:bg-slate-50"
                 }`}
               >
                 {link.name}
@@ -357,9 +422,10 @@ export default function Navbar({ initialUser }: NavbarProps) {
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-xl text-sm font-extrabold text-amber-700 bg-amber-50"
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-extrabold text-amber-800 bg-amber-50 border border-amber-200/60"
             >
-              Admin Panel
+              <ShieldCheck className="w-4 h-4 text-amber-600" />
+              Admin Portal
             </Link>
           )}
 
@@ -369,23 +435,24 @@ export default function Navbar({ initialUser }: NavbarProps) {
             ) : userProfile ? (
               <button
                 onClick={handleLogout}
-                className="w-full py-2.5 text-center text-xs font-bold text-red-600 bg-red-50 rounded-xl"
+                className="w-full py-2.5 text-center text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl flex items-center justify-center gap-2 transition-colors"
               >
-                Log out ({userProfile.full_name})
+                <LogOut className="w-4 h-4 text-red-500" />
+                Log out
               </button>
             ) : (
               <div className="grid grid-cols-2 gap-2">
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2.5 text-center text-xs font-bold text-slate-700 border border-slate-200 rounded-xl"
+                  className="py-2.5 text-center text-xs font-extrabold text-slate-700 border border-slate-200 hover:border-brand-blue rounded-xl"
                 >
                   Log in
                 </Link>
                 <Link
                   href="/signup"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2.5 text-center text-xs font-bold text-white bg-brand-blue rounded-xl"
+                  className="py-2.5 text-center text-xs font-extrabold text-white bg-gradient-to-r from-brand-blue to-brand-indigo rounded-xl shadow-md"
                 >
                   Sign up
                 </Link>

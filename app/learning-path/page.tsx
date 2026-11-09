@@ -29,7 +29,7 @@ export default function LearningPathPage() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-brand-blue text-xs font-black uppercase tracking-wider">
             <Layers className="w-4 h-4" /> 5-Stage Progressive Roadmap
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
             Complete Career Learning Path
           </h1>
           <p className="text-base text-slate-600 leading-relaxed">
@@ -71,7 +71,7 @@ export default function LearningPathPage() {
         </div>
 
         {/* Selected Stage Expanded View */}
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-xl space-y-10">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-12 border border-slate-200 shadow-xl space-y-8 sm:space-y-10">
           
           {/* Header Summary */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-slate-100 pb-8">

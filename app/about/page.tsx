@@ -44,20 +44,20 @@ export default function AboutPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* HERO */}
-        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-brand-navy text-white p-8 sm:p-14 rounded-3xl shadow-2xl border border-white/10 text-center space-y-4">
+        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-brand-navy text-white p-5 sm:p-10 lg:p-14 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/10 text-center space-y-4">
           <span className="px-4 py-1.5 bg-brand-blue/20 text-brand-blue text-xs font-black rounded-full uppercase tracking-wider border border-brand-blue/30 inline-block">
             About AIMP
           </span>
-          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
             Empowering Job-Ready AI & Data Engineers
           </h1>
-          <p className="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed">
             AIMP is an online learning platform focused on practical technology and AI education. We bridge the gap between academic theory and real-world engineering through hands-on project implementation and rigorous assessments.
           </p>
         </div>
 
         {/* MISSION */}
-        <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+        <div className="bg-white p-5 sm:p-10 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center gap-2 text-brand-blue font-extrabold text-xs uppercase tracking-wider">
             <Target className="w-4 h-4" /> Our Mission
           </div>
@@ -87,16 +87,16 @@ export default function AboutPage() {
         </div>
 
         {/* LEARNING APPROACH FLOW */}
-        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-sm space-y-8">
+        <div className="bg-white p-5 sm:p-10 lg:p-12 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-6 sm:space-y-8">
           <div className="text-center space-y-2">
             <span className="text-xs font-black text-brand-blue uppercase tracking-wider">Proven Methodology</span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900">Our Learning Approach</h2>
             <p className="text-xs text-slate-500">Every module follows a rigorous 7-stage learning and verification cycle.</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 sm:gap-3">
             {learningSteps.map((step, idx) => (
-              <div key={idx} className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center space-y-2 relative">
+              <div key={idx} className="p-3 sm:p-4 bg-slate-50 rounded-2xl border border-slate-200 text-center space-y-1.5 sm:space-y-2 relative">
                 <span className="w-6 h-6 rounded-full bg-brand-blue text-white text-xs font-bold inline-flex items-center justify-center">
                   {idx + 1}
                 </span>
@@ -108,15 +108,15 @@ export default function AboutPage() {
         </div>
 
         {/* PROGRAM AREAS */}
-        <div className="bg-slate-900 text-white p-8 sm:p-12 rounded-3xl border border-white/10 space-y-6">
+        <div className="bg-slate-900 text-white p-5 sm:p-10 lg:p-12 rounded-2xl sm:rounded-3xl border border-white/10 space-y-6">
           <div className="space-y-2">
             <span className="text-xs font-extrabold text-blue-400 uppercase tracking-wider">Curriculum Focus</span>
             <h2 className="text-2xl sm:text-3xl font-black text-white">Core Program Areas</h2>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2.5 sm:gap-3">
             {programAreas.map((area, idx) => (
-              <span key={idx} className="px-4 py-2 bg-white/10 text-white text-xs sm:text-sm font-bold rounded-xl border border-white/15">
+              <span key={idx} className="px-3.5 sm:px-4 py-1.5 sm:py-2 bg-white/10 text-white text-xs sm:text-sm font-bold rounded-xl border border-white/15">
                 ⚡ {area}
               </span>
             ))}
@@ -124,7 +124,7 @@ export default function AboutPage() {
         </div>
 
         {/* INSTRUCTOR INFORMATION */}
-        <div className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200 shadow-xl flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-10 relative overflow-hidden">
+        <div className="bg-white p-5 sm:p-10 lg:p-12 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xl flex flex-col md:flex-row items-center md:items-start gap-6 lg:gap-10 relative overflow-hidden">
           {/* Subtle Accent Glow */}
           <div className="absolute -top-24 -right-24 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 

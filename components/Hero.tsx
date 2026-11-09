@@ -45,7 +45,7 @@ export default function Hero({ stats }: HeroProps) {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white">
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
               Learn Skills. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
                 Build Projects.
@@ -54,31 +54,31 @@ export default function Hero({ stats }: HeroProps) {
             </h1>
 
             {/* Supporting Paragraph */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+            <p className="text-sm sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
               Industry-focused courses with hands-on projects, practical skills and certificates to help you grow from beginner to job-ready.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
               <Link
                 href="/courses"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 text-base font-extrabold text-white bg-gradient-to-r from-brand-blue to-brand-indigo rounded-2xl shadow-lg shadow-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/40 hover:-translate-y-0.5 transition-all group"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-extrabold text-white bg-gradient-to-r from-brand-blue to-brand-indigo rounded-2xl shadow-lg shadow-brand-blue/30 hover:shadow-xl hover:shadow-brand-blue/40 hover:-translate-y-0.5 transition-all group"
               >
                 Explore Courses
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <a
                 href={getWhatsAppLink(WHATSAPP_MESSAGES.general)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 text-base font-bold text-white bg-[#25D366]/20 hover:bg-[#25D366]/30 border border-[#25D366]/40 rounded-2xl backdrop-blur-md hover:-translate-y-0.5 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 sm:px-6 py-3 sm:py-3.5 text-sm sm:text-base font-bold text-white bg-[#25D366]/20 hover:bg-[#25D366]/30 border border-[#25D366]/40 rounded-2xl backdrop-blur-md hover:-translate-y-0.5 transition-all"
               >
                 <MessageSquare className="w-4 h-4 text-[#25D366]" />
                 WhatsApp Us
               </a>
               <Link
                 href="#learning-path"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 text-base font-bold text-slate-200 bg-white/10 hover:bg-white/15 border border-white/15 rounded-2xl backdrop-blur-md hover:-translate-y-0.5 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 sm:px-6 py-3 sm:py-3.5 text-sm sm:text-base font-bold text-slate-200 bg-white/10 hover:bg-white/15 border border-white/15 rounded-2xl backdrop-blur-md hover:-translate-y-0.5 transition-all"
               >
                 <Play className="w-4 h-4 fill-slate-200" />
                 How It Works
@@ -86,22 +86,22 @@ export default function Hero({ stats }: HeroProps) {
             </div>
 
             {/* Stats Row */}
-            <div className="pt-8 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
+            <div className="pt-6 sm:pt-8 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 text-left">
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
-                <span className="block text-2xl font-black text-blue-400">{currentStats.stages}</span>
-                <span className="text-xs text-slate-400 font-medium">Learning Paths</span>
+                <span className="block text-xl sm:text-2xl font-black text-blue-400">{currentStats.stages}</span>
+                <span className="text-[11px] sm:text-xs text-slate-400 font-medium">Learning Paths</span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
-                <span className="block text-2xl font-black text-purple-400">{currentStats.topics}+</span>
-                <span className="text-xs text-slate-400 font-medium">Topics Covered</span>
+                <span className="block text-xl sm:text-2xl font-black text-purple-400">{currentStats.topics}+</span>
+                <span className="text-[11px] sm:text-xs text-slate-400 font-medium">Topics Covered</span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
-                <span className="block text-2xl font-black text-indigo-400">{currentStats.projects}+</span>
-                <span className="text-xs text-slate-400 font-medium">Hands-On Projects</span>
+                <span className="block text-xl sm:text-2xl font-black text-indigo-400">{currentStats.projects}+</span>
+                <span className="text-[11px] sm:text-xs text-slate-400 font-medium">Hands-On Projects</span>
               </div>
               <div className="p-3 bg-white/5 rounded-xl border border-white/10">
-                <span className="block text-2xl font-black text-emerald-400">{currentStats.practical}</span>
-                <span className="text-xs text-slate-400 font-medium">Practical Learning</span>
+                <span className="block text-xl sm:text-2xl font-black text-emerald-400">{currentStats.practical}</span>
+                <span className="text-[11px] sm:text-xs text-slate-400 font-medium">Practical Learning</span>
               </div>
             </div>
 
@@ -110,7 +110,7 @@ export default function Hero({ stats }: HeroProps) {
           {/* Right Hero Visual Column — Portrait with floating badges */}
           <div className="lg:col-span-5 relative flex justify-center items-center">
 
-            <div className="relative w-[280px] xs:w-[310px] sm:w-[350px] lg:w-[370px]">
+            <div className="relative w-full max-w-[270px] xs:max-w-[310px] sm:max-w-[350px] lg:max-w-[370px]">
 
               {/* Ambient Glow Backdrop */}
               <div className="absolute -inset-2 sm:-inset-4 rounded-[2.5rem] bg-gradient-to-tr from-brand-blue/35 via-indigo-500/20 to-brand-purple/35 blur-2xl opacity-75 pointer-events-none" />

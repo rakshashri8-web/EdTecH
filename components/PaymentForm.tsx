@@ -277,7 +277,7 @@ export default function PaymentForm({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           
           {/* Left Column: Kotak811 UPI QR Code & Instructions */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6 text-center">
+          <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-5 sm:space-y-6 text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-brand-blue text-xs font-extrabold rounded-lg">
               <QrCode className="w-4 h-4" /> Kotak811 UPI QR Code
             </div>
@@ -378,7 +378,7 @@ export default function PaymentForm({
           </div>
 
           {/* Right Column: UTR & Screenshot Form */}
-          <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+          <form onSubmit={handleSubmit} className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-4 sm:space-y-5">
             <h3 className="text-lg font-black text-slate-900 border-b border-slate-100 pb-3">
               Submit Payment Details
             </h3>

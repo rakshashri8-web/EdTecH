@@ -185,7 +185,7 @@ export default async function AdminDashboard() {
 
         {stats.recentPending.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left min-w-[700px]">
               <thead className="bg-slate-50 border-b border-slate-100">
                 <tr className="text-[11px] font-black text-slate-400 uppercase tracking-wider">
                   <th className="px-6 py-3">Student</th>

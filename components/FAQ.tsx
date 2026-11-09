@@ -37,17 +37,17 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => toggle(idx)}
-                  className="w-full px-6 py-4 text-left font-extrabold text-slate-900 text-base flex items-center justify-between hover:bg-slate-50 transition-colors"
+                  className="w-full px-4 sm:px-6 py-3.5 sm:py-4 text-left font-extrabold text-slate-900 text-sm sm:text-base flex items-center justify-between hover:bg-slate-50 transition-colors"
                 >
-                  <span>{item.q}</span>
+                  <span className="min-w-0 flex-1 pr-2">{item.q}</span>
                   {isOpen ? (
-                    <ChevronUp className="w-5 h-5 text-brand-blue shrink-0" />
+                    <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-brand-blue shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-slate-400 shrink-0" />
+                    <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 shrink-0" />
                   )}
                 </button>
                 {isOpen && (
-                  <div className="px-6 pb-5 pt-1 text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
                     {item.a}
                   </div>
                 )}

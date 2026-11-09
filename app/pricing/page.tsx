@@ -41,17 +41,17 @@ export default async function PricingPage() {
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 text-brand-blue text-xs font-black uppercase tracking-wider">
           <BookOpen className="w-4 h-4" /> Transparent Pricing
         </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
           Invest in Your Career Growth
         </h1>
-        <p className="text-base text-slate-600 max-w-2xl mx-auto">
+        <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
           One-time payment per course with lifetime access to video lectures, hands-on portfolio projects, live Q&A, and verified certificates.
         </p>
       </div>
 
       {/* Pricing Cards Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6">
           {courses.map((course) => {
             const discount = Math.round(
               ((course.original_price - course.price) / course.original_price) * 100
@@ -59,7 +59,7 @@ export default async function PricingPage() {
             return (
               <div
                 key={course.id}
-                className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-lg hover:shadow-2xl hover:border-brand-blue/40 transition-all duration-300 flex flex-col justify-between"
+                className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-lg hover:shadow-2xl hover:border-brand-blue/40 transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   <span className="text-[11px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-blue-50 text-brand-blue">

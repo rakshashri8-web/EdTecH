@@ -228,66 +228,66 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
   const recommendedCourses = INITIAL_COURSES.filter((c) => c.id !== course?.id).slice(0, 3);
 
   return (
-    <div className="py-12 sm:py-16 bg-slate-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div className="py-8 sm:py-16 bg-slate-50 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
         
         {/* Top Hero Header Card */}
-        <div className="bg-gradient-to-r from-slate-950 via-brand-dark to-slate-900 text-white p-8 sm:p-12 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="bg-gradient-to-r from-slate-950 via-brand-dark to-slate-900 text-white p-5 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
             
             <div className="lg:col-span-8 space-y-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="px-3 py-1 bg-brand-blue text-white text-xs font-black rounded-full uppercase tracking-wider">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <span className="px-2.5 sm:px-3 py-1 bg-brand-blue text-white text-[11px] sm:text-xs font-black rounded-full uppercase tracking-wider">
                   {course.category}
                 </span>
-                <span className="px-3 py-1 bg-white/10 text-slate-300 text-xs font-bold rounded-full">
+                <span className="px-2.5 sm:px-3 py-1 bg-white/10 text-slate-300 text-[11px] sm:text-xs font-bold rounded-full">
                   {course.difficulty} Level
                 </span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-xs font-bold rounded-full flex items-center gap-1">
+                <span className="px-2.5 sm:px-3 py-1 bg-purple-500/20 text-purple-300 text-[11px] sm:text-xs font-bold rounded-full flex items-center gap-1">
                   <BookOpen className="w-3.5 h-3.5" /> {actualModuleCount} Modules ({actualLessonCount} Lessons)
                 </span>
-                <span className="px-3 py-1 bg-amber-500/20 text-amber-300 text-xs font-bold rounded-full flex items-center gap-1">
+                <span className="px-2.5 sm:px-3 py-1 bg-amber-500/20 text-amber-300 text-[11px] sm:text-xs font-bold rounded-full flex items-center gap-1">
                   <Rocket className="w-3.5 h-3.5" /> {courseProjects.length} Real Projects
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-black text-white leading-tight">
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
                 {course.title}
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl">
+              <p className="text-xs sm:text-base text-slate-300 leading-relaxed max-w-3xl">
                 {course.description}
               </p>
 
               {/* Technologies Badges */}
-              <div className="pt-2 flex flex-wrap items-center gap-2">
+              <div className="pt-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <span className="text-xs font-bold text-slate-400 flex items-center gap-1 mr-1">
                   <Code2 className="w-3.5 h-3.5 text-brand-blue" /> Tech Stack:
                 </span>
                 {techStack.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2.5 py-1 bg-white/10 text-white text-xs font-semibold rounded-lg border border-white/10"
+                    className="px-2 sm:px-2.5 py-0.5 sm:py-1 bg-white/10 text-white text-[11px] sm:text-xs font-semibold rounded-lg border border-white/10"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div className="pt-2 flex flex-wrap items-center gap-6 text-xs text-slate-300">
+              <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-6 text-xs text-slate-300">
                 <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-brand-blue" />
-                  <span>Instructor: <strong className="text-white">{course.instructor_name || INSTRUCTOR_INFO.name}</strong> ({course.instructor_role || INSTRUCTOR_INFO.role})</span>
+                  <User className="w-4 h-4 text-brand-blue shrink-0" />
+                  <span>Instructor: <strong className="text-white">{course.instructor_name || INSTRUCTOR_INFO.name}</strong></span>
                 </div>
                 <div className="flex items-center gap-1 text-amber-400 font-bold">
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <span>4.9 / 5.0 Rating (120+ Student Reviews)</span>
+                  <Star className="w-4 h-4 fill-amber-400 shrink-0" />
+                  <span>4.9 / 5.0 Rating (120+ Reviews)</span>
                 </div>
               </div>
             </div>
 
             {/* Price & Action Card */}
-            <div className="lg:col-span-4 bg-white text-slate-900 p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100 text-center space-y-5">
+            <div className="lg:col-span-4 bg-white text-slate-900 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-100 text-center space-y-4 sm:space-y-5">
               <div className="relative aspect-[493/266] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-900">
                 <img
                   src={courseImage}

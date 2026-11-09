@@ -62,7 +62,7 @@ export default function StudentTable({ students }: StudentTableProps) {
       {/* Table */}
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left min-w-[700px]">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr className="text-[11px] font-black text-slate-400 uppercase tracking-wider">
                 <th className="px-6 py-4">Student</th>

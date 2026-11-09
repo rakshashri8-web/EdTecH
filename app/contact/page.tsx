@@ -77,35 +77,35 @@ export default function ContactPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* HERO */}
-        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-brand-navy text-white p-8 sm:p-12 rounded-3xl shadow-xl border border-white/10 text-center space-y-3">
+        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-brand-navy text-white p-5 sm:p-12 rounded-2xl sm:rounded-3xl shadow-xl border border-white/10 text-center space-y-3">
           <span className="px-3.5 py-1 bg-brand-blue/20 text-brand-blue text-xs font-black rounded-full uppercase tracking-wider border border-brand-blue/30 inline-block">
             Get In Touch
           </span>
-          <h1 className="text-3xl sm:text-4xl font-black text-white">Contact Us</h1>
-          <p className="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <h1 className="text-2xl sm:text-4xl font-black text-white">Contact Us</h1>
+          <p className="text-xs sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             Have a question about our courses, enrollment or learning programs? Get in touch with us directly on WhatsApp or submit a message below.
           </p>
         </div>
 
         {/* SECTION: CONNECT WITH US ON WHATSAPP */}
-        <section aria-labelledby="whatsapp-heading" className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-md">
-          <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
+        <section aria-labelledby="whatsapp-heading" className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-10 border border-slate-200 shadow-md">
+          <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8 space-y-2">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-black uppercase tracking-wider border border-emerald-200">
               <MessageSquare className="w-4 h-4 text-emerald-600" /> WhatsApp Direct Contact
             </div>
-            <h2 id="whatsapp-heading" className="text-2xl sm:text-3xl font-black text-slate-900">
+            <h2 id="whatsapp-heading" className="text-xl sm:text-3xl font-black text-slate-900">
               Connect with Us on WhatsApp
             </h2>
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+            <p className="text-xs sm:text-base text-slate-600 leading-relaxed">
               Have questions about our courses or enrollment?<br className="hidden sm:inline" />
               {" "}Scan the QR code to contact us directly on WhatsApp.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-200/80">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center bg-slate-50 rounded-2xl p-4 sm:p-8 border border-slate-200/80">
             {/* Left: Actual QR Code Image */}
             <div className="md:col-span-5 flex flex-col items-center justify-center text-center">
-              <div className="relative p-3 bg-white rounded-3xl shadow-lg border border-slate-200 w-full max-w-[280px]">
+              <div className="relative p-3 bg-white rounded-2xl sm:rounded-3xl shadow-lg border border-slate-200 w-full max-w-[240px] sm:max-w-[280px]">
                 <Image
                   src="/images/whatsapp-qr.png"
                   alt="Anwar - WhatsApp Contact QR Code"
@@ -206,7 +206,7 @@ export default function ContactPage() {
           </div>
 
           {/* Right: Working Contact Form */}
-          <div className="lg:col-span-8 bg-white p-6 sm:p-10 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+          <div className="lg:col-span-8 bg-white p-4 sm:p-10 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-5 sm:space-y-6">
             <div>
               <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
                 <MessageSquare className="w-5 h-5 text-brand-blue" />

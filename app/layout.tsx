@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,6 +9,14 @@ import { getCurrentUser } from "@/lib/auth";
 export const metadata: Metadata = {
   title: "AIMP — Learn Skills. Build Projects. Get Career Ready.",
   description: "Industry-focused AIMP platform offering hands-on projects, practical skills, and certificates in Data Analytics, Data Science, AI/ML, GenAI, and Agentic AI.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#0f172a",
 };
 
 export default async function RootLayout({

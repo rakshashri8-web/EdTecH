@@ -220,11 +220,11 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
         </div>
       </header>
 
-      {/* Main Grid: Left Modules Sidebar + Center Video + Lesson Details */}
+      {/* Main Grid: Mobile Order = Video on TOP, Modules underneath; Desktop = Sidebar Left, Video Right */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
         
-        {/* Left Modules Sidebar (Col 3) */}
-        <div className="lg:col-span-3 xl:col-span-3 bg-slate-900 border-r border-slate-800 overflow-y-auto max-h-[40vh] lg:max-h-[calc(100vh-4rem)] p-4 space-y-4">
+        {/* Modules Sidebar (Order 2 on mobile, Order 1 on Desktop) */}
+        <div className="order-2 lg:order-1 lg:col-span-3 xl:col-span-3 bg-slate-900 border-t lg:border-t-0 lg:border-r border-slate-800 overflow-y-auto max-h-[50vh] lg:max-h-[calc(100vh-4rem)] p-3 sm:p-4 space-y-4">
           <h3 className="text-xs font-black uppercase text-slate-400 tracking-wider">
             Course Modules ({modules.length})
           </h3>
@@ -250,7 +250,7 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
                             : "text-slate-300 hover:bg-slate-800/80"
                         }`}
                       >
-                        <div className="flex items-center gap-2.5 truncate">
+                        <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-2">
                           {isDone ? (
                             <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                           ) : (
@@ -272,12 +272,12 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
           </div>
         </div>
 
-        {/* Center & Right Video Player and Lesson Details (Col 9) */}
-        <div className="lg:col-span-9 xl:col-span-9 bg-slate-950 overflow-y-auto max-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8">
-          <div className="w-full max-w-5xl mx-auto space-y-4 sm:space-y-5">
+        {/* Video Player and Lesson Details (Order 1 on mobile, Order 2 on Desktop) */}
+        <div className="order-1 lg:order-2 lg:col-span-9 xl:col-span-9 bg-slate-950 overflow-y-auto max-h-[calc(100vh-4rem)] p-3 sm:p-6 lg:p-8">
+          <div className="w-full max-w-5xl mx-auto space-y-3.5 sm:space-y-5">
             
             {/* Video Player Container (Natural 16:9 Aspect Ratio) */}
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl">
+            <div className="relative aspect-video w-full rounded-xl sm:rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl">
               {currentLesson ? (
                 !currentLesson.video_url || !currentLesson.video_url.trim() ? (
                   <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-slate-900 text-slate-400 space-y-3">
@@ -380,34 +380,34 @@ export default function LessonPlayer({ course, modules, initialProgress }: Lesso
                   )}
                 </div>
 
-                <div className="flex items-center gap-2.5 shrink-0 w-full md:w-auto justify-between md:justify-end pt-3 md:pt-0 border-t md:border-t-0 border-slate-800">
+                <div className="flex flex-wrap items-center gap-2 shrink-0 w-full md:w-auto justify-between sm:justify-end pt-3 md:pt-0 border-t md:border-t-0 border-slate-800">
                   <button
                     onClick={handlePrevLesson}
                     disabled={currentLessonIndex === 0}
-                    className="px-3.5 py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-700 disabled:opacity-30 transition-colors flex items-center gap-1"
+                    className="flex-1 sm:flex-initial px-3 py-2 sm:px-3.5 sm:py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-700 disabled:opacity-30 transition-colors flex items-center justify-center gap-1"
                   >
-                    <ChevronLeft className="w-4 h-4" /> Previous
+                    <ChevronLeft className="w-4 h-4 shrink-0" /> Previous
                   </button>
 
                   <button
                     onClick={handleToggleComplete}
                     disabled={isUpdating}
-                    className={`px-4 sm:px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all flex items-center gap-2 ${
+                    className={`flex-1 sm:flex-initial px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs font-extrabold rounded-xl transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                       isCurrentCompleted
                         ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/30"
                         : "bg-gradient-to-r from-brand-blue to-brand-indigo text-white shadow-md shadow-brand-blue/30 hover:opacity-90"
                     }`}
                   >
-                    <CheckCircle2 className="w-4 h-4" />
-                    {isCurrentCompleted ? "Completed" : "Mark as Complete"}
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    {isCurrentCompleted ? "Completed" : "Complete"}
                   </button>
 
                   <button
                     onClick={handleNextLesson}
                     disabled={isLastLesson}
-                    className="px-3.5 py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-700 disabled:opacity-30 transition-colors flex items-center gap-1"
+                    className="flex-1 sm:flex-initial px-3 py-2 sm:px-3.5 sm:py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-700 disabled:opacity-30 transition-colors flex items-center justify-center gap-1"
                   >
-                    Next <ChevronRight className="w-4 h-4" />
+                    Next <ChevronRight className="w-4 h-4 shrink-0" />
                   </button>
                 </div>
 
