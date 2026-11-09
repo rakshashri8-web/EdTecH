@@ -82,18 +82,17 @@ export default function CurriculumAccordion({
   };
 
   const handleLessonClick = (lesson: Lesson, moduleTitle: string) => {
+    if (!isEnrolled) {
+      setLockedNoticeLesson(lesson);
+      return;
+    }
     const hasVideo = !!lesson.video_url && !!lesson.video_url.trim();
     if (!hasVideo) {
       setNoVideoNoticeLesson(lesson);
       return;
     }
-    const canPlay = isEnrolled || lesson.is_preview;
-    if (canPlay) {
-      setFallbackToEmbed(false);
-      setActiveLesson({ lesson, moduleTitle });
-    } else {
-      setLockedNoticeLesson(lesson);
-    }
+    setFallbackToEmbed(false);
+    setActiveLesson({ lesson, moduleTitle });
   };
 
   const targetIdentifier = courseSlug || courseId || "data-analyst";
@@ -148,7 +147,7 @@ export default function CurriculumAccordion({
                 {mod.lessons && mod.lessons.length > 0 ? (
                   mod.lessons.map((lesson) => {
                     const hasVideo = !!lesson.video_url && !!lesson.video_url.trim();
-                    const isPlayable = (isEnrolled || lesson.is_preview) && hasVideo;
+                    const isPlayable = isEnrolled && hasVideo;
 
                     return (
                       <div
@@ -168,13 +167,21 @@ export default function CurriculumAccordion({
                                 : "bg-slate-100 text-slate-400"
                             }`}
                           >
-                            <PlayCircle className="w-4 h-4 shrink-0" />
+                            {isEnrolled ? (
+                              <PlayCircle className="w-4 h-4 shrink-0" />
+                            ) : (
+                              <Lock className="w-4 h-4 shrink-0" />
+                            )}
                           </div>
                           <div>
                             <span className="font-semibold block">{lesson.title}</span>
                             {isPlayable ? (
                               <span className="text-[11px] text-brand-blue font-bold flex items-center gap-1 mt-0.5">
                                 <Sparkles className="w-3 h-3" /> Click to Play Video
+                              </span>
+                            ) : !isEnrolled ? (
+                              <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
+                                <Lock className="w-3 h-3 text-slate-400" /> Enroll to watch lesson video
                               </span>
                             ) : !hasVideo ? (
                               <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
@@ -185,17 +192,13 @@ export default function CurriculumAccordion({
                         </div>
 
                         <div className="flex items-center gap-3 shrink-0">
-                          {lesson.is_preview ? (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full shadow-sm">
-                              <Eye className="w-3 h-3" /> Free Preview
-                            </span>
-                          ) : isEnrolled ? (
+                          {isEnrolled ? (
                             <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-brand-blue bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
                               <ShieldCheck className="w-3 h-3" /> Unlocked
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
-                              <Lock className="w-3 h-3" /> Enrolled
+                              <Lock className="w-3 h-3" /> Locked
                             </span>
                           )}
                           {lesson.duration ? (
@@ -368,7 +371,7 @@ export default function CurriculumAccordion({
 
             <div className="pt-2 flex flex-col gap-2">
               <Link
-                href={`/payment/${courseId || "data-analyst"}`}
+                href={`/payment/${targetIdentifier}`}
                 className="w-full py-3 bg-gradient-to-r from-brand-blue to-brand-indigo text-white font-bold text-sm rounded-xl shadow-lg shadow-brand-blue/30 hover:opacity-90 transition-all block"
               >
                 Enroll in Program Now

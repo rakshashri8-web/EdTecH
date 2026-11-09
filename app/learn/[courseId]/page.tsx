@@ -60,43 +60,57 @@ export default async function LearnPage({ params }: LearnPageProps) {
     const isSuperAdminEmail = user.email?.toLowerCase() === "rakshashri8@gmail.com";
     const isStaff = isAdmin(user) || isSuperAdminEmail || user.role === "admin" || user.role === "super_admin";
 
-    if (!isStaff) {
-      const { data: enrollment } = await supabase
-        .from("enrollments")
-        .select("status")
-        .eq("user_id", user.id)
-        .or(`course_id.eq.${course.id},course_id.eq.${initialCourse.id}`)
-        .maybeSingle();
+    const validCourseUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(course.id)
+      ? course.id
+      : (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(dbCourse?.id) ? dbCourse.id : null);
 
-      // If enrollment is missing, pending, or rejected -> redirect to payment page!
-      if (!enrollment || enrollment.status !== "approved") {
-        redirect(`/payment/${course.id}`);
+    if (!isStaff) {
+      if (validCourseUuid) {
+        const { data: enrollment } = await supabase
+          .from("enrollments")
+          .select("status")
+          .eq("user_id", user.id)
+          .eq("course_id", validCourseUuid)
+          .maybeSingle();
+
+        // If enrollment is missing, pending, or rejected -> redirect to payment page!
+        if (!enrollment || enrollment.status !== "approved") {
+          redirect(`/payment/${course.slug || course.id}`);
+        }
+      } else {
+        redirect(`/payment/${course.slug || course.id}`);
       }
     }
 
     // Fetch modules and lessons from DB if available
-    const { data: dbModules } = await supabase
-      .from("course_modules")
-      .select("*, lessons(*)")
-      .or(`course_id.eq.${course.id},course_id.eq.${initialCourse.id}`)
-      .order("order", { ascending: true });
+    if (validCourseUuid) {
+      const { data: dbModules } = await supabase
+        .from("course_modules")
+        .select("*, lessons(*)")
+        .eq("course_id", validCourseUuid)
+        .order("order", { ascending: true });
 
-    if (dbModules && dbModules.length > 0 && dbModules.some((m: any) => m.lessons && m.lessons.length > 0)) {
-      modules = dbModules;
+      if (dbModules && dbModules.length > 0 && dbModules.some((m: any) => m.lessons && m.lessons.length > 0)) {
+        modules = dbModules;
+      } else {
+        modules = initialCourse.modules || [];
+      }
     } else {
       modules = initialCourse.modules || [];
     }
 
     // Fetch user progress
-    const { data: progressData } = await supabase
-      .from("lesson_progress")
-      .select("lesson_id")
-      .eq("user_id", user.id)
-      .or(`course_id.eq.${course.id},course_id.eq.${initialCourse.id}`)
-      .eq("completed", true);
+    if (validCourseUuid) {
+      const { data: progressData } = await supabase
+        .from("lesson_progress")
+        .select("lesson_id")
+        .eq("user_id", user.id)
+        .eq("course_id", validCourseUuid)
+        .eq("completed", true);
 
-    if (progressData) {
-      userProgress = progressData.map((p) => p.lesson_id);
+      if (progressData) {
+        userProgress = progressData.map((p) => p.lesson_id);
+      }
     }
 
   } catch (err: any) {

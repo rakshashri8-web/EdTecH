@@ -50,11 +50,19 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
         technologies: courseData.technologies && courseData.technologies.length > 0 ? courseData.technologies : initial.technologies,
       };
 
-      const { data: moduleData } = await supabase
-        .from("course_modules")
-        .select("*, lessons(*)")
-        .or(`course_id.eq.${courseData.id},course_id.eq.${initial.id}`)
-        .order("order", { ascending: true });
+      const validCourseUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(courseData.id)
+        ? courseData.id
+        : null;
+
+      let moduleData: any[] | null = null;
+      if (validCourseUuid) {
+        const { data } = await supabase
+          .from("course_modules")
+          .select("*, lessons(*)")
+          .eq("course_id", validCourseUuid)
+          .order("order", { ascending: true });
+        moduleData = data;
+      }
 
       if (moduleData && moduleData.length > 0) {
         const hasLessons = moduleData.some((m: any) => m.lessons && m.lessons.length > 0);
@@ -135,18 +143,38 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
     try {
       const { createClient } = await import("@/lib/supabase/server");
       const supabase = createClient();
-      const { data: enrollment } = await supabase
-        .from("enrollments")
-        .select("status")
-        .eq("user_id", user.id)
-        .eq("course_id", course.id)
-        .maybeSingle();
+      const validCourseUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(course.id)
+        ? course.id
+        : null;
 
-      if (enrollment?.status === "approved") {
-        isEnrolled = true;
+      if (validCourseUuid) {
+        const { data: enrollment } = await supabase
+          .from("enrollments")
+          .select("status")
+          .eq("user_id", user.id)
+          .eq("course_id", validCourseUuid)
+          .maybeSingle();
+
+        if (enrollment?.status === "approved") {
+          isEnrolled = true;
+        }
       }
     } catch {}
   }
+
+  // Strip private video URLs for unauthorized visitors to prevent Google Drive file ID leaks in client HTML/DOM
+  const clientModules = isEnrolled
+    ? modules
+    : modules.map((m) => ({
+        ...m,
+        lessons: m.lessons?.map((l: any) => {
+          const { video_url, ...safeLesson } = l;
+          return {
+            ...safeLesson,
+            video_url: null,
+          };
+        }),
+      }));
 
   const courseImage = getCourseImage(course);
 
@@ -394,7 +422,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
               </div>
 
               <CurriculumAccordion
-                modules={modules}
+                modules={clientModules}
                 courseId={course.id}
                 courseSlug={course.slug}
                 isEnrolled={!!isEnrolled}

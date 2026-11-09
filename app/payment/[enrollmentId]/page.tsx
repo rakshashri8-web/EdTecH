@@ -77,17 +77,23 @@ export default async function PaymentPage({ params }: PaymentPageProps) {
   // 4. Check if student or admin already has an enrollment for this course
   let existingEnrollment: Enrollment | null = null;
   try {
-    const { data: dbEnrollment } = await supabase
-      .from("enrollments")
-      .select("*")
-      .eq("user_id", user.id)
-      .or(`course_id.eq.${course.id},course_id.eq.${initialCatalog.id}`)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    const validCourseId = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(course.id)
+      ? course.id
+      : (/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(dbCourse?.id) ? dbCourse.id : null);
 
-    if (dbEnrollment) {
-      existingEnrollment = dbEnrollment;
+    if (validCourseId) {
+      const { data: dbEnrollment } = await supabase
+        .from("enrollments")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("course_id", validCourseId)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (dbEnrollment) {
+        existingEnrollment = dbEnrollment;
+      }
     }
   } catch (err) {
     console.warn("Could not check existing enrollment:", err);

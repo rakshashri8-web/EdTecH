@@ -3,6 +3,7 @@ import { getCurrentUser, isAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { extractDriveFileId, streamGoogleDriveVideo } from "@/lib/google-drive";
 import { INITIAL_COURSES } from "@/lib/data";
+import { matchInitialCourse } from "@/lib/courseImage";
 
 export async function GET(
   request: NextRequest,
@@ -79,43 +80,65 @@ export async function GET(
       return NextResponse.json({ error: "Lesson not found." }, { status: 404 });
     }
 
-    // 2. Authorization check
+    // 2. Strict Role-Based Authorization check
+    // Only Super Admin, Admins, and Enrolled Students with Approved payment may stream videos.
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: "Authentication required. Please log in to stream this course video." },
+        { status: 401 }
+      );
+    }
+
+    const isSuperAdminEmail = user?.email?.toLowerCase() === "rakshashri8@gmail.com";
+    const isStaff = isAdmin(user) || isSuperAdminEmail || user.role === "admin" || user.role === "super_admin";
+
     let authorized = false;
 
-    if (lesson.is_preview) {
-      // Preview lessons are free for all visitors to watch
+    if (isStaff) {
       authorized = true;
     } else {
-      const user = await getCurrentUser();
-      if (!user) {
-        return NextResponse.json(
-          { error: "Authentication required to stream this paid course lesson." },
-          { status: 401 }
-        );
+      // Resolve valid course UUID
+      let courseUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(lesson.course_id)
+        ? lesson.course_id
+        : null;
+
+      if (!courseUuid) {
+        const catalogCourse = matchInitialCourse(lesson.course_id);
+        const { data: dbCourse } = await supabase
+          .from("courses")
+          .select("id")
+          .or(`slug.eq.${catalogCourse.slug},title.ilike.%${catalogCourse.title}%`)
+          .limit(1)
+          .maybeSingle();
+
+        if (dbCourse?.id) {
+          courseUuid = dbCourse.id;
+        }
       }
 
-      const isSuperAdminEmail = user?.email?.toLowerCase() === "rakshashri8@gmail.com";
-      if (isAdmin(user) || isSuperAdminEmail) {
-        // Admin & Super Admin have full access
-        authorized = true;
-      } else {
-        // Verify approved enrollment for this course
+      if (courseUuid) {
         const { data: enrollment } = await supabase
           .from("enrollments")
           .select("status")
           .eq("user_id", user.id)
-          .eq("course_id", lesson.course_id)
+          .eq("course_id", courseUuid)
           .maybeSingle();
 
         if (enrollment && enrollment.status === "approved") {
           authorized = true;
+        } else if (enrollment && enrollment.status === "pending") {
+          return NextResponse.json(
+            { error: "Your enrollment is awaiting approval. Once verified, access will be unlocked." },
+            { status: 403 }
+          );
         }
       }
     }
 
     if (!authorized) {
       return NextResponse.json(
-        { error: "Access denied. You must be enrolled with an approved payment to view this video." },
+        { error: "Access denied. Enroll in this course to access its lessons and videos." },
         { status: 403 }
       );
     }
